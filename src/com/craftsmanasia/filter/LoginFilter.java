@@ -54,12 +54,14 @@ public class LoginFilter implements Filter {
 			arg2.doFilter(arg0, arg1);
 			return;
 		}
-		if(isLogin==null){		
+		arg2.doFilter(arg0, arg1);
+		return;
+		/*if(isLogin==null){		
 			System.out.println("enter");
 			request.getRequestDispatcher("/views/login.jsp").forward(arg0, arg1);
 		}else{
 			arg2.doFilter(arg0, arg1);
-		}
+		}*/
 
 	}
 

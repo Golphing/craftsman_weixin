@@ -3,17 +3,19 @@ package com.craftsmanasia.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.craftsmanasia.dao.ResumeUserDao;
 import com.craftsmanasia.dao.UserDao;
+import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 
 
 
 @Component
-public class UserService {
+public class ResumeUserService {
 	@Autowired
-	UserDao userDao;
+	ResumeUserDao userDao;
 	
-	public int add(User user){
+	public int add(ResumeUser user){
 		return userDao.add(user);
 	}
 	

@@ -11,6 +11,9 @@
 		insert into user(name,password) values(#{name},#{password})
 	</insert>
 	
+	<update id="update">
+		update user set telephone=#{telephone},gender=#{gender},birthday=#{birthday},email=#{email},home=#{home} where id=#{id}
+	</update>
 	<select id="count1" resultType="int">
 		select count(*) from user
 	</select>

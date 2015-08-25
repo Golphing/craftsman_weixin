@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.craftsmanasia.dao.CompanyDao">
+	
+    <resultMap 
+		id="companyResult" 
+		type="Company" >
+		
+		<id property="id" column="company_id" />
+		
+		<result property="name" column="company_name" />
+		<result property="createTime" column="company_create_time" />
+		<result property="updateTime" column="company_update_time" />		
+		<result property="url" column="company_url" />
+        <result property="weight" column="company_weight" />
+        <result property="isExpired" column="company_is_expired" />
+	</resultMap>
+    
+    <sql id="companyColumns"> 
+		company.id AS company_id,
+		company.name AS company_name,
+		company.create_time AS company_create_time,
+		company.update_time AS company_update_time,
+		company.url AS company_url,
+		company.weight AS company_weight,
+		company.is_expired AS company_is_expired
+	</sql>
+	
+	<insert
+	    id="add" 
+	    useGeneratedKeys="true" 
+	    keyProperty="id" 
+	    parameterType="Company"> 
+	    
+		INSERT INTO company(
+		name,
+		create_time,
+		update_time,
+		url,
+		weight,
+		is_expired
+		) VALUES (
+		#{name, javaType=string, jdbcType=CHAR},
+		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
+		#{url, javaType=string, jdbcType=CHAR},
+		#{weight, javaType=int, jdbcType=INTEGER},
+		#{isExpired, javaType=int, jdbcType=INTEGER},
+		)
+	</insert>
+	
+	<update id="updateCompany" parameterType="Company">
+
+		UPDATE
+			company
+		<set>
+			<if test="name != null">
+				name = #{name, javaType=string, jdbcType=CHAR},
+            </if>
+			<if test="url != null">
+				url = #{url, javaType=string, jdbcType=CHAR},
+            </if>
+			<if test="weight != null">
+				weight = #{weight, javaType=int, jdbcType=INTEGER},
+            </if>
+			<if test="updateTime != null">
+				update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
+            </if>
+            <if test="isExpired != null">
+				is_expired = #{isExpired, javaType=int, jdbcType=INTEGER},
+            </if>
+		</set>
+		WHERE
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</update>
+	
+	<select 
+		id="getCompanyById"
+		parameterType="map" 
+		resultMap="companyResult" >
+            
+		SELECT
+			<include refid="companyColumns"/>
+		FROM
+			company
+		WHERE
+			company.id = #{id, javaType=int, jdbcType=INTEGER}
+			AND company.is_expired = 1
+	</select>
+	
+	<select 
+		id="getAllExpiredCompanys"
+		parameterType="map" 
+		resultMap="companyResult" >
+            
+		SELECT
+			<include refid="companyColumns"/>
+		FROM
+			company
+		WHERE
+			company.is_expired = 1
+	</select>
+	
+	<select id="count1" resultType="int">
+		select count(*) from user
+	</select>
+</mapper>

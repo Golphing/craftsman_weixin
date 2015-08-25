@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.craftsmanasia.dao.ResumeUserDao">
+	<sql id="FIELDS">
+		telephone,name,gender,birthday,email,home,user_id
+	</sql>
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="ResumeUser"> 
+		insert into resume_user(<include refid="FIELDS"/>) values(#{telephone},#{name},#{gender},#{birthday},#{email},#{home},#{userId})
+	</insert>
+	
+	<update id="update">
+		update resume_user set telephone=#{telephone},gender=#{gender},birthday=#{birthday},email=#{email},home=#{home} where id=#{id}
+	</update>
+	<select id="count1" resultType="int">
+		select count(*) from resume_user
+	</select>
+</mapper>

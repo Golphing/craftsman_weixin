@@ -1,35 +1,22 @@
 package com.craftsmanasia.model;
 
-public class User {
+public class ResumeUser {
 	private int id;
 	private String name;
-	private String password;
-	private int wechatId;
-	private String nickname;
 	private String telephone;
 	private String gender;
 	private String birthday;
 	private String email;
 	private String home;
+	private int userId;
 	
-	
-	public int getWechatId() {
-		return wechatId;
+	public int getUserId() {
+		return userId;
 	}
 
 
-	public void setWechatId(int wechatId) {
-		this.wechatId = wechatId;
-	}
-
-
-	public String getNickname() {
-		return nickname;
-	}
-
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 
@@ -101,11 +88,6 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	
 }
