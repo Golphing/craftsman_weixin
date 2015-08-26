@@ -59,5 +59,13 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 		
-	
+	<!-- 微信端入口 -->
+	<servlet>
+		<servlet-name>coreServlet</servlet-name>
+		<servlet-class>com.craftsmanasia.wechat.port.CoreServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>coreServlet</servlet-name>
+		<url-pattern>/coreServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
