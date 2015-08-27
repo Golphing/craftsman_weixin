@@ -8,9 +8,11 @@ public interface UserDao {
 	
 	public int add(User user);
 	
-	public User get(String name,String password);
+	public User get(String telephone,String password);
 	
 	public int count1();
 	
 	public void update(User user);
+	
+	public User getByOpenId(String openId);
 }

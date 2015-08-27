@@ -17,8 +17,8 @@ public class UserService {
 		return userDao.add(user);
 	}
 	
-	public User get(String name,String password){
-		return userDao.get(name, password);
+	public User get(String telephone,String password){
+		return userDao.get(telephone, password);
 	}
 	
 	public int count1(){
@@ -27,5 +27,9 @@ public class UserService {
 	
 	public void update(User user){
 		userDao.update(user);
+	}
+	
+	public User getByOpenId(String openId){
+		return userDao.getByOpenId(openId);
 	}
 }

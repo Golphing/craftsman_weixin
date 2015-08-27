@@ -17,7 +17,6 @@ public class LoginFilter implements Filter {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {

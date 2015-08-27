@@ -7,6 +7,7 @@ import com.craftsmanasia.dao.WorkDao;
 import com.craftsmanasia.model.Work;
 @Service
 public class WorkService {
+	
 	@Autowired
 	WorkDao workDao;
 	public void add(Work work){

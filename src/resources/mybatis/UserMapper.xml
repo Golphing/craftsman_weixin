@@ -4,17 +4,21 @@
 
 <mapper namespace="com.craftsmanasia.dao.UserDao">
 	<select id="get" resultType="User">
-		select * from user where name=#{param1} and password=#{param2}
+		select * from user where telephone=#{param1} and password=#{param2}
 	</select>
 	
 	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="User"> 
-		insert into user(name,password) values(#{name},#{password})
+		insert into user(telephone,password) values(#{telephone},#{password})
 	</insert>
 	
 	<update id="update">
-		update user set telephone=#{telephone},gender=#{gender},birthday=#{birthday},email=#{email},home=#{home} where id=#{id}
+		update user set telephone=#{telephone},password=#{password},openId=#{openId} where id=#{id}
 	</update>
 	<select id="count1" resultType="int">
 		select count(*) from user
+	</select>
+	
+	<select id="getByOpenId" resultType="User">
+		select * from user where openId=#{param1}
 	</select>
 </mapper>
