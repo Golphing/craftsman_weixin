@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.craftsmanasia.wechat.messageResp.Article;
 import com.craftsmanasia.wechat.messageResp.NewsMessage;
-import com.craftsmanasia.wechat.messageResp.TextMessage;
-import com.craftsmanasia.wechat.service.MenuClickService;
 import com.craftsmanasia.wechat.util.MessageUtil;
 
 /**
@@ -38,31 +36,8 @@ public class CoreService {
 			String fromUserName = requestMap.get("FromUserName");
 			// 公众帐号
 			String toUserName = requestMap.get("ToUserName");
-			// 消息类型
-			String msgType = requestMap.get("MsgType");
-
 			
 
-			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
-				// 事件类型
-				String eventType = requestMap.get("Event");
-				// 订阅
-				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-					respContent = "谢谢您的关注！";
-				}
-				// 取消订阅
-				else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
-					// 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
-				}
-				// 自定义菜单点击事件
-				else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
-					//
-
-					MenuClickService menuClickService = new MenuClickService();
-					respMessage = menuClickService.menuClick(requestMap);
-					return respMessage;
-				}
-			} else {
 				NewsMessage newsMessage = new NewsMessage();
 				newsMessage.setToUserName(fromUserName);
 				newsMessage.setFromUserName(toUserName);
@@ -72,21 +47,21 @@ public class CoreService {
 
 				List<Article> articleList = new ArrayList<Article>();
 				Article article = new Article();
-				article.setTitle("卡富文思：");
+				article.setTitle("卡富文思");
 				String introduction = "Hello, Welcome on our joining Craftsman. We are a search and selection firm focusing on Management Consulting and Finance industry, expecially in Asia Market.\n"+ 
 				"你好，欢迎加入卡富文思。我们致力于国际咨询公司和金融领域的中高端人才寻访工作，服务于企业和经理人。\n"+
 				"企业门户：www.craftsmanasia.com\n"+
 				"咨询热线：40006 01218\n"+
-				"邮箱地址： enquires@craftsmanasia.com \n"+
-				"微信号：CM_Asia\n";
+				"邮箱地址： enquires@craftsmanasia.com\n"+
+				"微信号：CM_Asia";
 				article.setDescription(introduction);
 				article.setPicUrl("http://123.160.217.64/craftsman_weixin/weixinPort/images/topic_intro.jpg");			
-				article.setUrl("www.craftsmanasia.com");
+//				article.setUrl("www.craftsmanasia.com");
 				articleList.add(article);
 				newsMessage.setArticleCount(articleList.size());
 				newsMessage.setArticles(articleList);
 				respMessage = MessageUtil.newsMessageToXml(newsMessage);
-			}
+			
 
 			
 		} catch (Exception e) {
