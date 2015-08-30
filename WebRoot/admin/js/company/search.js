@@ -23,7 +23,7 @@ $(document).ready(function() {
 				// sorttype is used only if the data is loaded locally or loadonce is set to true
 				{ label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
 				//	return '<span class="glyphicon glyphicon-pencil btn"></span><span class="glyphicon glyphicon-remove btn"></span></a>';
-					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button><button type="button" data-action="addPosition" class="btn btn-primary">职位管理</button>'
+					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button><button type="button" data-action="addPosition" class="btn btn-primary">添加职位</button>'
 				}}
 			],
 			serializeGridData: function(postData) {
