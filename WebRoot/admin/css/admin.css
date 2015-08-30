@@ -251,6 +251,7 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 	margin-top: 10px;
 	padding: 20px;
 }
+
 .ui-jqgrid-htable tr{
 	background-color: #f9f9f9;
 }
@@ -259,4 +260,7 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 }
 #jqGrid td{
 	vertical-align: middle;
+}
+.form-inline{
+	margin-bottom: 20px;
 }
