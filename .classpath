@@ -128,7 +128,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/msv-core-2011.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mybatis-3.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mybatis-spring-1.1.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.26.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.26.jar" sourcepath="C:/Users/尚攀/.m2/repository/mysql/mysql-connector-java/5.1.26/mysql-connector-java-5.1.26-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/neethi-3.0.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/oauth-20100527.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/oauth-provider-20100527.jar"/>
