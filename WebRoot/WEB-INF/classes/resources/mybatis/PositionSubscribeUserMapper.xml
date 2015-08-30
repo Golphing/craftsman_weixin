@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.craftsmanasia.dao.PositionSubscribeUserDAO">
+	
+    <resultMap id="companyResult" type="Company"
+		extends="com.craftsmanasia.dao.CompanyDao.companyResult">
+	</resultMap>
+    
+    <resultMap id="positionResult" type="Position"
+		extends="com.craftsmanasia.dao.PositionDao.positionResult">
+	</resultMap>
+    
+    <resultMap 
+		id="positionSubscribeUserResult" 
+		type="PositionSubscribeUser" >
+		
+		<id property="id" column="position_subscribe_user_id" />
+		
+		<result property="position_id" column="position_subscribe_user_id" />
+		<result property="user_id" column="position_subscribe_user_position_id" />
+        
+        <association property="position"
+			javaType="Position" resultMap="positionResult" />
+			
+	</resultMap>
+    <!-- 
+    <sql id="companyColumns">
+    	<include refid="com.craftsmanasia.dao.CompanyDao.companyColumns"/>
+    </sql>
+     -->
+    <sql id="positionSubscribeUserColumns"> 
+		psu.id AS position_subscribe_user_id,
+		psu.position_id AS position_subscribe_user_position_id,
+		psu.user_id AS position_subscribe_user_user_id
+	</sql>
+	
+	<insert
+	    id="add" 
+	    useGeneratedKeys="true" 
+	    keyProperty="id" 
+	    parameterType="PositionSubscribeUser"> 
+	    
+		INSERT INTO position_subscribe_user (
+		position_id,
+		user_id
+		) VALUES (
+		#{positionId, javaType=int, jdbcType=INTEGER},
+		#{userId, javaType=int, jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select 
+		id="getPositionsByUserId"
+		parameterType="map" 
+		resultMap="positionResult" >
+            
+		SELECT
+			<include refid="positionSubscribeUserColumns"/>
+		FROM
+			position_subscribe_user psu
+			INNER JOIN user ON user.id = psu.user_id
+			INNER JOIN position ON position.id = psu.position_id
+		WHERE
+			psu.id = #{userId, javaType=int, jdbcType=INTEGER}
+	</select>
+	
+	<select id="count1" resultType="int">
+		select count(*) from user
+	</select>
+</mapper>
