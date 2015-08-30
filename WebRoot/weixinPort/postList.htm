@@ -1,0 +1,104 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title></title>
+<meta name="description"
+	content="" />
+<link href="css/base.min.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+	<header>
+		<h1>职位列表</h1>
+		<span class="title"></span>
+		<button class="search" id="showSearchBox">搜索</button>
+	</header>
+	<section class="mTab" id="mTab">
+		<ul class="tabTitle" id="tabTitle">
+			<li class="tabCur">推荐</li>
+			<!-- <li>最新</li>
+			<li>分类</li> -->
+		</ul>
+		
+		<div class="tabCon">
+			<ul class="gameList" id="hotList">
+				<li><a href="postDetails.html"> <img alt="职位头像"
+						src="。。/images/1.png"> <span
+						class="title">区域经理</span>
+						<p class="description">负责公司产品的销售及推广......</p> </a></li>
+				<li><a href="postDetails.html"> <img alt="职位头像"
+						src="。。/images/1.png"> <span
+						class="title">诚聘珠宝营销代表5000+</span>
+						<p class="description">勇于不断迎接新挑战，能承受较大的工作压力，......</p> </a></li>
+				
+				
+			</ul>
+			<div class="load" id='loadHot'>点击加载更多</div>
+		</div>
+		<!-- <div class="tabCon">
+			<ul class="gameList" id="newList">
+				<li><a href="g558.html"> <img alt="职位头像"
+						src="。。/images/1.png"> <span
+						class="title">急招区域经理</span>
+						<p class="description">负责公司产品的销售及推广......</p> </a></li>
+				<li><a href="g995"> <img alt="职位头像"
+						src="。。/images/1.png"> <span
+						class="title">11诚聘珠宝营销代表5000+</span>
+						<p class="description">111勇于不断迎接新挑战，能承受较大的工作压力，......</p> </a></li>
+				
+			</ul>
+			<div class="load" id="loadNew">点击加载更多</div>
+		</div>
+		<div class="tabCon">
+			<ul class="gameList fontWeight">
+				<li><a href="hot">互联网</a>
+				</li>
+				<li><a href="t16">制造业</a>
+				</li>
+				<li><a href="t13">服务业</a>
+				</li>
+				<li><a href="t14">其他</a>
+				</li>
+				
+			</ul>
+		</div> -->
+	</section>
+	<div class="update">
+		<a href="#" class="returnTop">返回顶部</a>
+	</div>
+	<footer>
+		<div class="link">
+			<a href="postList.htm">卡富文思</a>|<a href="postList.htm">招聘</a>|<a
+				href="subgame">提交</a>|<a href="feedback">反馈</a><br /> ©2005-2014
+		</div>
+	</footer>
+	<div class="searchBox" id="searchBox">
+		<div class="searchForm">
+			<form action="/search" method="get">
+				<input type="text" name="wd" value="" placeholder="请输入关键词"
+					id="searchInput" /> <span class="clearInput" id="clearInput">X</span>
+				<button onclick="return validate();" type="submit"
+					class="searchButton">搜索</button>
+			</form>
+		</div>
+		<div class="shadow" id="shadow"></div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	/*20:3 创建于 2014-12-26*/
+	var cpro_id = "u1879755";
+</script>
+
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/base.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	tab("tabTitle", "li", "mTab", "tabCon", "tabCur", 0);
+	ajaxLoadContent("loadHot", "hotList", "view");
+	ajaxLoadContent("loadNew", "newList", "time");
+	searchBox();
+</script>
+<script src='../w.cnzz.com/c.php@id=30048250' language='JavaScript'></script>
