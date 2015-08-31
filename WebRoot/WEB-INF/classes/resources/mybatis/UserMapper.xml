@@ -8,7 +8,7 @@
 	</select>
 	
 	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="User"> 
-		insert into user(telephone,password) values(#{telephone},#{password})
+		insert into user(telephone,password,nickName,wechat_account) values(#{telephone},#{password},#{nickName},#{wechatAccount})
 	</insert>
 	
 	<update id="update">
@@ -20,5 +20,13 @@
 	
 	<select id="getByOpenId" resultType="User">
 		select * from user where openId=#{param1}
+	</select>
+	
+	<select id="selectUserById" resultType="User">
+		select * from user where Id=#{id}
+	</select>
+	
+	<select id="selectUserByTelephone" resultType="User">
+		select * from user where telephone=#{telephone}
 	</select>
 </mapper>

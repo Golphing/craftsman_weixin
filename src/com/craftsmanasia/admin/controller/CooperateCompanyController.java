@@ -171,4 +171,68 @@ public class CooperateCompanyController {
 		// return new ModelAndView().addObject("positions", positions);
 		return positions;
 	}
+	/*
+	 * 返回类型：0成功，1positionId非法2weight非法
+	 * */
+	@RequestMapping(value = "/position/modify")
+	@ResponseBody
+	public String modifyCooperateCompanyPosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId, 
+			@RequestParam(value = "title", defaultValue = "") String title,
+			@RequestParam(value = "requirement", defaultValue = "") String requirement,
+			@RequestParam(value = "wage", defaultValue = "") String wage,
+			@RequestParam(value = "city", defaultValue = "") String city,
+			@RequestParam(value = "weight", defaultValue = "0") int weight) {
+		Map<String,String> map = new HashMap<String,String>();
+		if(positionId <=0) {
+			map.put("code", "1");
+			return JSONObject.fromObject(map).toString();
+		}
+		if(weight <=0) {
+			map.put("code", "2");
+			return JSONObject.fromObject(map).toString();
+		}
+		Position newPosition = new Position();
+		newPosition.setId(positionId);
+		if(!StringUtil1.isNull(title)) {
+			newPosition.setTitle(title);
+		}
+		if(!StringUtil1.isNull(requirement)) {
+			newPosition.setRequirement(requirement);
+		}
+		if(!StringUtil1.isNull(wage)) {
+			newPosition.setWage(wage);
+		}
+		if(!StringUtil1.isNull(city)) {
+			newPosition.setCity(city);
+		}
+		if(weight >=0) {
+			newPosition.setWeight(weight);
+		}
+		newPosition.setUpdateTime(new Date());
+		positionService.updateCompanyPosition(newPosition);
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	@RequestMapping(value = "/position/modify/status")
+	@ResponseBody
+	public String modifyPositionStatus(@RequestParam(value = "positionId", defaultValue = "0") int positionId,
+			@RequestParam(value="isExpired", defaultValue = "-1") Integer isExpired) {
+		Map<String,String> map = new HashMap<String,String>();
+		if(positionId <= 0) {
+			map.put("code", "1");
+			return JSONObject.fromObject(map).toString();
+		}
+		if(isExpired <=0) {
+			map.put("code", "2");
+			return JSONObject.fromObject(map).toString();
+		}
+		Position position = new Position();
+		position.setId(positionId);
+		position.setIsExpired(isExpired);
+		position.setUpdateTime(new Date());
+		positionService.updateCompanyPosition(position);
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
 }
