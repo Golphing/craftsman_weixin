@@ -23,25 +23,74 @@ $("document").ready(function () {
     });
     
     var hash = window.location.hash;
-    loadHtml(hash);
+    ADMIN.initSidebar(hash);
+    ADMIN.loadHtml(hash);
     window.onhashchange = function() {
     	var hash = window.location.hash;
-    	loadHtml(hash);
-    }
+    	ADMIN.loadHtml(hash);
+    };
  
 });
-function loadHtml(hash) {
-	var hashMap = {
+var pageData = {};
+var ADMIN = {
+	pageHashMap: {
 		'#resume': 				'resume/search',
 		
 		'#company/add': 		'company/add',
 		'#company/search':		'company/search',
-		'#company/position/search':'company/search_position'
-	};
-	hash == '' && (hash = '#resume');
-	if(!hash in hashMap) return;
-	var url = hashMap[hash] + '.html';
-	$.get(url, function(result) {
-		$('.main').html(result);
-	}, 'html');
-}
+		'#company/position/search':'company/search_position',
+	},
+	initSidebar: function(hash) {
+		hash == '' && (hash = '#resume');
+	    var li = $('#sidebar a[href="'+ hash +'"]').closest('li');
+	    li.addClass('active');
+	    if(li.parents('ul').length > 1) {
+	    	var navDiv = li.closest('div');
+			$('li[data-target=#'+ navDiv[0].id +']').addClass('active').removeClass('collapsed');
+			navDiv.collapse('show');
+	    }
+	},
+	loadHtml: function(hash) {
+		hash == '' && (hash = '#resume');
+		if(!hash in ADMIN.pageHashMap) return;
+		var url = ADMIN.pageHashMap[hash] + '.html';
+		$.get(url, function(result) {
+			$('.main').html(result);
+		}, 'html');
+	},
+	formNonemptyValidate: function(selector, fieldNames) {
+		var flag = true;
+		
+		var hintFunc = function(jqDom) {
+			if(jqDom.val() === '') {
+				flag = false;
+				jqDom.parents('.form-group').addClass('has-error');
+			} else {
+				jqDom.parents('.form-group').removeClass('has-error');
+			}
+		}
+		
+		if(fieldNames === null || fieldNames === undefined) {
+			inputs = $(selector + ' input');
+			selects = $(selector + ' select');
+			textarea = $(selector + ' textarea');
+			inputs.each(function() {
+				hintFunc($(this));
+			});
+			selects.each(function() {
+				hintFunc($(this));
+			});
+			textarea.each(function() {
+				hintFunc($(this));
+			});
+		} else {
+			for(var i=0; i<fieldNames.length; i++) {
+				field = $(selector + ' [name="'+ fieldNames[i] +'"]');
+				hintFunc(field);
+			}
+		}
+		
+		return flag;
+	},
+};
+
