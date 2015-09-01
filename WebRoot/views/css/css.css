@@ -80,8 +80,8 @@ a:hover
 
 .m_index{ width:320px; height:auto; margin:0 auto; overflow:hidden;}
 .mtzrl_header2{ background:#0974ce; width:320px; padding:16px 0; text-align:center;}
-.mtzrl_header2 a {background: url(../images/logo.png) no-repeat;display: block; background-size:180px;text-indent: -1000px;width: 175px;height:40px;margin: 0 auto;}
-.mtzrl_header .m_logo a{ background:url(../images/logo.png) no-repeat 0 0; background-size:150px;  display:block; height:100%; text-indent:-1000px;}
+.mtzrl_header2 a {background: url(../images/tzrllogo.png) no-repeat;display: block; background-size:180px;text-indent: -1000px;width: 175px;height:40px;margin: 0 auto;}
+.mtzrl_header .m_logo a{ background:url(../images/tzrllogo.png) no-repeat 0 0; background-size:150px;  display:block; height:100%; text-indent:-1000px;}
 
 .m_banner{ padding:10px;}
 .m_banner img{ width:300px; height:127px; }
