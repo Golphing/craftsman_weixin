@@ -38,6 +38,7 @@ var ADMIN = {
 		
 		'#company/add': 		'company/add',
 		'#company/search':		'company/search',
+		'#company/position':	'company/position',
 		'#company/position/search':'company/search_position',
 	},
 	initSidebar: function(hash) {

@@ -1,32 +1,9 @@
 <div class="page-path">
 	<div class="icon"></div>
-	<h1 class="path">首页 > 企业合作 > 查询企业职位</h1>
+	<h1 class="path">首页 > 企业合作 > 企业职位管理</h1>
+	<button type="button" class="btn btn-primary btn-sm add-btn">添加</button>
 </div>
 <div class="content">
-	<form class="form-inline" id="searchPositionForm">
-		<div class="form-group">
-			<label for="searchPositionForm_name">公司:</label>
-			<input type="text" class="form-control" id="searchPositionForm_name" name="name" placeholder="">
-		</div>&nbsp;&nbsp;&nbsp;&nbsp;
-		<div class="form-group">
-			<label for="searchPositionForm_title">职位:</label>
-			<input type="text" class="form-control" id="searchPositionForm_title" name="title" placeholder="">
-		</div>&nbsp;&nbsp;&nbsp;&nbsp;		
-		<div class="form-group">
-			<label for="searchPositionForm_expire">是否过期:</label>
-			<select class="form-control" id="searchPositionForm_expire" placeholder="">
-				<option value=""></option>
-				<option value="1">是</option>
-				<option value="0">否</option>
-			</select>
-		</div>&nbsp;&nbsp;&nbsp;&nbsp;
-		<div class="form-group">
-			<label for="searchPositionForm_city">城市:</label>
-			<input type="text" class="form-control" id="searchPositionForm_city" name="city" placeholder="">
-		</div>&nbsp;&nbsp;&nbsp;&nbsp;			
-		<button type="submit" class="btn btn-primary">查询</button>
-	</form>
-
 	<table id="jqGrid"></table>
 	<div id="jqGridPager"></div>
 </div>
@@ -93,7 +70,58 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" class="btn btn-primary">确定 </button>
             </div>
+        </form>
         </div>
     </div>
 </div>
-<script src="../js/company/search_position.js"></script>
+<div class="modal fade" id="addPositionDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" id="addPositionForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="dialogTitle">添加职位</h4>
+            </div>
+            <div class="modal-body dialogContent">
+				<div class="form-group">
+				    <label for="addPositionForm_title" class="col-sm-2 control-label">*职位:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="title" placeholder="">
+				    </div>
+				</div>	
+				<div class="form-group">
+				    <label for="addPositionForm_wage" class="col-sm-2 control-label">*薪酬:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="wage" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="addPositionForm_requirement" class="col-sm-2 control-label">*要求:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="requirement" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="addPositionForm_city" class="col-sm-2 control-label">*城市:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="city" placeholder="">
+				    </div>
+				</div>											
+				<div class="form-group">
+				    <label for="addPositionForm_weight" class="col-sm-2 control-label">*权重:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="weight" placeholder="">
+				    </div>
+				</div>				          				
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定 </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<script src="../js/company/position.js"></script>

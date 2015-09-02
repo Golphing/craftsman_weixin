@@ -230,6 +230,12 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 	padding: 10px 0;
 	overflow: hidden;
 	background-color: white;
+	position: relative; 
+}
+.main .page-path .add-btn{
+	position: absolute;
+	right: 5px;
+	top: 3px;
 }
 .main .page-path .icon{
 	width: 4px;

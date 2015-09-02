@@ -1,0 +1,53 @@
+{
+   "currpage":2,
+   "totalpages":12,
+   "totalrecords":120,
+   "data":[
+      {
+      	 "id":"1",
+         "name":"公司1",
+         "title":"美工",
+         "wage":"2-3K",
+         "requirement":"搬砖",
+         "city":"北京",
+         "weight":"123",
+         "is_expire":"1"
+      }, {
+      	 "id":"2",
+         "name":"公司1",
+         "title":"美工",
+         "wage":"2-3K",
+         "requirement":"搬砖",
+         "city":"北京",
+         "weight":"123",
+         "is_expire":"1"
+      }, {
+      	 "id":"3",
+         "name":"公司1",
+         "title":"美工",
+         "wage":"2-3K",
+         "requirement":"搬砖",
+         "city":"北京",
+         "weight":"123",
+         "is_expire":"1"
+      }, {
+      	 "id":"4",
+         "name":"公司1",
+         "title":"美工",
+         "wage":"2-3K",
+         "requirement":"搬砖",
+         "city":"北京",
+         "weight":"123",
+         "is_expire":"1"
+      }, {
+      	 "id":"5",
+         "name":"公司1",
+         "title":"美工",
+         "wage":"2-3K",
+         "requirement":"搬砖",
+         "city":"北京",
+         "weight":"123",
+         "is_expire":"1"
+      }
+   ]
+}
