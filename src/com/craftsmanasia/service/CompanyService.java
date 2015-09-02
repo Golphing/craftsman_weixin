@@ -17,7 +17,7 @@ public class CompanyService {
 	 * 添加合作企业
 	 * 
 	 * */
-	public void add(Company company) throws Exception {
+	public void add(Company company) {
 		companyDdao.add(company);
 	}
 	

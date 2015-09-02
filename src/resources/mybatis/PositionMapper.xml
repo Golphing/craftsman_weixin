@@ -41,8 +41,8 @@
 		position.requirement AS position_requirement,
 		position.city AS position_city,
 		position.company_id AS position_company_id,
-		company.weight AS company_weight,
-		company.is_expired AS company_is_expired
+		position.weight AS position_weight,
+		position.is_expired AS position_is_expired
 	</sql>
 	
 	<insert
@@ -107,7 +107,6 @@
 	
 	<select 
 		id="getPositionById"
-		parameterType="map" 
 		resultMap="positionResult" >
             
 		SELECT
@@ -115,6 +114,7 @@
 			<include refid="positionColumns"/>
 		FROM
 			position
+			INNER JOIN company ON company.id = position.company_id
 		WHERE
 			position.id = #{id, javaType=int, jdbcType=INTEGER}
 			AND position.is_expired = 0
@@ -145,7 +145,6 @@
 	
 	<select 
 		id="getPositionsByCompanyIdAndTitle"
-		parameterType="map" 
 		resultMap="positionResult" >
             
 		SELECT

@@ -10,13 +10,13 @@ import com.ebaoyang.dao.MyBatisRepository;
 @MyBatisRepository
 public interface PositionDao {
 
-	public void addPosition(Position position) throws Exception;
+	public void addPosition(Position position) ;
 	
 	public void updatePosition(Position position);
 	
-	public List<Position> getPositionsByCompanyId(@Param("id") int companyId) throws Exception;
+	public List<Position> getPositionsByCompanyId(@Param("id") int companyId);
 	
-	public Position getPositionById(int id);
+	public Position getPositionById(@Param("id") int id);
 	
 	public List<Position> getPositionsByCompanyNameAndTitle(@Param("name")String name, @Param("title") String title);
 	

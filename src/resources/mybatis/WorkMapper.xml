@@ -4,8 +4,90 @@
 
 <mapper namespace="com.craftsmanasia.dao.WorkDao">
 	
+	
+	<resultMap type="Work" id="workResult">
+		
+		<id property="id" column="work_id" />
+		
+		<result property="beginTime" column="work_begin_time" />
+		<result property="endTime" column="work_end_time" />
+		<result property="company" column="work_company" />
+		<result property="position" column="work_position" />
+		<result property="description" column="work_description" />
+		<result property="department" column="work_department" />
+		<result property="profession" column="work_profession" />
+		<result property="remark" column="work_remark" />
+		<result property="userId" column="work_user_id" />
+	</resultMap>
+	
 	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="Work"> 
 		insert into work(begin_time,end_time,company,position,description,department,profession,remark,user_id) values(#{beginTime},#{endTime},#{company},#{position},#{description},#{department},#{profession},#{remark},#{userId})
 	</insert>
+	
+	<sql id="workcolumns">
+		work.id AS work_id,
+		work.begin_time AS work_begin_time,
+		work.end_time AS work_end_time,
+		work.company AS work_company,
+		work.position AS work_position,
+		work.description AS work_description,
+		work.department AS work_department,
+		work.profession AS work_profession,
+		work.remark AS work_remark,
+		work.user_id AS work_user_id
+	</sql>
+	
+	<select id="selectUserWorksByUserId"
+		parameterType="map" 
+		resultMap="workResult">
+		SELECT
+			<include refid="workcolumns"/>
+		FROM
+			work
+		WHERE
+			user_id = #{userId, javaType=int, jdbcType=INTEGER}
+	</select>
+	
+	<update id="updatWork">
+		UPDATE 
+			work
+		<set>
+			<if test="beginTime !=null and beginTime !='' ">
+				begin_time = #{beginTime, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="endTime !=null and endTime !='' ">
+				end_time = #{endTime, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="company !=null and company !='' ">
+				company = #{company, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="position !=null and position !='' ">
+				position = #{position, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="description !=null and description !='' ">
+				description = #{description, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="department !=null and department !='' ">
+				department = #{department, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="profession !=null and profession !='' ">
+				profession = #{profession, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="remark !=null and remark !='' ">
+				remark = #{remark, javaType=string, jdbcType=CHAR},
+			</if>
+		</set>
+		WHERE
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteWork"
+		parameterType="int">
+	
+		DELETE FROM
+			work
+		WHERE
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</delete>
 	
 </mapper>

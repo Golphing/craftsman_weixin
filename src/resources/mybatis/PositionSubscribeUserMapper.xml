@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.craftsmanasia.dao.PositionSubscribeUserDAO">
+<mapper namespace="com.craftsmanasia.dao.PositionSubscribeUserDao">
 	
     <resultMap id="companyResult" type="Company"
 		extends="com.craftsmanasia.dao.CompanyDao.companyResult">
@@ -18,22 +18,42 @@
 		
 		<id property="id" column="position_subscribe_user_id" />
 		
-		<result property="position_id" column="position_subscribe_user_id" />
-		<result property="user_id" column="position_subscribe_user_position_id" />
+		<result property="positionId" column="position_subscribe_user_position_id" />
+		<result property="userId" column="position_subscribe_user_user_id" />
+        <result property="statusId" column="position_subscribe_user_status_id" />
+        <result property="createTime" column="position_subscribe_user_create_time" />
+        <result property="recommendTime" column="position_subscribe_user_recommend_time" />
+        <result property="screenResumeTime" column="position_subscribe_user_screen_resume_time" />
+        <result property="firstInterviewTime" column="position_subscribe_user_first_interview_time" />
+        <result property="secondInterviewTime" column="position_subscribe_user_second_interview_time" />
+        <result property="thirdInterviewTime" column="position_subscribe_user_third_interview_time" />
+        <result property="rejectTime" column="position_subscribe_user_reject_time" />
         
         <association property="position"
 			javaType="Position" resultMap="positionResult" />
 			
 	</resultMap>
-    <!-- 
-    <sql id="companyColumns">
-    	<include refid="com.craftsmanasia.dao.CompanyDao.companyColumns"/>
-    </sql>
-     -->
+
+	<sql id="positionColumns">
+		<include refid="com.craftsmanasia.dao.PositionDao.positionColumns"/>
+	</sql>
+	
+	<sql id="companyColumns">
+		<include refid="com.craftsmanasia.dao.CompanyDao.companyColumns"/>
+	</sql>
+	
     <sql id="positionSubscribeUserColumns"> 
 		psu.id AS position_subscribe_user_id,
 		psu.position_id AS position_subscribe_user_position_id,
-		psu.user_id AS position_subscribe_user_user_id
+		psu.user_id AS position_subscribe_user_user_id,
+		psu.status_id AS position_subscribe_user_status_id,
+		psu.create_time AS position_subscribe_user_create_time,
+		psu.recommend_time AS position_subscribe_user_recommend_time,
+		psu.screen_resume_time AS position_subscribe_user_screen_resume_time,
+		psu.first_interview_time AS position_subscribe_user_first_interview_time,
+		psu.second_interview_time AS position_subscribe_user_second_interview_time,
+		psu.third_interview_time AS position_subscribe_user_third_interview_time,
+		psu.reject_time AS position_subscribe_user_reject_time
 	</sql>
 	
 	<insert
@@ -44,26 +64,65 @@
 	    
 		INSERT INTO position_subscribe_user (
 		position_id,
-		user_id
+		user_id,
+		status_id,
+		create_time,
+		recommend_time,
+		screen_resume_time,
+		first_interview_time,
+		second_interview_time,
+		third_interview_time,
+		reject_time
 		) VALUES (
 		#{positionId, javaType=int, jdbcType=INTEGER},
-		#{userId, javaType=int, jdbcType=INTEGER}
+		#{userId, javaType=int, jdbcType=INTEGER},
+		#{statusId, javaType=int, jdbcType=INTEGER},
+		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{recommendTime, javaType=date, jdbcType=TIMESTAMP},
+		#{screenResumeTime, javaType=date, jdbcType=TIMESTAMP},
+		#{firstInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+		#{secondInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+		#{thirdInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+		#{rejectTime, javaType=date, jdbcType=TIMESTAMP}
 		)
 	</insert>
 	
 	<select 
-		id="getPositionsByUserId"
+		id="selectSubscribedPositionsByUserId"
 		parameterType="map" 
-		resultMap="positionResult" >
+		resultMap="positionSubscribeUserResult" >
             
 		SELECT
-			<include refid="positionSubscribeUserColumns"/>
+			<include refid="positionSubscribeUserColumns"/>,
+			<include refid="positionColumns"/>,
+			<include refid="companyColumns"/>
 		FROM
 			position_subscribe_user psu
-			INNER JOIN user ON user.id = psu.user_id
 			INNER JOIN position ON position.id = psu.position_id
+			INNER JOIN company ON company.id = position.company_id
 		WHERE
-			psu.id = #{userId, javaType=int, jdbcType=INTEGER}
+			psu.user_id = #{userId, javaType=int, jdbcType=INTEGER}
+			AND position.is_expired = 0
+			ORDER BY
+			psu.create_time DESC
+	</select>
+	
+	<select 
+		id="selectSubscribedPositionByUserIdAndPositionId"
+		resultMap="positionSubscribeUserResult" >
+            
+		SELECT
+			<include refid="positionSubscribeUserColumns"/>,
+			<include refid="positionColumns"/>,
+			<include refid="companyColumns"/>
+		FROM
+			position_subscribe_user psu
+			INNER JOIN position ON position.id = psu.position_id
+			INNER JOIN company ON company.id = position.company_id
+		WHERE
+			psu.user_id = #{userId, javaType=int, jdbcType=INTEGER}
+			AND psu.position_id = #{positionId, javaType=int, jdbcType=INTEGER}
+			AND position.is_expired = 0
 	</select>
 	
 	<select id="count1" resultType="int">

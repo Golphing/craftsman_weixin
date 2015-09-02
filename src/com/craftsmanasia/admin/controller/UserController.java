@@ -1,17 +1,20 @@
 package com.craftsmanasia.admin.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.Work;
+import com.craftsmanasia.model.vo.ResumeVO;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.UserService;
 import com.craftsmanasia.service.WorkService;
@@ -92,6 +95,34 @@ public class UserController {
 	}
 	
 	/*
+	 * 获取user信息
+	 * */
+	@RequestMapping(value ="/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String searchUser(@RequestParam(value = "telephone", defaultValue = "") String telephone) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = userService.getUserByTelephone(telephone);
+		map.put("user", user);
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*
+	 * 获取简历信息，包括工作经历
+	 * */
+	@RequestMapping(value = "/search/resume",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String searchUserl(@RequestParam(value = "userId", defaultValue = "") int userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
+		List<Work> works = workService.getUserWorksByUserId(userId);
+		
+		map.put("resume", ResumeVO.toVO(resumeUser, works));
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*
 	 * 返回类型：0成功1user非法2起始时间为空3company为空4职位为空
 	 * */
 	@RequestMapping("/resume/create")
@@ -138,6 +169,57 @@ public class UserController {
 		work.setRemark(remark);
 		work.setUserId(userId);
 		workService.add(work);
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*
+	 * 返回类型：0成功workId非法
+	 * */
+	@RequestMapping("/resume/modify")
+	@ResponseBody
+	public String modifyUserResume(@RequestParam(value = "workId", defaultValue = "") Integer workId,
+			@RequestParam(value = "beginTime", defaultValue = "") String beginTime,
+			@RequestParam(value = "endTime", defaultValue = "") String endTime,
+			@RequestParam(value = "company", defaultValue = "") String company,
+			@RequestParam(value = "position", defaultValue = "") String position,
+			@RequestParam(value = "description", defaultValue = "") String description,
+			@RequestParam(value = "profession", defaultValue = "") String profession,
+			@RequestParam(value = "remark", defaultValue = "") String remark,
+			@RequestParam(value = "department", defaultValue = "") String department) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(workId ==null) {
+			map.put("code", "1");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		Work work = new Work();
+		work.setId(workId);
+		work.setBeginTime(beginTime);
+		work.setEndTime(endTime);
+		work.setCompany(company);
+		work.setPosition(position);
+		work.setDepartment(department);
+		work.setDescription(description);
+		work.setProfession(profession);
+		work.setRemark(remark);
+		workService.updatWork(work);
+		map.put("code", "0");
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*
+	 * 返回类型：0成功，1work非法
+	 * */
+	@RequestMapping(value = "/resume/delete", method = RequestMethod.GET)
+	@ResponseBody
+	public String deleteUserResume(@RequestParam(value = "workId", defaultValue = "0") Integer workId) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(workId <= 0) {
+			map.put("code", "1");
+			return JSONObject.fromObject(map).toString();
+		}
+		workService.deleteWork(workId);
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 	}

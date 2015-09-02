@@ -10,7 +10,7 @@ import com.ebaoyang.dao.MyBatisRepository;
 @MyBatisRepository
 public interface CompanyDao {
 
-	public void add(Company company) throws Exception;
+	public void add(Company company);
 	
 	public void updateCompany(Company company);
 	

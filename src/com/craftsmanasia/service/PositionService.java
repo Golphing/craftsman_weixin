@@ -20,7 +20,7 @@ public class PositionService {
 	/*
 	 * 给一个公司发布职位
 	 * */
-	public void addCompanyPosition(Position position) throws Exception {
+	public void addCompanyPosition(Position position) {
 		positionDao.addPosition(position);
 	}
 	
@@ -39,11 +39,15 @@ public class PositionService {
 		return positionDao.getPositionsByCompanyNameAndTitle(companyName, positionTitle);
 	}
 	
-	public List<Position> getCompanyPositionsByCompanyId(Integer companyId) throws Exception {
+	public List<Position> getCompanyPositionsByCompanyId(Integer companyId) {
 		return positionDao.getPositionsByCompanyId(companyId);
 	}
 	
 	public Position getPositionByCompanyIdAndTitle(int companyId, String title) {
 		return positionDao.getPositionsByCompanyIdAndTitle(companyId, title);
+	}
+	
+	public Position getPositionById(int id) {
+		return positionDao.getPositionById(id);
 	}
 }
