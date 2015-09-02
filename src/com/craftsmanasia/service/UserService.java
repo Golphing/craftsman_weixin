@@ -32,4 +32,12 @@ public class UserService {
 	public User getByOpenId(String openId){
 		return userDao.getByOpenId(openId);
 	}
+	
+	public User getUserById(int id) {
+		return userDao.selectUserById(id);
+	}
+	
+	public User getUserByTelephone(String telephone) {
+		return userDao.selectUserByTelephone(telephone);
+	}
 }

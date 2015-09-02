@@ -11,7 +11,7 @@ public class Position {
 	private String wage;
 	private String requirement;
 	private String city;
-	private int weight;
+	private Integer weight;
 	private int companyId;
 	private Integer isExpired;
 	private Company company;
@@ -72,7 +72,7 @@ public class Position {
 		return city;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
 
