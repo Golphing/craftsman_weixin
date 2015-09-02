@@ -1,8 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	initJqGrid();
-	bindSearchPositionListFormAction();
 	bindJqGridDataAction();
 	bindEditPositionFormAction();
+	bindAddPositionAction();
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
@@ -50,12 +50,7 @@ $(document).ready(function() {
 			pager: "#jqGridPager"
 		});
 	}
-	function bindSearchPositionListFormAction() {
-		$('#searchPositionForm').submit(function() {
-			$('#jqGrid').trigger("reloadGrid");
-			return false;
-		});
-	}
+
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
@@ -93,5 +88,9 @@ $(document).ready(function() {
 			return false;
 		});
 	}
-
+	function bindAddPositionAction() {
+		$('.page-path .add-btn').click(function() {
+			$('#addPositionDialog').modal('show');
+		});
+	}
 });
