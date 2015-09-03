@@ -3,10 +3,33 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.craftsmanasia.dao.ResumeUserDao">
+	
+	<resultMap type="ResumeUser" id="resumeUserResult">
+		<id property="id" column="resume_user_id"/>
+		
+		<result property="name" column="resume_user_name"/>
+		<result property="telephone" column="resume_user_telephone"/>
+		<result property="gender" column="resume_user_gender"/>
+		<result property="birthday" column="resume_user_birthday"/>
+		<result property="email" column="resume_user_email"/>
+		<result property="home" column="resume_user_home"/>
+		<result property="userId" column="resume_user_user_id"/>
+	</resultMap>
+	
 	<sql id="FIELDS">
 		telephone,name,gender,birthday,email,home,user_id
 	</sql>
 	
+	<sql id="resumeUserColomns">
+		ru.id AS resume_user_id,
+		ru.name AS resume_user_name,
+		ru.telephone AS resume_user_telephone,
+		ru.gender AS resume_user_gender,
+		ru.birthday AS resume_user_birthday,
+		ru.email AS resume_user_email,
+		ru.home AS resume_user_home,
+		ru.user_id AS resume_user_user_id
+	</sql>
 	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="ResumeUser"> 
 		insert into resume_user(<include refid="FIELDS"/>) values(#{telephone},#{name},#{gender},#{birthday},#{email},#{home},#{userId})
 	</insert>
@@ -17,4 +40,15 @@
 	<select id="count1" resultType="int">
 		select count(*) from resume_user
 	</select>
+	
+	<select id="selectResumeUserByUserId"
+	 resultMap="resumeUserResult">
+		SELECT
+			<include refid="resumeUserColomns"/>
+		FROM
+			resume_user ru
+		WHERE
+			ru.user_id = #{userId, javaType=int, jdbcType=INTEGER}
+	</select>
+	
 </mapper>

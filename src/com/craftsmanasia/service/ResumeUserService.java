@@ -30,4 +30,8 @@ public class ResumeUserService {
 	public void update(User user){
 		userDao.update(user);
 	}
+	
+	public ResumeUser selectResumeUserByUserId(int userId) {
+		return userDao.selectResumeUserByUserId(userId);
+	}
 }

@@ -1,0 +1,127 @@
+<div class="page-path">
+	<div class="icon"></div>
+	<h1 class="path">首页 > 企业合作 > 企业职位管理</h1>
+	<button type="button" class="btn btn-primary btn-sm add-btn">添加</button>
+</div>
+<div class="content">
+	<table id="jqGrid"></table>
+	<div id="jqGridPager"></div>
+</div>
+<div class="modal fade" id="editPositionDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" id="editPositionForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="dialogTitle">修改职位</h4>
+            </div>
+            <div class="modal-body dialogContent">
+				<div class="form-group">
+				    <label class="col-sm-2 control-label">*公司:</label>
+				    <div class="col-sm-9" style="padding-top:6px;">
+				    	<label class="" name="name"></label>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label class="col-sm-2 control-label">*职位:</label>
+				    <div class="col-sm-9" style="padding-top:6px;">
+				    	<label class="" name="title"></label>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <label for="editPositionForm_wage" class="col-sm-2 control-label">*薪酬:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="wage" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="editPositionForm_requirement" class="col-sm-2 control-label">*要求:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="requirement" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="editPositionForm_city" class="col-sm-2 control-label">*城市:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="city" placeholder="">
+				    </div>
+				</div>											
+				<div class="form-group">
+				    <label for="editPositionForm_weight" class="col-sm-2 control-label">*权重:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="weight" placeholder="">
+				    </div>
+				</div>				          
+				<div class="form-group">
+				    <label for="" class="col-sm-2 control-label">*是否过期:</label>
+				    <div class="col-sm-9">
+						<label class="radio-inline">
+							<input type="radio" name="expire" value="1"> 是
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="expire" value="0"> 否
+						</label>
+				    </div>
+				</div>					
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定 </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addPositionDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" id="addPositionForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="dialogTitle">添加职位</h4>
+            </div>
+            <div class="modal-body dialogContent">
+				<div class="form-group">
+				    <label for="addPositionForm_title" class="col-sm-2 control-label">*职位:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="title" placeholder="">
+				    </div>
+				</div>	
+				<div class="form-group">
+				    <label for="addPositionForm_wage" class="col-sm-2 control-label">*薪酬:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="wage" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="addPositionForm_requirement" class="col-sm-2 control-label">*要求:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="requirement" placeholder="">
+				    </div>
+				</div>		
+				<div class="form-group">
+				    <label for="addPositionForm_city" class="col-sm-2 control-label">*城市:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="city" placeholder="">
+				    </div>
+				</div>											
+				<div class="form-group">
+				    <label for="addPositionForm_weight" class="col-sm-2 control-label">*权重:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="weight" placeholder="">
+				    </div>
+				</div>				          				
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定 </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<script src="../js/company/position.js"></script>

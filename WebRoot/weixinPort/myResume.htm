@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+
+<!-- 移动设备支持 -->
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<link href="css/mod06.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="wrap" style="background: url('images/11.jpg');background-size:100%;">
+  <div class="modbgd">
+                     <a href="fillResume.html">
+
+        <div class="menu clr" >
+      <div class="icon"><img src="images/icon01.png" width="32" height="32"></div>
+      <div class="tle">填写简历</div>
+    </div>
+    </a>
+                      <a href="../views/resume_import/51input1.jsp">
+        <div class="menu clr" >
+      <div class="icon"><img src="images/icon02.png" width="32" height="32"></div>
+      <div class="tle">从51job导入</div>
+    </div>
+    </a>
+                      <a href="">
+        <div class="menu clr">
+      <div class="icon"><img src="images/icon03.png" width="32" height="32"></div>
+      <div class="tle">从智联招聘导入</div>
+    </div>
+    </a>
+                  <a href="">
+            <div class="menu clr">
+      <div class="icon"><img src="images/icon04.png" width="32" height="32"></div>
+      <div class="tle">从前程无忧导入</div>
+    </div>
+    </a>
+  
+  </div>
+   <script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="js/wxsharejs.js"></script><a href="tel:4000601218">
+<div class="telphone"><img src="images/tel.png"></div>
+</a>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/wxsharejs.js"></script>
+<script type="text/javascript">
+	var fx_describefenxiang = "";
+	wx_share_out('卡富文思','',fx_describefenxiang);
+</script>
+
+
+
+
+<div class="blankwhite" style="height:30px;"></div>
+
+<script>
+
+$(function(){
+	if (typeof WeixinJSBridge == "undefined"){
+		if( document.addEventListener ){
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		}else if (document.attachEvent){
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	}else{
+		onBridgeReady();
+	}
+
+	var shareTitle = '卡富文思';
+	var imgUrl = "";
+	var descContent = $("#div_fx_describe").text();
+	var urllink = "";
+	wx_share_out('4176',shareTitle,imgUrl,descContent,urllink);
+})
+
+function onBridgeReady(){
+     WeixinJSBridge.call('showOptionMenu');
+}
+</script>
+<div id="div_fx_describe" style="display:none;"></div>
+
+<script type="text/javascript">
+	</script>
+</div>
+</body>
+</html>
+
+

@@ -1,5 +1,7 @@
 package com.craftsmanasia.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.ebaoyang.dao.MyBatisRepository;
@@ -14,4 +16,6 @@ public interface ResumeUserDao {
 	public int count1();
 	
 	public void update(User user);
+	
+	public ResumeUser selectResumeUserByUserId(@Param("userId") int userId);
 }
