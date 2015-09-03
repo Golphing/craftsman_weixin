@@ -25,7 +25,7 @@
   </head>
   
   <body>
-    	<form action="/craftsman_weixin/c/im/51.do" method="post">
+    	<form action="/craftsman_weixin/c/im/lp.do" method="post">
     		<input type="hidden" value="123" name="openId">
     		用户名：<input name="name" type="text"/><br>
     		密码：<input name="password" type="password"/><br>
@@ -45,14 +45,13 @@
 				 var login_verify=$("input[name='login_verify']").val();
 				 alert("导入中");
 				 $.ajax({
-			      url: '/craftsman_weixin/c/im/51.do',
+			      url: '/craftsman_weixin/c/im/lp.do',
 			      type: 'post',
 			      dataType: 'json',
 			      data: {
 			        "name":name,
-			        "password":password,
-			        "openId":openId,
-			        "login_verify":login_verify
+			        "password":password
+			        
 			      },
 			      async : false,
 			      success: function(result) {
@@ -62,32 +61,14 @@
 			        }
 			        else if(result.code==1)
 			        {
-			          alert("需要验证码");
-			          $("#yzm").attr("src",result.yzmUrl);
-			          $("#showVerify").show();
+			          alert("导入失败");
+			         
 			        }
 			        else if(result.code==2)
 			        {
 			          alert("账号或密码错了");
 			        }
-			        else if(result.code==3)
-			        {
-			          alert("验证码错误");
-			           $("#yzm").attr("src",result.yzmUrl);
-			        }
-			        else if(result.code==4)
-			        {
-			          alert("用户名或密码不能为空");
-			        }
-			        else if(result.code==5)
-			        {
-			          alert("没绑定手机号");
-			        }
-			        else if(result.code==6)
-			        {
-			          alert("用户名或密码错误");
-			          $("#yzm").attr("src",result.yzmUrl);
-			        }
+			      
 			      }
 			    });
 			});
