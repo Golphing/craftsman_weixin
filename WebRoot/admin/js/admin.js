@@ -11,12 +11,14 @@ $("document").ready(function () {
 		prmNames: {
 			page: 'pageNumber',
 			rows: 'pageSize',
+			sort: 'orderBy',
+			order: 'order',
 		},
 		jsonReader: {
 			root: 'data',
-			page: 'currpage',
-			total: 'totalpages',
-			records: 'totalrecords'
+			page: 'pagingResult.pageNumber',
+			total: 'pagingResult.totalPage',
+			records: 'pagingResult.recordNumber'
 		},
 
 	});
@@ -113,5 +115,13 @@ var ADMIN = {
 		
 		return flag;
 	},
+	getItemFromByAttr: function(array, attr, value) {
+		for(var i in array) {
+			if(array[i][attr] == value) {
+				return array[i];
+			}
+		}
+		return false;
+	}
 };
 
