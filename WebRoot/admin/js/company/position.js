@@ -6,7 +6,7 @@ $(document).ready(function () {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
-			url: '../js/company/search_position.json',
+			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
 				{label: '公司', name: 'name', width: '20%'},
@@ -21,32 +21,18 @@ $(document).ready(function () {
 					}
 					return '否';
 				}},
-				// sorttype is used only if the data is loaded locally or loadonce is set to true
 				{ label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
 				//	return '<span class="glyphicon glyphicon-pencil btn"></span><span class="glyphicon glyphicon-remove btn"></span></a>';
 					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button>';
 				}}
 			],
 			serializeGridData: function(postData) {
-				var name = $('#searchPositionForm_name').val();
-				var title = $('#searchPositionForm_title').val();
-				var expire = $('#searchPositionForm_expire').val();
-				var city = $('#searchPositionForm_city').val();
-				name && (postData.name = name);
-				title && (postData.title = title);
-				expire && (postData.expire = expire);
-				city && (postData.city = city);
+				postData.companyId = ADMIN.getUrlParam('companyId');
 				return postData;
 			},
 			loadComplete:function(xhr) {
 				pageData.positionList = xhr.data;
 			},
-			viewrecords: true, // show the current page, data rang and total records on the toolbar
-			autowidth: true,
-			height: 'auto',
-			jsonReader: {root: 'data', page: 'currpage', total: 'totalpages', records: 'totalrecords'},
-			rowNum: 10,
-			rowList:[10,20,30],
 			pager: "#jqGridPager"
 		});
 	}

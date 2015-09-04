@@ -23,7 +23,6 @@ $("document").ready(function () {
 
 	});
 
-	
     $('#sidebar li').click(function() {    	
     	$('#sidebar li.active').removeClass('active');
     	$(this).addClass('active');
@@ -44,11 +43,11 @@ $("document").ready(function () {
     	}
     });
     
-    var hash = window.location.hash;
+    var hash = ADMIN.URL.getHashPath();
     ADMIN.initSidebar(hash);
     ADMIN.loadHtml(hash);
     window.onhashchange = function() {
-    	var hash = window.location.hash;
+    	var hash = ADMIN.URL.getHashPath();
     	ADMIN.loadHtml(hash);
     };
  
@@ -56,15 +55,15 @@ $("document").ready(function () {
 var pageData = {};
 var ADMIN = {
 	pageHashMap: {
-		'#resume': 				'resume/search',
+		'#/resume': 				'resume/search',
 		
-		'#company/add': 		'company/add',
-		'#company/search':		'company/search',
-		'#company/position':	'company/position',
-		'#company/position/search':'company/search_position',
+		'#/company/add': 		'company/add',
+		'#/company/search':		'company/search',
+		'#/company/position':	'company/position',
+		'#/company/position/search':'company/search_position',
 	},
 	initSidebar: function(hash) {
-		hash == '' && (hash = '#resume');
+		hash == '' && (hash = '#/resume');
 	    var li = $('#sidebar a[href="'+ hash +'"]').closest('li');
 	    li.addClass('active');
 	    if(li.parents('ul').length > 1) {
@@ -74,7 +73,7 @@ var ADMIN = {
 	    }
 	},
 	loadHtml: function(hash) {
-		hash == '' && (hash = '#resume');
+		hash == '' && (hash = '#/resume');
 		if(!hash in ADMIN.pageHashMap) return;
 		var url = ADMIN.pageHashMap[hash] + '.html';
 		$.get(url, function(result) {
@@ -91,7 +90,7 @@ var ADMIN = {
 			} else {
 				jqDom.parents('.form-group').removeClass('has-error');
 			}
-		}
+		};
 		
 		if(fieldNames === null || fieldNames === undefined) {
 			inputs = $(selector + ' input');
@@ -120,6 +119,55 @@ var ADMIN = {
 			if(array[i][attr] == value) {
 				return array[i];
 			}
+		}
+		return false;
+	},
+	URL: {
+		getParam: function(param) {
+			var search = window.location.search;
+			var reg = new RegExp("(\\?|&)"+ param +"=([^&]*)(&|$)");
+			var m = hash.match(reg);
+			if(m) {
+				return m[2];
+			}
+			return null;
+		},
+		getHash: function() {
+			return window.location.hash;
+		},
+		getHashPath: function() {
+			var hash = ADMIN.URL.getHash(), index;
+			if(index = hash.indexOf('?') == '-1') {
+				return hash;
+			} else {
+				return hash.substring(0, index-1);
+			}
+		},
+		getHashParm: function(param) {
+			var hash = ADMIN.URL.getHash();
+			var reg = new RegExp("(\\?|&)"+ param +"=([^&]*)(&|$)");// /(\?|&)id=([^&]*)(&|$)/
+			var m = hash.match(reg);
+			if(m) {
+				return m[2];
+			}
+			return null;
+		},
+	},
+	getUrlParamObj: function() {
+		var url = window.location.search;
+		url && (url = url.substring(1));
+		var urlarr = url.split('&');
+		var result = {};
+		for(var i = 0; i<urlarr.length; i++) {
+			var tmp = urlarr[i].split('=');
+			result[tmp[0]] = tmp[1];
+		}
+		return result;
+	},
+	getUrlParam: function(param) {
+		var urlparams = ADMIN.getUrlParamObj();
+		if(param in urlparams) {
+			return urlparams[param];
 		}
 		return false;
 	}
