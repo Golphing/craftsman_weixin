@@ -50,7 +50,7 @@ public class UserController {
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "home", defaultValue = "") String home,
 			@RequestParam(value = "wechatAccount", defaultValue = "") String wechatAccount) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		
 		if(StringUtil1.isNull(telephone) || userService.getUserByTelephone(telephone) != null) {
 			map.put("status", "电话不能为空");
@@ -90,7 +90,7 @@ public class UserController {
 		
 		// 添加简历信息
 		resumeUserService.add(resumeUser);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -103,7 +103,7 @@ public class UserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByTelephone(telephone);
 		map.put("user", user);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -118,7 +118,7 @@ public class UserController {
 		List<Work> works = workService.getUserWorksByUserId(userId);
 		
 		map.put("resume", ResumeVO.toVO(resumeUser, works));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -136,7 +136,7 @@ public class UserController {
 			@RequestParam(value = "profession", defaultValue = "") String profession,
 			@RequestParam(value = "remark", defaultValue = "") String remark,
 			@RequestParam(value = "department", defaultValue = "") String department) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		// 添加工作经历
 		
 		if(userId == null || userId <=0 || userService.getUserById(userId)==null) {
@@ -169,7 +169,7 @@ public class UserController {
 		work.setRemark(remark);
 		work.setUserId(userId);
 		workService.add(work);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -187,7 +187,7 @@ public class UserController {
 			@RequestParam(value = "profession", defaultValue = "") String profession,
 			@RequestParam(value = "remark", defaultValue = "") String remark,
 			@RequestParam(value = "department", defaultValue = "") String department) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(workId ==null) {
 			map.put("status", "工作经历不存在");
 			return JSONObject.fromObject(map).toString();
@@ -204,7 +204,7 @@ public class UserController {
 		work.setProfession(profession);
 		work.setRemark(remark);
 		workService.updatWork(work);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -214,13 +214,13 @@ public class UserController {
 	@RequestMapping(value = "/resume/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public String deleteUserResume(@RequestParam(value = "workId", defaultValue = "0") Integer workId) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(workId <= 0) {
 			map.put("status", "工作经历不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		workService.deleteWork(workId);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 }
