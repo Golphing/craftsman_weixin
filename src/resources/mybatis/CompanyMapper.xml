@@ -104,7 +104,7 @@
 		FROM
 			company
 		WHERE
-			company.name = #{name, javaType=string, jdbcType =CHAR}
+			company.name = #{name, javaType=string, jdbcType=CHAR}
 	</select>
 	
 	<select 

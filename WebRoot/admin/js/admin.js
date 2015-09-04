@@ -1,6 +1,28 @@
 $("document").ready(function () {
-	$.jgrid.defaults.width = 780;
-	$.jgrid.defaults.styleUI = 'Bootstrap';
+	$.extend(true, $.jgrid.defaults, {
+		width: 780,
+		styleUI: 'Bootstrap',
+		datatype: "json",
+		viewrecords: true, // show the current page, data rang and total records on the toolbar
+		autowidth: true,
+		height: 'auto',
+		rowNum: 10,
+		rowList:[10,20,30],
+		prmNames: {
+			page: 'pageNumber',
+			rows: 'pageSize',
+			sort: 'orderBy',
+			order: 'order',
+		},
+		jsonReader: {
+			root: 'data',
+			page: 'pagingResult.pageNumber',
+			total: 'pagingResult.totalPage',
+			records: 'pagingResult.recordNumber'
+		},
+
+	});
+
 	
     $('#sidebar li').click(function() {    	
     	$('#sidebar li.active').removeClass('active');
@@ -93,5 +115,13 @@ var ADMIN = {
 		
 		return flag;
 	},
+	getItemFromByAttr: function(array, attr, value) {
+		for(var i in array) {
+			if(array[i][attr] == value) {
+				return array[i];
+			}
+		}
+		return false;
+	}
 };
 

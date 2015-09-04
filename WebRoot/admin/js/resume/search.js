@@ -10,8 +10,8 @@ $(document).ready(function () {
 			{ label: '联系电话', name: 'telephone', width: '20%'},
 			{ label: 'email', name: 'email', width: '20%',},
 			// sorttype is used only if the data is loaded locally or loadonce is set to true
-			{ label: '操作', name: '', width: '10%', formatter: function(cellValue, options, rowObject) {
-				return '<span class="glyphicon glyphicon-pencil btn"></span><span class="glyphicon glyphicon-remove btn"></span></a>'
+			{ label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
+				return '<button type="button" data-action="edit" class="btn btn-warning">修改</button><button type="button" data-action="workinfo" class="btn btn-primary">工作经历</button>'
 			}}                   
 		],
 		loadComplete:function(data) {
