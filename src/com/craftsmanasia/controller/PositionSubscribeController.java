@@ -127,7 +127,7 @@ public class PositionSubscribeController {
 		PositionSubscribeUser positionSubscribeUser = positionSubscribeUserService
 					.getSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		
-		map.put("item", PositionSubscribeUserVO.toVO(positionSubscribeUser));
+		map.put("data", PositionSubscribeUserVO.toVO(positionSubscribeUser));
 		
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
@@ -146,13 +146,13 @@ public class PositionSubscribeController {
 			return JSONObject.fromObject(map).toString();
 		}
 		Position position =  positionService.getPositionById(positionId);
-		map.put("position", PositionVO.toVO(position));
+		map.put("data", PositionVO.toVO(position));
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 	}
 	
 	
-	/*
+	/*收藏职位
 	 * 返回类型：0成功1用户不存在2职位不存在3已收藏该职位
 	 * */
 	@RequestMapping(value = "/collect")
@@ -199,7 +199,7 @@ public class PositionSubscribeController {
 			return JSONObject.fromObject(map).toString();
 		}
 		List<Position> positions = positionSubscribeUserService.getAllCollectionPositionsByUserId(userId);
-		map.put("vos", PositionVO.toVOs(positions));
+		map.put("data", PositionVO.toVOs(positions));
 		
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
@@ -235,7 +235,7 @@ public class PositionSubscribeController {
 		List<Position> positions = positionService.getCompanyPositionsByCompanyId(1);
 		
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
-		map.put("vos", positionvos);
+		map.put("data", positionvos);
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 		
@@ -248,8 +248,8 @@ public class PositionSubscribeController {
 	@ResponseBody
 	public String searchCooperateCompany() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Company> companies = companyService.getAllExpiredCompanies();
-		map.put("companies", CompanyVO.toVOs(companies));
+		List<Company> companies = companyService.getAllNoExpiredCompanies();
+		map.put("data", CompanyVO.toVOs(companies));
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 	}
@@ -259,11 +259,10 @@ public class PositionSubscribeController {
 	 * */
 	@RequestMapping(value = "/search/company/positions", method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String searchCooperateCompanyPositions(@RequestParam(value = "title", defaultValue = "") String title,
-			@RequestParam(value = "companyId", defaultValue = "0") int companyId) {
+	public String searchCooperateCompanyPositions(@RequestParam(value = "companyId", defaultValue = "0") int companyId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Position> positions = positionService.getCompanyPositionsByCompanyId(companyId);
-		map.put("vos", PositionVO.toVOs(positions));
+		map.put("data", PositionVO.toVOs(positions));
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 	}
@@ -278,7 +277,7 @@ public class PositionSubscribeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Position position = positionService.getPositionByCompanyIdAndTitle(companyId, title);
-		map.put("vo", PositionVO.toVO(position));
+		map.put("data", PositionVO.toVO(position));
 		map.put("code", "0");
 		return JSONObject.fromObject(map).toString();
 	}

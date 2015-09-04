@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.craftsmanasia.filter.PositionFilter;
 import com.craftsmanasia.model.Position;
 import com.ebaoyang.dao.MyBatisRepository;
 
@@ -22,4 +23,7 @@ public interface PositionDao {
 	
 	public Position getPositionsByCompanyIdAndTitle(@Param("id") Integer companyId, @Param("title") String title);
 
+	public List<Position> selectPositionsByFilter(@Param("filter") PositionFilter filter);
+	
+	public int countPositionsByFilter(@Param("filter") PositionFilter filter);
 }
