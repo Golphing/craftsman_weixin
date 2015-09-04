@@ -10,8 +10,9 @@ public enum ResumeSuscribeStatus {
 	screenResumed(3,"screenResumed","简历通过筛选"),
 	firstInterviewed(4,"firstInterviewed","一面通过"),
 	secondInterviewed(5,"secondInterviewed","二面通过"),
-	thirdInterviewed(6,"recommended","三面通过"),
-	rejected(7,"rejected","已拒绝");
+	thirdInterviewed(6,"thirdInterviewed","三面通过"),
+	waitingOffer(7,"waitingOffer","等待offer"),
+	rejected(8,"rejected","已拒绝");
 	
 	private static final Map<String, ResumeSuscribeStatus> code2SettlementType;
 	private static Map<Integer,ResumeSuscribeStatus> id2SettlementType;

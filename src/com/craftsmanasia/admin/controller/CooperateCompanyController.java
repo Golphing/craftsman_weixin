@@ -47,7 +47,7 @@ public class CooperateCompanyController {
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "url", defaultValue = "") String url,
 			@RequestParam(value = "weight", defaultValue = "-1") int weight) {
-		Map<String,String> map=new HashMap<String,String>();
+		Map<String,Object> map=new HashMap<String,Object>();
 		Company company = new Company();
 		if (StringUtil1.isNull(name)) {
 			map.put("msg", "company name cannot be null");
@@ -75,7 +75,7 @@ public class CooperateCompanyController {
 		company.setUpdateTime(now);
 		
 		companyService.add(company);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 		//return JsonUtil.getJson(0, "create success").toString();
 	}
@@ -89,7 +89,7 @@ public class CooperateCompanyController {
 			@RequestParam(value = "url", required=false) String url,
 			@RequestParam(value = "isExpired", required=false) Integer isExpired,
 			@RequestParam(value = "weight", required=false) Integer weight) {
-		Map<String,String> map=new HashMap<String,String>();
+		Map<String,Object> map=new HashMap<String,Object>();
 		Company company = new Company();
 		company.setId(id);
 		if (!StringUtil1.isNull(url)) {
@@ -106,7 +106,7 @@ public class CooperateCompanyController {
 		
 		companyService.update(company);
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -116,7 +116,7 @@ public class CooperateCompanyController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteCooperateCompany(@RequestParam(value = "id", defaultValue = "") int id) {
-		Map<String,String> map=new HashMap<String,String>();
+		Map<String,Object> map=new HashMap<String,Object>();
 		Company company = new Company();
 		company.setId(id);
 		company.setIsExpired(1);
@@ -124,7 +124,7 @@ public class CooperateCompanyController {
 		
 		companyService.update(company);
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -151,7 +151,7 @@ public class CooperateCompanyController {
 		map.put("data", CompanyVO.toVOs(result.getResult()));
 		map.put("pagingResult", pagingResult);
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 
@@ -203,7 +203,7 @@ public class CooperateCompanyController {
 		// 默认是0，不过期
 		position.setIsExpired(0);
 		positionService.addCompanyPosition(position);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 
@@ -246,7 +246,7 @@ public class CooperateCompanyController {
 		
 		map.put("data", PositionVO.toVOs(result.getResult()));
 		map.put("pagingResult", pagingResult);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	/*
@@ -287,7 +287,7 @@ public class CooperateCompanyController {
 		newPosition.setWeight(weight);
 		newPosition.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(newPosition);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -305,14 +305,14 @@ public class CooperateCompanyController {
 		}
 		Position position =  positionService.getPositionById(positionId);
 		map.put("data", PositionVO.toVO(position));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
 	@RequestMapping(value = "/position/delete")
 	@ResponseBody
 	public String deletePosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		if(positionId <= 0) {
 			map.put("status", "该职位不存在");
 			return JSONObject.fromObject(map).toString();
@@ -322,7 +322,7 @@ public class CooperateCompanyController {
 		position.setIsExpired(1);
 		position.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(position);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	

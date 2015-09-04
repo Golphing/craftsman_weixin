@@ -6,6 +6,7 @@ import java.util.List;
 import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
+import com.craftsmanasia.utils.DateTimeUtility;
 
 public class ResumeVO2 {
 
@@ -16,6 +17,7 @@ public class ResumeVO2 {
 	private String status;
 	private String companyName;
 	private String wechatAccount;
+	private String updateTime;
 	
 	public static List<ResumeVO2> toVOs(List<PositionSubscribeUser> positionSubscribeUsers) {
 		List<ResumeVO2> vos = new ArrayList<ResumeVO2>();
@@ -42,6 +44,7 @@ public class ResumeVO2 {
 		
 		vo.setStatus(ResumeSuscribeStatus.fromid(positionSubscribeUser.getId()).getDescription());
 		
+		vo.setUpdateTime(DateTimeUtility.formatYYYYMMDD(positionSubscribeUser.getUpdateTime()));
 		vo.setCompanyName(positionSubscribeUser.getPosition().getCompany().getName());
 		vo.setWechatAccount(positionSubscribeUser.getUser().getWechatAccount());
 		return vo;
@@ -102,6 +105,14 @@ public class ResumeVO2 {
 
 	public void setWechatAccount(String wechatAccount) {
 		this.wechatAccount = wechatAccount;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 	
 }

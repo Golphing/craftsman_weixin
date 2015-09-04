@@ -59,7 +59,7 @@ public class PositionSubscribeController {
 	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
 			@RequestParam(value = "statusId", defaultValue = "1") int statusId,
 			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		
 		User user = new User();
 		user.setId(userId);
@@ -83,7 +83,7 @@ public class PositionSubscribeController {
 		
 		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -107,7 +107,7 @@ public class PositionSubscribeController {
 			vos.add(PositionVO.toVO(position.getPosition()));
 		}
 		map.put("positions", vos);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -129,7 +129,7 @@ public class PositionSubscribeController {
 		
 		map.put("data", PositionSubscribeUserVO.toVO(positionSubscribeUser));
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -147,7 +147,7 @@ public class PositionSubscribeController {
 		}
 		Position position =  positionService.getPositionById(positionId);
 		map.put("data", PositionVO.toVO(position));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -159,7 +159,7 @@ public class PositionSubscribeController {
 	@ResponseBody
 	public String collectPosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId,
 			@RequestParam(value = "userId", defaultValue = "0") int userId) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(userId <=0) {
 			map.put("status", "用户不存在");
@@ -183,7 +183,7 @@ public class PositionSubscribeController {
 		positionCollection.setUserId(userId);
 		
 		positionSubscribeUserService.collectPosition(positionCollection);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -201,7 +201,7 @@ public class PositionSubscribeController {
 		List<Position> positions = positionSubscribeUserService.getAllCollectionPositionsByUserId(userId);
 		map.put("data", PositionVO.toVOs(positions));
 		
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -218,7 +218,7 @@ public class PositionSubscribeController {
 			return JSONObject.fromObject(map).toString();
 		}
 		positionSubscribeUserService.cancleCollectionPositionByUserIdAndPosition(userId, positionId);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -236,7 +236,7 @@ public class PositionSubscribeController {
 		
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
 		map.put("data", positionvos);
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 		
 	}
@@ -250,7 +250,7 @@ public class PositionSubscribeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Company> companies = companyService.getAllNoExpiredCompanies();
 		map.put("data", CompanyVO.toVOs(companies));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -263,7 +263,7 @@ public class PositionSubscribeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Position> positions = positionService.getCompanyPositionsByCompanyId(companyId);
 		map.put("data", PositionVO.toVOs(positions));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -278,7 +278,7 @@ public class PositionSubscribeController {
 		
 		Position position = positionService.getPositionByCompanyIdAndTitle(companyId, title);
 		map.put("data", PositionVO.toVO(position));
-		map.put("status", "true");
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 }

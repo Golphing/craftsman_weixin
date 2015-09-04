@@ -41,6 +41,10 @@ public class PositionSubscribeUserService {
 		positionCollectionDao.add(positionCollection);
 	}
 	
+	public void updateResumeSubscribe(PositionSubscribeUser user) {
+		positionSubscribeUserDao.updatePositionSubscribeUser(user);
+	}
+	
 	public List<Position> getAllCollectionPositionsByUserId(int userId) {
 		List<PositionCollection> positionCollections = positionCollectionDao.selectPositionsByUserId(userId);
 		List<Position> positions = new ArrayList<Position>();
@@ -57,7 +61,7 @@ public class PositionSubscribeUserService {
 	
 	public SearchResult<PositionSubscribeUser> searchResumeUsersByFilter(ResumeSubscribeFilter filter) {
 		List<PositionSubscribeUser> resumes = positionSubscribeUserDao.searchResumeUsersByFilter(filter);
-
+		
 		SearchResult<PositionSubscribeUser> result = new SearchResult<PositionSubscribeUser>();
 		result.setResult(resumes);
 		
