@@ -127,7 +127,7 @@ public class CooperateCompanyController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchCooperateCompany(@RequestParam(value = "pageNumber", defaultValue = "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "") int pageSize,

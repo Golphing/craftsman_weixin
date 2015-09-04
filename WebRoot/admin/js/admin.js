@@ -1,6 +1,26 @@
 $("document").ready(function () {
-	$.jgrid.defaults.width = 780;
-	$.jgrid.defaults.styleUI = 'Bootstrap';
+	$.extend(true, $.jgrid.defaults, {
+		width: 780,
+		styleUI: 'Bootstrap',
+		datatype: "json",
+		viewrecords: true, // show the current page, data rang and total records on the toolbar
+		autowidth: true,
+		height: 'auto',
+		rowNum: 10,
+		rowList:[10,20,30],
+		prmNames: {
+			page: 'pageNumber',
+			rows: 'pageSize',
+		},
+		jsonReader: {
+			root: 'data',
+			page: 'currpage',
+			total: 'totalpages',
+			records: 'totalrecords'
+		},
+
+	});
+
 	
     $('#sidebar li').click(function() {    	
     	$('#sidebar li.active').removeClass('active');

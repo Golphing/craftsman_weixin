@@ -6,8 +6,7 @@ $(document).ready(function() {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
-			url: '../js/company/search.json',
-			datatype: "json",
+			url: '../company/search.do',
 			colModel: [
 				{ label: '名称', name: 'name', width: '20%'},
 				{ label: '权重', name: 'weight', width: '20%'},
@@ -36,12 +35,6 @@ $(document).ready(function() {
 			loadComplete:function(xhr) {
 				pageData.companyList = xhr.data;
 			},
-			viewrecords: true, // show the current page, data rang and total records on the toolbar
-			autowidth: true,
-			height: 'auto',
-			jsonReader: {root: 'data', page: 'currpage', total: 'totalpages', records: 'totalrecords'},
-			rowNum: 10,
-			rowList:[10,20,30],
 			pager: "#jqGridPager"
 		});
 	}
