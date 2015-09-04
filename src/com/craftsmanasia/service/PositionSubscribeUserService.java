@@ -12,8 +12,6 @@ import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
 
-
-
 @Component
 public class PositionSubscribeUserService {
 	@Autowired

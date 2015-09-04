@@ -190,7 +190,7 @@
 	
 	<sql id="positionFilter">
 		<if test="filter.title != null">
-			position.title = #{filter.title, javaType=string, jdbcType=CHAR}
+			position.title like #{filter.title, javaType=string, jdbcType=CHAR}
 		</if>
 		<if test="filter.isExpired != null">
 			AND position.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
@@ -199,7 +199,7 @@
 			AND position.city = #{filter.city, javaType=string, jdbcType=CHAR}
 		</if>
 		<if test="filter.companyName != null">
-			AND company.name = #{filter.companyName, javaType=string, jdbcType=CHAR}
+			AND company.name like #{filter.companyName, javaType=string, jdbcType=CHAR}
 		</if>
 	</sql>
 	

@@ -50,5 +50,4 @@
 		WHERE
 			ru.user_id = #{userId, javaType=int, jdbcType=INTEGER}
 	</select>
-	
 </mapper>
