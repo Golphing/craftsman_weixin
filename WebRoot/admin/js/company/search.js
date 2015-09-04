@@ -76,7 +76,7 @@ $(document).ready(function() {
 				url: $('#editCompanyDialog [name="url"]').val(),
 				is_expire: $('#editCompanyDialog [name="expire"]:checked').val(),
 			};
-			$.post('', data, function(result) {
+			$.post('../company/', data, function(result) {
 				
 			});
 			return false;

@@ -1,7 +1,6 @@
 package com.craftsmanasia.controller;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -167,14 +166,17 @@ public class ImportLiePinController {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
 			X509TrustManager tm = new X509TrustManager() {
+				@Override
 				public void checkClientTrusted(X509Certificate[] xcs,
 						String string) {
 				}
 
+				@Override
 				public void checkServerTrusted(X509Certificate[] xcs,
 						String string) {
 				}
 
+				@Override
 				public X509Certificate[] getAcceptedIssuers() {
 					return null;
 				}

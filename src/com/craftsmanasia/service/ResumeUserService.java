@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.craftsmanasia.dao.ResumeUserDao;
-import com.craftsmanasia.dao.UserDao;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 
