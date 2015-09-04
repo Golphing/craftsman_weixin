@@ -6,10 +6,10 @@ $(document).ready(function() {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
-			url: '../js/company/search_position.json',
+			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
-				{label: '公司', name: 'name', width: '20%'},
+				{label: '公司', name: 'company.name', width: '20%'},
 				{label: '职位', name: 'title', width: '20%'},
 				{label: '薪酬', name: 'wage', width: '20%'},
 				{label: '要求', name: 'requirement', width: '20%'},
@@ -28,25 +28,15 @@ $(document).ready(function() {
 				}}
 			],
 			serializeGridData: function(postData) {
-				var name = $('#searchPositionForm_name').val();
-				var title = $('#searchPositionForm_title').val();
-				var expire = $('#searchPositionForm_expire').val();
-				var city = $('#searchPositionForm_city').val();
-				name && (postData.name = name);
-				title && (postData.title = title);
-				expire && (postData.expire = expire);
-				city && (postData.city = city);
+				postData.name = $('#searchPositionForm_name').val();
+				postData.title = $('#searchPositionForm_title').val();
+				postData.isExpired = $('#searchPositionForm_expire').val();
+				postData.city = $('#searchPositionForm_city').val();
 				return postData;
 			},
 			loadComplete:function(xhr) {
 				pageData.positionList = xhr.data;
 			},
-			viewrecords: true, // show the current page, data rang and total records on the toolbar
-			autowidth: true,
-			height: 'auto',
-			jsonReader: {root: 'data', page: 'currpage', total: 'totalpages', records: 'totalrecords'},
-			rowNum: 10,
-			rowList:[10,20,30],
 			pager: "#jqGridPager"
 		});
 	}
@@ -59,8 +49,8 @@ $(document).ready(function() {
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
-			var row = parseInt($(this).closest('tr')[0].id) - 1;
-			var position = pageData.positionList[row];
+			var rowId = parseInt($(this).closest('tr')[0].id);
+			var position = ADMIN.getItemFromByAttr(pageData.positionList, 'id', rowId);
 			if(action == 'edit') {
 				$('#editPositionDialog').data().id = position.id;
 				$('#editPositionDialog [name="name"]').text(position.name);

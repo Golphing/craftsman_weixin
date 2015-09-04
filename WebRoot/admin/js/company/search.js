@@ -54,7 +54,7 @@ $(document).ready(function() {
 				$('#editCompanyDialog [name="expire"][value="'+ company.isExpired +'"]').attr('checked', 'checked');
 				$('#editCompanyDialog').modal('show');
 			} else if(action == 'positionMgmt') {
-				window.open('?companyId='+ company.id+ '#company/position');
+				window.open('#company/position?companyId=' + company.id);
 			}
 		});
 	}
@@ -66,9 +66,16 @@ $(document).ready(function() {
 				url: $('#editCompanyDialog [name="url"]').val(),
 		//		isExpire: $('#editCompanyDialog [name="expire"]:checked').val(),
 			};
-			$.post('../company/modify', data, function(result) {
-				
-			});
+			$.post('../company/modify.do', data, function(result) {
+				console.log(result);
+				if(result.code == '0') {
+					alert('成功');
+					$('#editCompanyDialog').modal('hide');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.message);
+				}
+			}, 'json');
 			return false;
 		});
 	}
