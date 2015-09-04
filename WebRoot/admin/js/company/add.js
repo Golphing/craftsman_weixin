@@ -8,7 +8,7 @@ $(document).ready(function() {
 			weight: $('[name=weight]', this).val(),
 			url: $('[name=url]', this).val(),
 		};
-		$.post('', data, function(result) {
+		$.post('../company/create.do', data, function(result) {
 			
 		}, 'json');
 		return false;

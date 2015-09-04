@@ -7,7 +7,11 @@ import org.springframework.stereotype.Component;
 
 import com.craftsmanasia.dao.CompanyDao;
 import com.craftsmanasia.dao.PositionDao;
+import com.craftsmanasia.filter.PositionFilter;
 import com.craftsmanasia.model.Position;
+import com.craftsmanasia.model.filter.PagingData;
+import com.craftsmanasia.model.filter.PagingResult;
+import com.craftsmanasia.model.filter.SearchResult;
 
 @Component
 public class PositionService {
@@ -49,5 +53,25 @@ public class PositionService {
 	
 	public Position getPositionById(int id) {
 		return positionDao.getPositionById(id);
+	}
+	
+	public SearchResult<Position> searchPositionsByFilter(PositionFilter filter) {
+		List<Position> positions = positionDao.selectPositionsByFilter(filter);
+		SearchResult<Position> result = new SearchResult<Position>();
+		result.setResult(positions);
+		PagingData pagingData = filter.getPagingData();
+		if(filter.isPaged() && pagingData != null) {
+			int recordNumbers = positionDao.countPositionsByFilter(filter);
+			
+			PagingResult pagingResult = new PagingResult();
+			pagingResult.setPageNumber(pagingData.getPageNumber());
+			pagingResult.setPageSize(pagingData.getPageSize());
+			pagingResult.setRecordNumber(recordNumbers);
+			
+			result.setPaged(true);
+			result.setPagingResult(pagingResult);
+		}
+		
+		return result;
 	}
 }

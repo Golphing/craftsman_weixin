@@ -26,13 +26,13 @@
   
   <body>
     	<form action="/craftsman_weixin/admin/company/position/modify.do" method="post">
-    		公司名称：<input name="positionId" type="text"/><br>
+    		职位ID：<input name="positionId" type="text"/><br>
     		职位名称：<input name="title" type="text"/><br>
     		职位详情：<input name="requirement" type="text"/><br>
     		薪水：<input name="wage" type="text"/><br>
     		城市：<input name="city" type="text"/><br>
     		权重：<input name="weight" type="text"/><br>
-    		<input type="submit" value="添加">
+    		<input type="submit" value="修改">
     	</form>
   </body>
 </html>

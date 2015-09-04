@@ -76,7 +76,7 @@ public class Position {
 		this.weight = weight;
 	}
 
-	public int getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
 
