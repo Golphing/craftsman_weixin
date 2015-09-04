@@ -285,6 +285,7 @@ public class CooperateCompanyController {
 			newPosition.setCity(city);
 		}
 		newPosition.setWeight(weight);
+		newPosition.setIsExpired(isExpired);
 		newPosition.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(newPosition);
 		map.put("status", true);
