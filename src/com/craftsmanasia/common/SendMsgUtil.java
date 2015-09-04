@@ -48,7 +48,7 @@ public class SendMsgUtil {
 			sb.append("&pwd="+PWD);
 	
 			// 向StringBuffer追加网关id
-			sb.append("&gwid=12");
+			sb.append("&gwid=60");
 	
 			// 向StringBuffer追加手机号码
 			sb.append("&mobile="+phoneNumber);
@@ -87,5 +87,12 @@ public class SendMsgUtil {
 			e.printStackTrace();
 		}
 		return "-99";		
+	}
+	
+	public static void main(String[] args) {
+		String one=send("早上好", "18210243686");
+		String two=send("早上好", "13051132696");
+		System.out.println(one);
+		System.out.println(two);
 	}
 }
