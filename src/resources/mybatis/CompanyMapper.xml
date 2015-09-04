@@ -28,6 +28,10 @@
 		company.is_expired AS company_is_expired
 	</sql>
 	
+	<sql id="pagingLimit">
+		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
+	</sql>
+	
 	<insert
 	    id="add" 
 	    useGeneratedKeys="true" 
@@ -57,23 +61,23 @@
 			company
 		<set>
 			<if test="name != null">
-				name = #{name, javaType=string, jdbcType=CHAR},
+				company.name = #{name, javaType=string, jdbcType=CHAR},
             </if>
 			<if test="url != null">
-				url = #{url, javaType=string, jdbcType=CHAR},
+				company.url = #{url, javaType=string, jdbcType=CHAR},
             </if>
-			<if test="weight != null">
-				weight = #{weight, javaType=int, jdbcType=INTEGER},
+			<if test="weight != null and weight >0 ">
+				company.weight = #{weight, javaType=int, jdbcType=INTEGER},
             </if>
 			<if test="updateTime != null">
-				update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
+				company.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
             </if>
             <if test="isExpired != null">
-				is_expired = #{isExpired, javaType=int, jdbcType=INTEGER},
+				company.is_expired = #{isExpired, javaType=int, jdbcType=INTEGER},
             </if>
 		</set>
 		WHERE
-			id = #{id, javaType=int, jdbcType=INTEGER}
+			company.id = #{id, javaType=int, jdbcType=INTEGER}
 	</update>
 	
 	<select 
@@ -104,7 +108,7 @@
 	</select>
 	
 	<select 
-		id="getAllExpiredCompanys"
+		id="getAllNoExpiredCompanys"
 		parameterType="map" 
 		resultMap="companyResult" >
             
@@ -114,6 +118,46 @@
 			company
 		WHERE
 			company.is_expired = 0
+	</select>
+	
+	<sql id="cooperateCompanyFilter">
+		<if test="filter.name != null">
+			company.name like #{filter.name, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.isExpired != null">
+			AND company.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
+		</if>
+	</sql>
+	
+	<select 
+		id="selectCooperateCompanyByFilter"
+		parameterType="map" 
+		resultMap="companyResult" >
+            
+		SELECT
+			<include refid="companyColumns"/>
+		FROM
+			company
+		<where>
+			<include refid="cooperateCompanyFilter" />
+		</where>
+		ORDER BY
+			company.weight ASC
+		<include refid="pagingLimit" />
+	</select>
+	
+	<select 
+		id="countCooperateCompanyByFilter"
+		parameterType="map" 
+		resultType="int" >
+            
+		SELECT
+			count(*)
+		FROM
+			company
+		<where>
+			<include refid="cooperateCompanyFilter" />
+		</where>
 	</select>
 	
 </mapper>

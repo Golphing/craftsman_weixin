@@ -32,6 +32,10 @@
     	<include refid="com.craftsmanasia.dao.CompanyDao.companyColumns"/>
     </sql>
     
+    <sql id="pagingLimit">
+		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
+	</sql>
+    
     <sql id="positionColumns"> 
 		position.id AS position_id,
 		position.title AS position_title,
@@ -156,6 +160,7 @@
 		WHERE
 			position.title = #{title, javaType=string, jdbcType=CHAR}
 			AND company.id = #{id, javaType=int, jdbcType=INTEGER}
+			AND position.is_expired = 0
 	</select>
 	
 	<select 
@@ -181,6 +186,55 @@
 			position.weight ASC,
 			company.name ASC,
 			position.title ASC	
+	</select>
+	
+	<sql id="positionFilter">
+		<if test="filter.title != null">
+			position.title like #{filter.title, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.isExpired != null">
+			AND position.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
+		</if>
+		<if test="filter.city != null">
+			AND position.city = #{filter.city, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.companyName != null">
+			AND company.name like #{filter.companyName, javaType=string, jdbcType=CHAR}
+		</if>
+	</sql>
+	
+	<select 
+		id="selectPositionsByFilter"
+		parameterType="map" 
+		resultMap="positionResult"	>
+	SELECT
+		<include refid="companyColumns"/>,
+		<include refid="positionColumns"/>
+	FROM
+		position
+		INNER JOIN company ON company.id = position.company_id
+		<where>
+			<include refid="positionFilter"/>
+		</where>
+		ORDER BY 
+			company.weight ASC,
+			position.weight ASC,
+			position.title ASC
+		<include refid="pagingLimit" />
+	</select>
+	
+	<select 
+		id="countPositionsByFilter"
+		parameterType="map"
+		resultType="int">
+	SELECT
+		count(*)
+	FROM
+		position
+		INNER JOIN company ON company.id = position.company_id
+		<where>
+			<include refid="positionFilter"/>
+		</where>
 	</select>
 	
 </mapper>

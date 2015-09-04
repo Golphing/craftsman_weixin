@@ -8,11 +8,14 @@ import org.springframework.stereotype.Component;
 
 import com.craftsmanasia.dao.PositionCollectionDao;
 import com.craftsmanasia.dao.PositionSubscribeUserDao;
+import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
-
-
+import com.craftsmanasia.model.ResumeUser;
+import com.craftsmanasia.model.filter.PagingData;
+import com.craftsmanasia.model.filter.PagingResult;
+import com.craftsmanasia.model.filter.SearchResult;
 
 @Component
 public class PositionSubscribeUserService {
@@ -38,6 +41,10 @@ public class PositionSubscribeUserService {
 		positionCollectionDao.add(positionCollection);
 	}
 	
+	public void updateResumeSubscribe(PositionSubscribeUser user) {
+		positionSubscribeUserDao.updatePositionSubscribeUser(user);
+	}
+	
 	public List<Position> getAllCollectionPositionsByUserId(int userId) {
 		List<PositionCollection> positionCollections = positionCollectionDao.selectPositionsByUserId(userId);
 		List<Position> positions = new ArrayList<Position>();
@@ -50,5 +57,26 @@ public class PositionSubscribeUserService {
 	
 	public void cancleCollectionPositionByUserIdAndPosition(int userId, int positionId) {
 		positionCollectionDao.delete(userId,positionId);
+	}
+	
+	public SearchResult<PositionSubscribeUser> searchResumeUsersByFilter(ResumeSubscribeFilter filter) {
+		List<PositionSubscribeUser> resumes = positionSubscribeUserDao.searchResumeUsersByFilter(filter);
+		
+		SearchResult<PositionSubscribeUser> result = new SearchResult<PositionSubscribeUser>();
+		result.setResult(resumes);
+		
+		PagingData pagingData = filter.getPagingData();
+		if(filter.isPaged() && pagingData != null) {
+			int recordnumbers = positionSubscribeUserDao.countResumeUsersByFilter(filter);
+
+			PagingResult pagingResult = new PagingResult();
+			pagingResult.setPageNumber(pagingData.getPageNumber());
+			pagingResult.setPageSize(pagingData.getPageNumber());
+			pagingResult.setRecordNumber(recordnumbers);
+			
+			result.setPaged(true);
+			result.setPagingResult(pagingResult);
+		}
+		return result;
 	}
 }

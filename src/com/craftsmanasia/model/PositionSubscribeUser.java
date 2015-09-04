@@ -7,7 +7,7 @@ public class PositionSubscribeUser {
 	private int id;
 	private int positionId;
 	private int userId;
-	private int statusId;
+	private Integer statusId;
 	private Date createTime;
 	private Date recommendTime;
 	private Date screenResumeTime;
@@ -15,8 +15,12 @@ public class PositionSubscribeUser {
 	private Date secondInterviewTime;
 	private Date thirdInterviewTime;
 	private Date rejectTime;
+	private Date updateTime;
+	private Date waitingOfferTime;
 	
 	private Position position;
+	private User user;
+	private ResumeUser resumeUser;
 
 	public int getId() {
 		return id;
@@ -50,11 +54,11 @@ public class PositionSubscribeUser {
 		this.position = position;
 	}
 
-	public int getStatusId() {
+	public Integer getStatusId() {
 		return statusId;
 	}
 
-	public void setStatusId(int statusId) {
+	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
 	}
 
@@ -113,5 +117,36 @@ public class PositionSubscribeUser {
 	public void setRecommendTime(Date recommendTime) {
 		this.recommendTime = recommendTime;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getWaitingOfferTime() {
+		return waitingOfferTime;
+	}
+
+	public void setWaitingOfferTime(Date waitingOfferTime) {
+		this.waitingOfferTime = waitingOfferTime;
+	}
+
+	public ResumeUser getResumeUser() {
+		return resumeUser;
+	}
+
+	public void setResumeUser(ResumeUser resumeUser) {
+		this.resumeUser = resumeUser;
+	}
 }

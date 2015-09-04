@@ -11,6 +11,14 @@
     <resultMap id="positionResult" type="Position"
 		extends="com.craftsmanasia.dao.PositionDao.positionResult">
 	</resultMap>
+	
+	<resultMap id="resumeUserResult" type="ResumeUser"
+		extends="com.craftsmanasia.dao.ResumeUserDao.resumeUserResult">
+	</resultMap>
+	
+	<resultMap id="userResult" type="User"
+		extends="com.craftsmanasia.dao.UserDao.userResult">
+	</resultMap>
     
     <resultMap 
 		id="positionSubscribeUserResult" 
@@ -28,10 +36,16 @@
         <result property="secondInterviewTime" column="position_subscribe_user_second_interview_time" />
         <result property="thirdInterviewTime" column="position_subscribe_user_third_interview_time" />
         <result property="rejectTime" column="position_subscribe_user_reject_time" />
-        
+        <result property="updateTime" column="position_subscribe_user_update_time"/>
+        <result property="waitingOfferTime" column="position_subscribe_user_waiting_offer_time"/>
         <association property="position"
 			javaType="Position" resultMap="positionResult" />
-			
+		
+		<association property="resumeUser"
+			javaType="ResumeUser" resultMap="resumeUserResult" />
+		
+		<association property="user"
+			javaType="User" resultMap="userResult"/>
 	</resultMap>
 
 	<sql id="positionColumns">
@@ -40,6 +54,18 @@
 	
 	<sql id="companyColumns">
 		<include refid="com.craftsmanasia.dao.CompanyDao.companyColumns"/>
+	</sql>
+	
+	<sql id="userColumns">
+		<include refid="com.craftsmanasia.dao.UserDao.userColumns"/>
+	</sql>
+	
+	<sql id="pagingLimit">
+		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
+	</sql>
+	
+	<sql id="resumeUserColomns">
+		<include refid="com.craftsmanasia.dao.ResumeUserDao.resumeUserColomns"/>
 	</sql>
 	
     <sql id="positionSubscribeUserColumns"> 
@@ -53,7 +79,9 @@
 		psu.first_interview_time AS position_subscribe_user_first_interview_time,
 		psu.second_interview_time AS position_subscribe_user_second_interview_time,
 		psu.third_interview_time AS position_subscribe_user_third_interview_time,
-		psu.reject_time AS position_subscribe_user_reject_time
+		psu.reject_time AS position_subscribe_user_reject_time,
+		psu.waiting_offer_time AS position_subscribe_user_waiting_offer_time,
+		psu.update_time AS position_subscribe_user_update_time
 	</sql>
 	
 	<insert
@@ -125,7 +153,99 @@
 			AND position.is_expired = 0
 	</select>
 	
-	<select id="count1" resultType="int">
-		select count(*) from user
+	<sql id="resumeSubscribeFilter">
+		<if test="filter.title !=null">
+			position.title like #{filter.title, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.statusId !=null">
+			AND psu.status_id = #{filter.statusId, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.name !=null">
+			AND ru.name = #{filter.name, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.companyName !=null">
+			AND company.name like #{filter.companyName, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.telephone !=null">
+			AND user.telephone = #{filter.telephone, javaType=string, jdbcType=CHAR}
+		</if>
+	</sql>
+	
+	<select 
+		id="searchResumeUsersByFilter"
+		parameterType="map" 
+		resultMap="positionSubscribeUserResult" >
+            
+		SELECT
+			<include refid="positionSubscribeUserColumns"/>,
+			<include refid="positionColumns"/>,
+			<include refid="companyColumns"/>,
+			<include refid="resumeUserColomns"/>,
+			<include refid="userColumns"/>
+		FROM
+			position_subscribe_user psu
+			INNER JOIN position ON position.id = psu.position_id
+			INNER JOIN company ON company.id = position.company_id
+			INNER JOIN user ON user.id = psu.user_id
+			INNER JOIN resume_user ru ON ru.user_id = psu.user_id
+		<where>
+			<include refid="resumeSubscribeFilter"/>
+		</where>
+		<include refid="pagingLimit"/>
 	</select>
+	
+	<select 
+		id="countResumeUsersByFilter"
+		resultType="int" >
+            
+		SELECT
+			count(*)
+		FROM
+			position_subscribe_user psu
+			INNER JOIN position ON position.id = psu.position_id
+			INNER JOIN company ON company.id = position.company_id
+			INNER JOIN user ON user.id = psu.user_id
+			INNER JOIN resume_user ru ON ru.user_id = psu.user_id
+		<where>
+			<include refid="resumeSubscribeFilter"/>
+		</where>
+	</select>
+	
+	<update id="updatePositionSubscribeUser"
+		parameterType="PositionSubscribeUser">
+		UPDATE
+			position_subscribe_user psu
+		<set>
+			<if test="recommendTime !=null">
+				psu.recommend_time = #{recommendTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="screenResumeTime !=null">
+				psu.screen_resume_time = #{screenResumeTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="firstInterviewTime !=null">
+				psu.first_interview_time = #{firstInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="secondInterviewTime !=null">
+				psu.second_interview_time = #{secondInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="thirdInterviewTime !=null">
+				psu.third_interview_time = #{thirdInterviewTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="rejectTime !=null">
+				psu.reject_time = #{rejectTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime !=null">
+				psu.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
+			</if>
+			<if test="waitingOfferTime !=null">
+				psu.waiting_offer_time = #{waitingOfferTime, javaType=date, jdbcType=TIMESTAMP}
+			</if>
+			<if test="statusId !=null">
+				psu.status_id = #{statusId, javaType=int, jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE
+			psu.id = #{id, javaType=int, jdbcType=INTEGER}
+	</update>
+	
 </mapper>

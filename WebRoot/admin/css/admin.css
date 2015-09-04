@@ -65,12 +65,6 @@ body {
     padding-left: 40px;
 }
 
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
 
 
 /*
@@ -85,9 +79,6 @@ body {
     padding-right: 40px;
     padding-left: 40px;
   }
-}
-.main .page-header {
-  margin-top: 0;
 }
 
 
@@ -193,9 +184,6 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 #sidebar{
 	background-color: #20477C;
 }
-#sidebar>ul>li{
-//	border-right: 10px solid #103567;
-}
 #sidebar li, #sidebar li a, #sidebar li .glyphicon-menu-up, #sidebar li .glyphicon-menu-down{
 	color: white;
 }
@@ -269,4 +257,11 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 }
 .form-inline{
 	margin-bottom: 20px;
+}
+.input-tips{
+	float:left;
+	padding-top: 7px;
+}
+.has-error .input-tips{
+	color: #a94442;
 }

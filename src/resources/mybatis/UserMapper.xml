@@ -3,12 +3,34 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.craftsmanasia.dao.UserDao">
+	
+	<resultMap 
+		type="User" 
+		id="userResult">
+		<id property="id" column="user_id" />
+		
+		<result property="password" column="user_password" />
+		<result property="openId" column="user_openId" />
+        <result property="telephone" column="user_telephone" />
+        <result property="nickName" column="user_nickname" />
+        <result property="wechatAccount" column="user_wechat_account" />
+	</resultMap>
+	
+	<sql id="userColumns"> 
+		user.id AS user_id,
+		user.password AS user_password,
+		user.openId AS user_openId,
+		user.telephone AS user_telephone,
+		user.nickName AS user_nickName,
+		user.wechat_account AS user_wechat_account
+	</sql>
+	
 	<select id="get" resultType="User">
 		select * from user where telephone=#{param1} and password=#{param2}
 	</select>
 	
 	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="User"> 
-		insert into user(telephone,password,nickName,wechat_account) values(#{telephone},#{password},#{nickName},#{wechatAccount})
+		insert into user(telephone,password,openId,nickName,wechat_account) values(#{telephone},#{password},#{openId},#{nickName},#{wechatAccount})
 	</insert>
 	
 	<update id="update">

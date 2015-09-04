@@ -1,7 +1,28 @@
 $("document").ready(function () {
-	$.jgrid.defaults.width = 780;
-	$.jgrid.defaults.styleUI = 'Bootstrap';
-	
+	$.extend(true, $.jgrid.defaults, {
+		width: 780,
+		styleUI: 'Bootstrap',
+		datatype: "json",
+		viewrecords: true, // show the current page, data rang and total records on the toolbar
+		autowidth: true,
+		height: 'auto',
+		rowNum: 10,
+		rowList:[10,20,30],
+		prmNames: {
+			page: 'pageNumber',
+			rows: 'pageSize',
+			sort: 'orderBy',
+			order: 'order',
+		},
+		jsonReader: {
+			root: 'data',
+			page: 'pagingResult.pageNumber',
+			total: 'pagingResult.totalPage',
+			records: 'pagingResult.recordNumber'
+		},
+
+	});
+
     $('#sidebar li').click(function() {    	
     	$('#sidebar li.active').removeClass('active');
     	$(this).addClass('active');
@@ -22,11 +43,11 @@ $("document").ready(function () {
     	}
     });
     
-    var hash = window.location.hash;
+    var hash = ADMIN.URL.getHashPath();
     ADMIN.initSidebar(hash);
     ADMIN.loadHtml(hash);
     window.onhashchange = function() {
-    	var hash = window.location.hash;
+    	var hash = ADMIN.URL.getHashPath();
     	ADMIN.loadHtml(hash);
     };
  
@@ -34,15 +55,15 @@ $("document").ready(function () {
 var pageData = {};
 var ADMIN = {
 	pageHashMap: {
-		'#resume': 				'resume/search',
+		'#/resume': 				'resume/search',
 		
-		'#company/add': 		'company/add',
-		'#company/search':		'company/search',
-		'#company/position':	'company/position',
-		'#company/position/search':'company/search_position',
+		'#/company/add': 		'company/add',
+		'#/company/search':		'company/search',
+		'#/company/position':	'company/position',
+		'#/company/position/search':'company/search_position',
 	},
 	initSidebar: function(hash) {
-		hash == '' && (hash = '#resume');
+		hash == '' && (hash = '#/resume');
 	    var li = $('#sidebar a[href="'+ hash +'"]').closest('li');
 	    li.addClass('active');
 	    if(li.parents('ul').length > 1) {
@@ -52,7 +73,7 @@ var ADMIN = {
 	    }
 	},
 	loadHtml: function(hash) {
-		hash == '' && (hash = '#resume');
+		hash == '' && (hash = '#/resume');
 		if(!hash in ADMIN.pageHashMap) return;
 		var url = ADMIN.pageHashMap[hash] + '.html';
 		$.get(url, function(result) {
@@ -69,7 +90,7 @@ var ADMIN = {
 			} else {
 				jqDom.parents('.form-group').removeClass('has-error');
 			}
-		}
+		};
 		
 		if(fieldNames === null || fieldNames === undefined) {
 			inputs = $(selector + ' input');
@@ -93,5 +114,90 @@ var ADMIN = {
 		
 		return flag;
 	},
+	getItemFromByAttr: function(array, attr, value) {
+		for(var i in array) {
+			if(array[i][attr] == value) {
+				return array[i];
+			}
+		}
+		return false;
+	},
+	formValidate: function(selector, options) {
+		var flag = true;
+		for(var i in options) {
+			var field = $(selector + ' [name="'+ i +'"]');
+			if(!(options[i] instanceof Array)) {
+				options[i] = [options[i]];
+			}
+			for(var j=0; j<options[i].length; j++) {
+				var funcName = options[i][j];
+				if(ADMIN.Validator[funcName].call(this, field.val())) {
+					field.parents('.form-group').removeClass('has-error').find('.input-tips').hide();
+				} else {
+					field.parents('.form-group').addClass('has-error').find('.input-tips').text(ADMIN.Validator.message[funcName]).show();
+					flag = false;
+					break;
+				}
+			}
+		}
+		return flag;
+	},
+	Validator: {
+		message: {
+			nonempty: '这是必填项',
+			number: '请输入数字',
+			http: '格式（http://*** 或 https://***）',
+		},
+		nonempty: function(value) {
+			if(value == '') {
+				return false;
+			}
+			return true;
+		},
+		number: function(value) {
+			if(value && isNaN(Number(value))) {
+				return false;
+			}
+			return true;
+		},
+		http: function(value) {
+			var reg = /(http|https):\/\/.*/;
+			if(value && !reg.test(value)) {
+				return false;
+			}
+			return true;
+		},
+	},
+	URL: {
+		getParam: function(param) {
+			var search = window.location.search;
+			var reg = new RegExp("(\\?|&)"+ param +"=([^&]*)(&|$)");
+			var m = hash.match(reg);
+			if(m) {
+				return m[2];
+			}
+			return null;
+		},
+		getHash: function() {
+			return window.location.hash;
+		},
+		getHashPath: function() {
+			var hash = ADMIN.URL.getHash(), index;
+			if((index = hash.indexOf('?')) == '-1') {
+				return hash;
+			} else {
+				return hash.substring(0, index);
+			}
+		},
+		getHashParm: function(param) {
+			var hash = ADMIN.URL.getHash();
+			var reg = new RegExp("(\\?|&)"+ param +"=([^&]*)(&|$)");// /(\?|&)id=([^&]*)(&|$)/
+			var m = hash.match(reg);
+			if(m) {
+				return m[2];
+			}
+			return null;
+		},
+	}
 };
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.craftsmanasia.filter.CooperateCompanyFilter;
 import com.craftsmanasia.model.Company;
 import com.ebaoyang.dao.MyBatisRepository;
 
@@ -16,7 +17,11 @@ public interface CompanyDao {
 	
 	public Company getCompanyById(@Param("id") int id);
 	
-	public Company getCompanyByName(@Param("name")String name);
+	public Company getCompanyByName(@Param("name") String name);
 	
-	public List<Company> getAllExpiredCompanys();
+	public List<Company> getAllNoExpiredCompanys();
+	
+	public List<Company> selectCooperateCompanyByFilter(@Param("filter") CooperateCompanyFilter filter);
+
+	public int countCooperateCompanyByFilter(@Param("filter") CooperateCompanyFilter filter);
 }
