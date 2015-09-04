@@ -258,3 +258,10 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 .form-inline{
 	margin-bottom: 20px;
 }
+.input-tips{
+	float:left;
+	padding-top: 7px;
+}
+.has-error .input-tips{
+	color: #a94442;
+}

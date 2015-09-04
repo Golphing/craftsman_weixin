@@ -122,6 +122,52 @@ var ADMIN = {
 		}
 		return false;
 	},
+	formValidate: function(selector, options) {
+		var flag = true;
+		for(var i in options) {
+			var field = $(selector + ' [name="'+ i +'"]');
+			if(!(options[i] instanceof Array)) {
+				options[i] = [options[i]];
+			}
+			for(var j=0; j<options[i].length; j++) {
+				var funcName = options[i][j];
+				if(ADMIN.Validator[funcName].call(this, field.val())) {
+					field.parents('.form-group').removeClass('has-error').find('.input-tips').hide();
+				} else {
+					field.parents('.form-group').addClass('has-error').find('.input-tips').text(ADMIN.Validator.message[funcName]).show();
+					flag = false;
+					break;
+				}
+			}
+		}
+		return flag;
+	},
+	Validator: {
+		message: {
+			nonempty: '这是必填项',
+			number: '请输入数字',
+			http: '格式（http://*** 或 https://***）',
+		},
+		nonempty: function(value) {
+			if(value == '') {
+				return false;
+			}
+			return true;
+		},
+		number: function(value) {
+			if(value && isNaN(Number(value))) {
+				return false;
+			}
+			return true;
+		},
+		http: function(value) {
+			var reg = /(http|https):\/\/.*/;
+			if(value && !reg.test(value)) {
+				return false;
+			}
+			return true;
+		},
+	},
 	URL: {
 		getParam: function(param) {
 			var search = window.location.search;
@@ -137,10 +183,10 @@ var ADMIN = {
 		},
 		getHashPath: function() {
 			var hash = ADMIN.URL.getHash(), index;
-			if(index = hash.indexOf('?') == '-1') {
+			if((index = hash.indexOf('?')) == '-1') {
 				return hash;
 			} else {
-				return hash.substring(0, index-1);
+				return hash.substring(0, index);
 			}
 		},
 		getHashParm: function(param) {
@@ -152,24 +198,6 @@ var ADMIN = {
 			}
 			return null;
 		},
-	},
-	getUrlParamObj: function() {
-		var url = window.location.search;
-		url && (url = url.substring(1));
-		var urlarr = url.split('&');
-		var result = {};
-		for(var i = 0; i<urlarr.length; i++) {
-			var tmp = urlarr[i].split('=');
-			result[tmp[0]] = tmp[1];
-		}
-		return result;
-	},
-	getUrlParam: function(param) {
-		var urlparams = ADMIN.getUrlParamObj();
-		if(param in urlparams) {
-			return urlparams[param];
-		}
-		return false;
 	}
 };
 
