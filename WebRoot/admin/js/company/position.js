@@ -3,19 +3,20 @@ $(document).ready(function () {
 	bindJqGridDataAction();
 	bindEditPositionFormAction();
 	bindAddPositionAction();
+	bindAddPositionFormAction();
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
 			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
-				{label: '公司', name: 'name', width: '20%'},
+				{label: '公司', name: 'company.name', width: '20%'},
 				{label: '职位', name: 'title', width: '20%'},
 				{label: '薪酬', name: 'wage', width: '20%'},
 				{label: '要求', name: 'requirement', width: '20%'},
 				{label: '城市', name: 'city', width: '20%'},
 				{label: '权重', name: 'weight', width: '20%'},
-				{ label: '是否过期', name: 'is_expire', width: '20%', formatter: function(cellValue, options, rowObject) {
+				{ label: '是否过期', name: 'isExpired', width: '20%', formatter: function(cellValue, options, rowObject) {
 					if(cellValue == '1') {
 						return '是';
 					}
@@ -27,7 +28,7 @@ $(document).ready(function () {
 				}}
 			],
 			serializeGridData: function(postData) {
-				postData.companyId = ADMIN.getUrlParam('companyId');
+				postData.companyId = ADMIN.URL.getHashParm('companyId');
 				return postData;
 			},
 			loadComplete:function(xhr) {
@@ -40,18 +41,18 @@ $(document).ready(function () {
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
-			var row = parseInt($(this).closest('tr')[0].id) - 1;
-			var position = pageData.positionList[row];
+			var rowId = parseInt($(this).closest('tr')[0].id);
+			var position = ADMIN.getItemFromByAttr(pageData.positionList, 'id', rowId);
 			if(action == 'edit') {
 				$('#editPositionDialog').data().id = position.id;
-				$('#editPositionDialog [name="name"]').text(position.name);
-				$('#editPositionDialog [name="title"]').text(position.title);
+				$('#editPositionDialog [name="name"]').text(position.company.name);
+				$('#editPositionDialog [name="title"]').val(position.title);
 				$('#editPositionDialog [name="wage"]').val(position.wage);
 				$('#editPositionDialog [name="requirement"]').val(position.requirement);
 				$('#editPositionDialog [name="city"]').val(position.city);
 				$('#editPositionDialog [name="weight"]').val(position.weight);
 				
-				$('#editPositionDialog [name="expire"][value="'+ position.is_expire +'"]').attr('checked', 'checked');
+				$('#editPositionDialog [name="expire"][value="'+ position.isExpired +'"]').attr('checked', 'checked');
 				$('#editPositionDialog').modal('show');
 			} else if(action == '') {
 				
@@ -60,23 +61,69 @@ $(document).ready(function () {
 	}
 	function bindEditPositionFormAction() {
 		$('#editPositionForm').submit(function() {
+			if(!ADMIN.formValidate('#editPositionForm', {
+				wage: 'nonempty',
+				requirement: 'nonempty',
+				city: 'nonempty',
+				weight: ['nonempty', 'number'],
+			})) {
+				return false;
+			}
 			var data = {
-				id: $('#editCompanyDialog').data().id,
-				wage: $('#editCompanyDialog [name="wage"]').val(),
-				requirement: $('#editCompanyDialog [name="requirement"]').val(),
-				city: $('#editCompanyDialog [name="city"]').val(),
-				weight: $('#editCompanyDialog [name="weight"]').val(),
-				is_expire: $('#editCompanyDialog [name="expire"]:checked').val(),
+				positionId: $('#editPositionDialog').data().id,
+				title: $('#editPositionForm [name="title"]').val(),
+				wage: $('#editPositionForm [name="wage"]').val(),
+				requirement: $('#editPositionForm [name="requirement"]').val(),
+				city: $('#editPositionForm [name="city"]').val(),
+				weight: $('#editPositionForm [name="weight"]').val(),
+				isExpired: $('#editPositionForm [name="expire"]:checked').val(),
 			};
-			$.post('', data, function(result) {
-				
-			});
+			$.post('../company/position/modify.do', data, function(result) {
+				if(result.status) {
+					alert('成功');
+					$('#editPositionDialog').modal('hide');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
 			return false;
 		});
 	}
 	function bindAddPositionAction() {
 		$('.page-path .add-btn').click(function() {
 			$('#addPositionDialog').modal('show');
+		});
+	}
+	function bindAddPositionFormAction() {
+		$('#addPositionForm').submit(function() {
+			if(!ADMIN.formValidate('#addPositionForm', {
+				title: 'nonempty',
+				wage: 'nonempty',
+				requirement: 'nonempty',
+				city: 'nonempty',
+				weight: ['nonempty', 'number'],
+			})) {
+				return false;
+			}
+			var data = {
+				companyId: ADMIN.URL.getHashParm('companyId'),
+				title: $('#addPositionForm [name="title"]').val(),
+				wage: $('#addPositionForm [name="wage"]').val(),
+				requirement: $('#addPositionForm [name="requirement"]').val(),
+				city: $('#addPositionForm [name="city"]').val(),
+				weight: $('#addPositionForm [name="weight"]').val(),
+			};
+			$.post('../company/position/create.do', data, function(result) {
+				if(result.status) {
+					alert('成功');
+					$('#addPositionDialog').modal('hide');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+			return false;
 		});
 	}
 });

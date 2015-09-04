@@ -13,7 +13,7 @@ $(document).ready(function() {
 				{label: 'url', name: 'url', width: '20%', formatter: function(cellValue, options, rowObject) {
 					return '<a href="'+ cellValue +'" target="_blank">'+ cellValue +'</a>';
 				}},
-				{label: '是否过期', name: 'is_expire', width: '20%', formatter: function(cellValue, options, rowObject) {
+				{label: '是否过期', name: 'isExpired', width: '20%', formatter: function(cellValue, options, rowObject) {
 					if(cellValue == '1') {
 						return '是';
 					}
@@ -54,26 +54,31 @@ $(document).ready(function() {
 				$('#editCompanyDialog [name="expire"][value="'+ company.isExpired +'"]').attr('checked', 'checked');
 				$('#editCompanyDialog').modal('show');
 			} else if(action == 'positionMgmt') {
-				window.open('#company/position?companyId=' + company.id);
+				window.open('#/company/position?companyId=' + company.id);
 			}
 		});
 	}
 	function bindEditCompanyFormAction() {
 		$('#editCompanyForm').submit(function() {
+			if(!ADMIN.formValidate('#editCompanyForm', {
+				weight: ['nonempty', 'number'],
+				url: 'http',
+			})) {
+				return false;
+			}
 			var data = {
 				id: $('#editCompanyDialog').data().id,
 				weight: $('#editCompanyDialog [name="weight"]').val(),
 				url: $('#editCompanyDialog [name="url"]').val(),
-		//		isExpire: $('#editCompanyDialog [name="expire"]:checked').val(),
+				isExpired: $('#editCompanyDialog [name="expire"]:checked').val(),
 			};
 			$.post('../company/modify.do', data, function(result) {
-				console.log(result);
-				if(result.code == '0') {
+				if(result.status) {
 					alert('成功');
 					$('#editCompanyDialog').modal('hide');
 					$('#jqGrid').trigger("reloadGrid");
 				} else {
-					alert(result.message);
+					alert(result.msg);
 				}
 			}, 'json');
 			return false;
