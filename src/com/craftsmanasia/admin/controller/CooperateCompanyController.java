@@ -87,6 +87,7 @@ public class CooperateCompanyController {
 	@ResponseBody
 	public String modifyCooperateCompany(@RequestParam(value = "id", defaultValue = "") int id,
 			@RequestParam(value = "url", required=false) String url,
+			@RequestParam(value = "isExpired", required=false) Integer isExpired,
 			@RequestParam(value = "weight", required=false) Integer weight) {
 		Map<String,String> map=new HashMap<String,String>();
 		Company company = new Company();
@@ -100,6 +101,7 @@ public class CooperateCompanyController {
 			return JSONObject.fromObject(map).toString();
 		}
 		company.setWeight(weight);
+		company.setIsExpired(isExpired);
 		company.setUpdateTime(new Date());
 		
 		companyService.update(company);
@@ -215,6 +217,7 @@ public class CooperateCompanyController {
 			@RequestParam(value = "title", required=false) String title,
 			@RequestParam(value = "city", required=false) String city,
 			@RequestParam(value = "isExpired", required=false) Integer isExpired,
+			@RequestParam(value = "companyId", required=false) Integer companyId,
 			@RequestParam(value = "companyName", required=false) String companyName) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
@@ -232,6 +235,7 @@ public class CooperateCompanyController {
 		}
 		
 		filter.setIsExpired(isExpired);
+		filter.setCompanyId(companyId);
 		
 		PagingData pagingData = new PagingData(pageNumber, pageSize);
 		filter.setPaged(true);
@@ -318,7 +322,7 @@ public class CooperateCompanyController {
 		position.setIsExpired(1);
 		position.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(position);
-		map.put("status", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	

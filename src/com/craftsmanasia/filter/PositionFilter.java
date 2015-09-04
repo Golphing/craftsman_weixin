@@ -9,6 +9,7 @@ public class PositionFilter extends SearchFilter{
 	private Integer isExpired;
 	private String city;
 	private String companyName;
+	private Integer companyId;
 	
 	public Integer getIsExpired() {
 		return isExpired;
@@ -44,5 +45,13 @@ public class PositionFilter extends SearchFilter{
 		if(!StringUtil1.isNull(companyName)) {
 			this.companyName = "%" + companyName + "%";
 		}
+	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 }

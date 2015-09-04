@@ -3,7 +3,7 @@ package com.craftsmanasia.filter;
 import com.craftsmanasia.model.filter.SearchFilter;
 import com.craftsmanasia.utils.StringUtil1;
 
-public class ResumeFilter extends SearchFilter{
+public class ResumeSubscribeFilter extends SearchFilter{
 
 	private String title;
 	private Integer statusId;

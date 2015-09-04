@@ -15,4 +15,5 @@ public interface PositionCollectionDao {
 	public List<PositionCollection> selectPositionsByUserId(@Param("userId") int userId);
 	
 	public void delete(@Param("userId") int userId, @Param("positionId") int positionId);
+
 }

@@ -162,18 +162,18 @@ public class PositionSubscribeController {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		if(userId <=0) {
-			map.put("code", "1");
+			map.put("status", "用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(positionId <=0) {
-			map.put("code", "2");
+			map.put("status", "职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		List<Position> positions = positionSubscribeUserService.getAllCollectionPositionsByUserId(userId);
 		for(Position position : positions) {
 			if(position.getId() == positionId) {
-				map.put("code", "3");
+				map.put("status", "已收藏该职位");
 				return JSONObject.fromObject(map).toString();
 			}
 		}
@@ -183,7 +183,7 @@ public class PositionSubscribeController {
 		positionCollection.setUserId(userId);
 		
 		positionSubscribeUserService.collectPosition(positionCollection);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -195,13 +195,13 @@ public class PositionSubscribeController {
 	public String searchCollectionPositions(@RequestParam(value = "userId", defaultValue = "0") int userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(userId <= 0) {
-			map.put("code", "1");
+			map.put("status", "用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		List<Position> positions = positionSubscribeUserService.getAllCollectionPositionsByUserId(userId);
 		map.put("data", PositionVO.toVOs(positions));
 		
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -214,11 +214,11 @@ public class PositionSubscribeController {
 			@RequestParam(value = "userId", defaultValue = "0") int userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(userId <= 0) {
-			map.put("code", "1");
+			map.put("status", "用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		positionSubscribeUserService.cancleCollectionPositionByUserIdAndPosition(userId, positionId);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -236,7 +236,7 @@ public class PositionSubscribeController {
 		
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
 		map.put("data", positionvos);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 		
 	}
@@ -250,7 +250,7 @@ public class PositionSubscribeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Company> companies = companyService.getAllNoExpiredCompanies();
 		map.put("data", CompanyVO.toVOs(companies));
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -263,7 +263,7 @@ public class PositionSubscribeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Position> positions = positionService.getCompanyPositionsByCompanyId(companyId);
 		map.put("data", PositionVO.toVOs(positions));
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -278,7 +278,7 @@ public class PositionSubscribeController {
 		
 		Position position = positionService.getPositionByCompanyIdAndTitle(companyId, title);
 		map.put("data", PositionVO.toVO(position));
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 }

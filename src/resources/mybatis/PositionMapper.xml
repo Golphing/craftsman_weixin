@@ -195,6 +195,9 @@
 		<if test="filter.isExpired != null">
 			AND position.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
 		</if>
+		<if test="filter.companyId != null">
+			AND position.company_id = #{filter.companyId, javaType=int, jdbcType=INTEGER}
+		</if>
 		<if test="filter.city != null">
 			AND position.city = #{filter.city, javaType=string, jdbcType=CHAR}
 		</if>

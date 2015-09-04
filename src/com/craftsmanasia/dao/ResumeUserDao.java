@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.craftsmanasia.filter.ResumeFilter;
+import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.ebaoyang.dao.MyBatisRepository;
@@ -22,7 +22,4 @@ public interface ResumeUserDao {
 	
 	public ResumeUser selectResumeUserByUserId(@Param("userId") int userId);
 	
-	//public List<ResumeUser> searchResumeUsersByFilter(@Param("filter") ResumeFilter filter);
-	
-	//public int countResumeUsersByFilter(@Param("filter") ResumeFilter filter);
 }
