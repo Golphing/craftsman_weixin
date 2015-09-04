@@ -2,14 +2,21 @@ package com.craftsmanasia.controller;
 
 import java.io.IOException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import net.sf.json.JSONObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,15 +34,33 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.craftsmanasia.model.ResumeUser;
+import com.craftsmanasia.model.Work;
+import com.craftsmanasia.service.ResumeUserService;
+import com.craftsmanasia.service.WorkService;
+import com.ebaoyang.utils.JsonUtil;
 
 
 
 @Controller
 @RequestMapping("/c/im")
 public class ImportLiePinController {
+	@Autowired
+	WorkService workService;
+	@Autowired
+	ResumeUserService resumeUserService;
+	
 	private final String PARAM_USER = "user_login";
     private final String PARAM_PWD = "user_pwd";
     private final String PARAM_CHECK="CheckCode";
@@ -45,17 +70,32 @@ public class ImportLiePinController {
     private String GERENXINGXI_URL="http://c.liepin.com/resume/regresume/?res_id_encode={res_id_encode}&sfrom=c_index";
     private String WORK_URL="http://my.zhaopin.com/MYZHAOPIN/resume_experience_edit.asp";
     private String YZM="https://passport.zhaopin.com/checkcode/img";
+    private String URL1="http://c.liepin.com/resume/detail?res_id_encode={res_id_encode}";
     private final static String[] hexDigits = { "0", "1", "2", "3", "4", 
     	   "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" }; 
+    
+    
+    /*
+     * 		返回的代码   0表示成功
+     * 					1表示失败
+     * 					2表示密码或用户名错误
+     * 
+     */
+    
+    
 	@RequestMapping("/lp")
+	@ResponseBody
 	public String imlp(@RequestParam(value="name",defaultValue="") String name,
 			@RequestParam(value="password",defaultValue="") String password){
 		
 	        
-	        password=Password.createPassword("wanggaoping0306");
+	        password=Password.createPassword(password);
 	        System.out.println(password);
-	        getResume("2645442899@qq.com", password);
-	        return "";
+	        String status=getResume(name, password,123);
+	        Map<String,String> map=new HashMap<String,String>();
+	        map.put("code", status);
+	        return JSONObject.fromObject(map).toString();
+	      
 		
 	}
 	public String login(HttpClient client, List<NameValuePair> loginParames) {
@@ -115,49 +155,126 @@ public class ImportLiePinController {
         
     }
      
-    public String getResume(String userName, String pwd){
-        String result = "";
-        HttpClient client = new DefaultHttpClient();
-        client=wrapClient(client);
-        String status=login(userName, pwd,"", client);
-        if(status.indexOf("\"flag\":\"1\"")!=-1){
-        //	System.out.println(status);
-            HttpGet get1=new HttpGet(RESUME_URL);
-            try {
-    			HttpResponse respons1=client.execute(get1);
-    			HttpEntity entity=respons1.getEntity();
-    			result=EntityUtils.toString(entity, CHARSET);
-    //			System.out.println(result);
-    			String reg = "res_id_encode=(\\w+)\"";
-                Pattern p = Pattern.compile(reg);
-                Matcher m = p.matcher(result);
-                String res_id="";
-                if(m.find()){
-                	System.out.println(m.group(1));
-                	res_id=m.group(1);
-                }
-                String geren=GERENXINGXI_URL.replace("{res_id_encode}", res_id);
-                HttpGet get2=new HttpGet(geren);
-                HttpResponse respons2=client.execute(get2);
-    			HttpEntity entity2=respons2.getEntity();
-    			String result2=EntityUtils.toString(entity2, CHARSET);
-    			System.out.println(result2);
-    			
-    		} catch (ClientProtocolException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-        }else{
-        	System.out.println("用户名或密码错误");
-        }
-        
-        
-       
-
-        return result;
+    public String getResume(String userName, String pwd,int userId){
+    	 String result = "";
+         HttpClient client = new DefaultHttpClient();
+         client=wrapClient(client);
+         String status=login(userName, pwd,"", client);
+         ResumeUser user=new ResumeUser();
+         if(status.indexOf("\"flag\":\"1\"")!=-1){
+             HttpGet get1=new HttpGet(RESUME_URL);
+             try {
+     			HttpResponse respons1=client.execute(get1);
+     			HttpEntity entity=respons1.getEntity();
+     			result=EntityUtils.toString(entity, CHARSET);
+     			String reg = "res_id_encode=(\\w+)\"";
+                 Pattern p = Pattern.compile(reg);
+                 Matcher m = p.matcher(result);
+                 String res_id="";
+                 if(m.find()){
+                 	res_id=m.group(1);
+                 }
+                 if(get1!=null)
+     				get1.abort();
+                 String geren=GERENXINGXI_URL.replace("{res_id_encode}", res_id);
+                 String geren1=URL1.replace("{res_id_encode}", res_id);
+                 HttpGet get2=new HttpGet(geren);
+                 HttpResponse respons2=client.execute(get2);
+     			HttpEntity entity2=respons2.getEntity();
+     			String result2=EntityUtils.toString(entity2, CHARSET);
+     			if(get2!=null)
+     				get2.abort();
+     			 HttpGet get3=new HttpGet(geren1);
+                  HttpResponse respons3=client.execute(get3);
+      			HttpEntity entity3=respons3.getEntity();
+      			String result3=EntityUtils.toString(entity3, CHARSET);
+      			if(get3!=null)
+     				get3.abort();
+      			 Document document1=Jsoup.parse(result3);
+      			 Elements eles=document1.select("div.card-main h3");
+      			 String text=eles.get(0).text();
+      			 int len=text.length();
+      			 String username=text.substring(0, len-1);
+      			 String sex=text.substring(len-1);
+      			 user.setName(username);
+      			 user.setGender(sex);
+      			 Document document2=Jsoup.parse(result3);
+      			 Elements eles3=document2.select("div.view-content");
+      			 //个人信息
+      			 if(eles3 != null){
+      				 Element e=eles3.get(1);
+      				 Elements ele4=e.select("li");
+      				 String age=ele4.get(0).select("p").text();
+      				 Calendar calendar=Calendar.getInstance();
+      				 int age1=Integer.parseInt(age);
+      				 age1=age1*(-1);
+      				 calendar.add(Calendar.YEAR, age1);
+      				 Date birth=calendar.getTime();
+      				 SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+      				 String birthday=format.format(birth);
+      				 String phone=ele4.get(2).select("p").text();
+      				 String mail=ele4.get(3).select("p").text();
+      				 String home=ele4.get(4).select("p").text();
+      				 user.setEmail(mail);
+      				 user.setHome(home);
+      				 user.setTelephone(phone);
+      				 user.setBirthday(birthday);
+      				 user.setUserId(userId);
+      			 }
+      			 //工作经历
+      			Elements ele5=document2.select("div.view-content");
+      			System.out.println(ele5.size());
+      			Element work=ele5.get(3);
+      			Elements companies=work.select("div.view-company");
+      			if(companies != null){
+      				Element company=companies.get(0);
+      				if(company!=null){
+      					Elements titles=company.select("h3");
+      					Elements details=company.select("div.view-company-main");
+      					for(int i=0;i<titles.size();i++){
+      						Work work1=new Work();
+      						Element e=titles.get(i);
+      						List<TextNode> list=e.textNodes();
+      						work1.setCompany(list.get(1).text());
+      						String years=e.select("b").text();
+      						System.out.println(years);
+      						String[] years1=years.split("\\s\\-");
+      						String startTime=years1[0].replace(".", "");
+      						String endTime="";
+      						if("至今".equals(years1[1])){
+      							SimpleDateFormat format=new SimpleDateFormat("yyyyMM");
+      							endTime=format.format(new Date());
+      						}else{
+      							 endTime=years1[1].replace(".", "");
+      						}
+      						work1.setBeginTime(startTime);
+      						work1.setEndTime(endTime);
+      						Element e1=details.get(i);
+      						Elements jobMains=e1.select("div.job-main h4");
+      						work1.setPosition(jobMains.get(0).textNodes().get(0).text());
+      						Elements items=e1.select("div.job-main ul li");
+      						String department=items.get(2).text();
+      						department=department.substring(5);
+      						String description=items.get(5).text();
+      						description=description.substring(5);
+      						work1.setDepartment(department);
+      						work1.setDescription(description);		
+      						work1.setUserId(userId);
+      						workService.add(work1);
+      					}
+      				}
+      			}
+      			resumeUserService.add(user);
+     		} catch (Exception e) {
+     			// TODO Auto-generated catch block
+     			e.printStackTrace();
+     			return "1";
+     		}
+         }else{
+         	System.out.println("用户名或密码错误");
+         	return "2";
+         }
+         return "0";
     }
      
     

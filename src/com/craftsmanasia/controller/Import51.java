@@ -35,6 +35,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -472,5 +473,21 @@ public class Import51 {
         	
         }
 		
+	}
+	
+	@RequestMapping("/one")
+	public String link1(HttpSession session){
+		session.setAttribute("name", "name");
+		session.setAttribute("test", "test");
+		return "/resume_import/two";
+	}
+	
+	@RequestMapping("/two")
+	public String link2(HttpSession session,Model model){
+		String name=(String) session.getAttribute("name");
+		String test=(String) session.getAttribute("test");
+		model.addAttribute("name", name);
+		model.addAttribute("test", test);
+		return "/resume_import/one";
 	}
 }
