@@ -3,21 +3,13 @@ package com.craftsmanasia.filter;
 import com.craftsmanasia.model.filter.SearchFilter;
 import com.craftsmanasia.utils.StringUtil1;
 
-public class PositionFilter extends SearchFilter{
+public class ResumeSubscribeFilter extends SearchFilter{
 
 	private String title;
-	private Integer isExpired;
-	private String city;
+	private Integer statusId;
+	private String name;
 	private String companyName;
-	private Integer companyId;
-	
-	public Integer getIsExpired() {
-		return isExpired;
-	}
-
-	public void setIsExpired(Integer isExpired) {
-		this.isExpired = isExpired;
-	}
+	private String telephone;
 
 	public String getTitle() {
 		return title;
@@ -27,14 +19,6 @@ public class PositionFilter extends SearchFilter{
 		if(!StringUtil1.isNull(title)) {
 			this.title = "%" + title + "%";
 		}
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public String getCompanyName() {
@@ -47,11 +31,28 @@ public class PositionFilter extends SearchFilter{
 		}
 	}
 
-	public Integer getCompanyId() {
-		return companyId;
+	public Integer getStatusId() {
+		return statusId;
 	}
 
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	
 }

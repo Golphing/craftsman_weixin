@@ -17,7 +17,7 @@ public interface CompanyDao {
 	
 	public Company getCompanyById(@Param("id") int id);
 	
-	public Company getCompanyByName(@Param("name")String name);
+	public Company getCompanyByName(@Param("name") String name);
 	
 	public List<Company> getAllNoExpiredCompanys();
 	

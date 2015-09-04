@@ -2,6 +2,8 @@ package com.craftsmanasia.model;
 
 import java.util.Date;
 
+import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
+
 public class PositionSubscribeUser {
 
 	private int id;
@@ -17,6 +19,8 @@ public class PositionSubscribeUser {
 	private Date rejectTime;
 	
 	private Position position;
+	private User user;
+	private ResumeUser ResumeUser;
 
 	public int getId() {
 		return id;
@@ -113,5 +117,20 @@ public class PositionSubscribeUser {
 	public void setRecommendTime(Date recommendTime) {
 		this.recommendTime = recommendTime;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public ResumeUser getResumeUser() {
+		return ResumeUser;
+	}
+
+	public void setResumeUser(ResumeUser resumeUser) {
+		ResumeUser = resumeUser;
+	}
 }

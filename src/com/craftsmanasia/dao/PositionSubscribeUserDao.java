@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeUser;
 import com.ebaoyang.dao.MyBatisRepository;
 
 @MyBatisRepository
@@ -16,5 +18,8 @@ public interface PositionSubscribeUserDao {
 	
 	public PositionSubscribeUser selectSubscribedPositionByUserIdAndPositionId(@Param("userId") int userId,
 			@Param("positionId") int positionId);
-
+	
+	public List<PositionSubscribeUser> searchResumeUsersByFilter(@Param("filter") ResumeSubscribeFilter filter);
+	
+	public int countResumeUsersByFilter(@Param("filter") ResumeSubscribeFilter filter);
 }

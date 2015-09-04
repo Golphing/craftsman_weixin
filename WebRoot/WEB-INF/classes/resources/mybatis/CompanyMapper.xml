@@ -108,7 +108,7 @@
 	</select>
 	
 	<select 
-		id="getAllExpiredCompanys"
+		id="getAllNoExpiredCompanys"
 		parameterType="map" 
 		resultMap="companyResult" >
             
@@ -122,7 +122,7 @@
 	
 	<sql id="cooperateCompanyFilter">
 		<if test="filter.name != null">
-			company.name = #{filter.name, javaType=string, jdbcType=CHAR}
+			company.name like #{filter.name, javaType=string, jdbcType=CHAR}
 		</if>
 		<if test="filter.isExpired != null">
 			AND company.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}

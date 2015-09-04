@@ -50,18 +50,17 @@ public class CooperateCompanyController {
 		Map<String,String> map=new HashMap<String,String>();
 		Company company = new Company();
 		if (StringUtil1.isNull(name)) {
-			map.put("code", "1");
+			map.put("msg", "company name cannot be null");
 			return JSONObject.fromObject(map).toString();
-			//return JsonUtil.getJson(1, "name can not be null").toString();
 		}
 		Company oldcompany = companyService.getCompanyByName(name);
 		if (oldcompany!=null && oldcompany.getName().equals(name)) {
-			map.put("code", "2");
+			map.put("msg", "company name already exits");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(2, "company already exits").toString();
 		}
 		if (weight <= 0) {
-			map.put("code", "3");
+			map.put("msg", "weight cannot be null");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(3, "weight must be > 0").toString();
 		}
@@ -76,7 +75,7 @@ public class CooperateCompanyController {
 		company.setUpdateTime(now);
 		
 		companyService.add(company);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 		//return JsonUtil.getJson(0, "create success").toString();
 	}
@@ -88,6 +87,7 @@ public class CooperateCompanyController {
 	@ResponseBody
 	public String modifyCooperateCompany(@RequestParam(value = "id", defaultValue = "") int id,
 			@RequestParam(value = "url", required=false) String url,
+			@RequestParam(value = "isExpired", required=false) Integer isExpired,
 			@RequestParam(value = "weight", required=false) Integer weight) {
 		Map<String,String> map=new HashMap<String,String>();
 		Company company = new Company();
@@ -97,15 +97,16 @@ public class CooperateCompanyController {
 		}
 		
 		if (weight!=null && weight <=0) {
-			map.put("code", "1");
+			map.put("status", "weight must > 0");
 			return JSONObject.fromObject(map).toString();
 		}
 		company.setWeight(weight);
+		company.setIsExpired(isExpired);
 		company.setUpdateTime(new Date());
 		
 		companyService.update(company);
 		
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -123,7 +124,7 @@ public class CooperateCompanyController {
 		
 		companyService.update(company);
 		
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -150,7 +151,7 @@ public class CooperateCompanyController {
 		map.put("data", CompanyVO.toVOs(result.getResult()));
 		map.put("pagingResult", pagingResult);
 		
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 
@@ -172,7 +173,7 @@ public class CooperateCompanyController {
 		// title 为null 或该公司已经存在该职位返回1
 		
 		if (StringUtil1.isNull(title) || positionService.getPositionByCompanyIdAndTitle(companyId, title) != null) {
-			map.put("code", "1");
+			map.put("status", "该职位名称已经存在");
 			return JSONObject.fromObject(map).toString();
 			// return JsonUtil.getJson(1, "title equals null or title already
 			// exits").toString();
@@ -180,7 +181,7 @@ public class CooperateCompanyController {
 		
 		position.setTitle(title);
 		if(StringUtil1.isNull(requirement)) {
-			map.put("code", "2");
+			map.put("status", "职位详情不能存在");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(2, "requirement can not be null").toString();
 		}
@@ -188,7 +189,7 @@ public class CooperateCompanyController {
 		position.setWage(wage);
 		position.setCity(city);
 		if(weight <= 0) {
-			map.put("code", "3");
+			map.put("status", "权重必须大于0");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(3, "weight must > 0").toString();
 		}
@@ -202,12 +203,12 @@ public class CooperateCompanyController {
 		// 默认是0，不过期
 		position.setIsExpired(0);
 		positionService.addCompanyPosition(position);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 
 	/*
-	 * 返回类型：0成功1companyId非法
+	 * 返回类型：0成功
 	 * */
 	@RequestMapping(value = "/position/search", method = RequestMethod.GET,  produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -216,6 +217,7 @@ public class CooperateCompanyController {
 			@RequestParam(value = "title", required=false) String title,
 			@RequestParam(value = "city", required=false) String city,
 			@RequestParam(value = "isExpired", required=false) Integer isExpired,
+			@RequestParam(value = "companyId", required=false) Integer companyId,
 			@RequestParam(value = "companyName", required=false) String companyName) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
@@ -233,6 +235,7 @@ public class CooperateCompanyController {
 		}
 		
 		filter.setIsExpired(isExpired);
+		filter.setCompanyId(companyId);
 		
 		PagingData pagingData = new PagingData(pageNumber, pageSize);
 		filter.setPaged(true);
@@ -243,7 +246,7 @@ public class CooperateCompanyController {
 		
 		map.put("data", PositionVO.toVOs(result.getResult()));
 		map.put("pagingResult", pagingResult);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	/*
@@ -260,11 +263,11 @@ public class CooperateCompanyController {
 			@RequestParam(value = "weight", required=false) Integer weight) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		if(positionId <=0) {
-			map.put("code", "1");
+			map.put("status", "该职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(weight!=null && weight <=0) {
-			map.put("code", "2");
+			map.put("status", "权重必须大于0");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position newPosition = new Position();
@@ -284,7 +287,7 @@ public class CooperateCompanyController {
 		newPosition.setWeight(weight);
 		newPosition.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(newPosition);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -297,12 +300,12 @@ public class CooperateCompanyController {
 	public String getPositionDetail(@RequestParam(value = "positionId", defaultValue = "0") Integer positionId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(positionId <= 0) {
-			map.put("code", "1");
+			map.put("status", "职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position position =  positionService.getPositionById(positionId);
 		map.put("data", PositionVO.toVO(position));
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -311,7 +314,7 @@ public class CooperateCompanyController {
 	public String deletePosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
 		Map<String,String> map = new HashMap<String,String>();
 		if(positionId <= 0) {
-			map.put("code", "1");
+			map.put("status", "该职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position position = new Position();
@@ -319,7 +322,7 @@ public class CooperateCompanyController {
 		position.setIsExpired(1);
 		position.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(position);
-		map.put("code", "0");
+		map.put("status", "true");
 		return JSONObject.fromObject(map).toString();
 	}
 	

@@ -33,4 +33,5 @@ public class ResumeUserService {
 	public ResumeUser selectResumeUserByUserId(int userId) {
 		return userDao.selectResumeUserByUserId(userId);
 	}
+	
 }
