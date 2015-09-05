@@ -1,0 +1,110 @@
+<style>
+#userInfoForm{
+	display: none;
+}
+.work-edit-icon{
+	font-size: 25px;
+}
+</style>
+<div class="page-path">
+	<div class="icon"></div>
+	<h1 class="path">首页 > 用户管理 > 简历详情</h1>
+</div>
+<div class="content">
+	<h4>个人信息<button id="userInfoEditBtn" class="pull-right btn btn-primary">修改</button></h4>
+	<div class="form-horizontal" id="userInfo">
+		<div class="form-group">
+		    <label class="col-md-3 control-label">姓名:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_name" class="control-label"></label>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label class="col-md-3 control-label">性别:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_gender" class="control-label"></label>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label class="col-md-3 control-label">出生日期:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_birthday" class="control-label"></label>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label class="col-md-3 control-label">电话:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_telephone" class="control-label"></label>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label class="col-md-3 control-label">email:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_email" class="control-label"></label>
+		    </div>
+		</div>	
+		<div class="form-group">
+		    <label class="col-md-3 control-label">籍贯:</label>
+		    <div class="col-md-4">
+		    	<label id="userInfo_home" class="control-label"></label>
+		    </div>
+		</div>		
+	</div>
+	<form class="form-horizontal" id="userInfoForm">
+		<div class="form-group">
+		    <label for="userInfoForm_name" class="col-md-3 control-label">*姓名:</label>
+		    <div class="col-md-3">
+		    	<input type="text" class="form-control" id="userInfoForm_name" name="name" placeholder="">
+		    </div>
+		    <span class="input-tips"></span>
+		</div>		
+		<div class="form-group">
+		    <label for="" class="col-md-3 control-label">*性别:</label>
+		    <div class="col-sm-9">
+				<label class="radio-inline">
+					<input type="radio" name="gender" value="男" checked="checked"> 男
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="gender" value="女"> 女
+				</label>
+		    </div>
+		    <span class="input-tips col-md-offset-2"></span>
+		</div>	
+		<div class="form-group">
+		    <label for="userInfoForm_birthday" class="col-md-3 control-label">*出生日期:</label>
+			<div class="col-md-3 input-group date form_datetime">
+		    	<input class="form-control" name="birthday" id="userInfoForm_birthday" type="text" value="" readonly>
+		   		<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+			</div>
+		    <span class="input-tips"></span>
+		</div>	
+		<div class="form-group">
+		    <label for="userInfoForm_telephone" class="col-md-3 control-label">*电话:</label>
+		    <div class="col-md-3">
+		    	<input type="text" class="form-control" id="userInfoForm_telephone" name="telephone" placeholder="">
+		    </div>
+		    <span class="input-tips"></span>
+		</div>	
+		<div class="form-group">
+		    <label for="userInfoForm_email" class="col-md-3 control-label">*email:</label>
+		    <div class="col-md-3">
+		    	<input type="text" class="form-control" id="userInfoForm_email" name="email" placeholder="">
+		    </div>
+		    <span class="input-tips"></span>
+		</div>	
+		<div class="form-group">
+		    <label for="userInfoForm_home" class="col-md-3 control-label">*籍贯:</label>
+		    <div class="col-md-3">
+		    	<input type="text" class="form-control" id="userInfoForm_home" name="home" placeholder="">
+		    </div>
+		    <span class="input-tips"></span>
+		</div>												
+	</form>
+	
+	
+	<h4>工作经历</h4>
+	<div id="workList">
+	
+	</div>
+</div>
+<script src="../js/user/resume.js"></script>
