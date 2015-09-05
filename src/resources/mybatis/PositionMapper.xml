@@ -220,9 +220,16 @@
 			<include refid="positionFilter"/>
 		</where>
 		ORDER BY 
-			company.weight ASC,
-			position.weight ASC,
-			position.title ASC
+	  		<choose>
+	  			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				company.weight ASC,
+	  				position.weight ASC,
+					position.title ASC
+	  			</otherwise>
+	  		</choose>
 		<include refid="pagingLimit" />
 	</select>
 	

@@ -141,8 +141,15 @@
 		<where>
 			<include refid="cooperateCompanyFilter" />
 		</where>
-		ORDER BY
-			company.weight ASC
+		ORDER BY 
+	  		<choose>
+	  			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				company.weight ASC
+	  			</otherwise>
+	  		</choose>
 		<include refid="pagingLimit" />
 	</select>
 	

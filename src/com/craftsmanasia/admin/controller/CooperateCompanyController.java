@@ -1,11 +1,14 @@
 package com.craftsmanasia.admin.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +25,11 @@ import com.craftsmanasia.model.filter.PagingResult;
 import com.craftsmanasia.model.filter.SearchResult;
 import com.craftsmanasia.model.vo.CompanyVO;
 import com.craftsmanasia.model.vo.PositionVO;
+import com.craftsmanasia.request.SearchCompanyRequest;
+import com.craftsmanasia.request.SearchPositionRequest;
 import com.craftsmanasia.service.CompanyService;
 import com.craftsmanasia.service.PositionService;
+import com.craftsmanasia.utils.OrderingProperty;
 import com.craftsmanasia.utils.StringUtil1;
 
 import net.sf.json.JSONObject;
@@ -39,7 +45,7 @@ public class CooperateCompanyController {
 	PositionService positionService;
 
 	/*
-	 * 返回类型：0 成功 1 需要公司名称 2 不能有重复的公司名称 3 公司权重不能为空
+	 * 添加合作企业
 	 */
 	@RequestMapping("/create")
 	@ResponseBody
@@ -81,7 +87,7 @@ public class CooperateCompanyController {
 	}
 
 	/*
-	 * 返回类型：0 成功 1 需要公司名称 
+	 * 修改公司信息
 	 */
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	@ResponseBody
@@ -111,7 +117,7 @@ public class CooperateCompanyController {
 	}
 	
 	/*
-	 * 返回类型：0 成功 1 需要公司名称 
+	 * 删除合作企业，也就是企业不合作了，将IsExpired置为1
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
@@ -128,24 +134,41 @@ public class CooperateCompanyController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
+	/*
+	 * 查询合作企业
+	 * */
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String searchCooperateCompany(@RequestParam(value = "pageNumber", defaultValue = "") int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "") int pageSize,
-			@RequestParam(value = "name", required=false) String name,
-			@RequestParam(value = "isExpired", required=false) Integer isExpired) {
+	public String searchCooperateCompany(SearchCompanyRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
+		if(!request.validatePagingRequest()) {
+			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			return JSONObject.fromObject(map).toString();
+		}
 		CooperateCompanyFilter filter = new CooperateCompanyFilter();
 		
-		filter.setIsExpired(isExpired);
-		if(!StringUtil1.isNull(name)) {
-			filter.setName(name);
+		filter.setIsExpired(request.getIsExpired());
+		if(!StringUtil1.isNull(request.getName())) {
+			filter.setName(request.getName());
 		}
 		
-		PagingData pagingData = new PagingData(pageNumber, pageSize);
+		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPagingData(pagingData);
 		filter.setPaged(true);
+	
+		List<OrderingProperty> orderingProperties = null;
+    	boolean ordered = false;
+        if (StringUtils.isNotBlank(request.getOrderBy())) {
+	        orderingProperties = new ArrayList<OrderingProperty>();
+			OrderingProperty orderingProperty = new OrderingProperty(1, request.getOrderBy(), request.isAsc());
+			orderingProperties.add(orderingProperty);
+	
+			ordered = true;
+        }
 		
+        filter.setOrdered(ordered);
+        filter.setOrderingProperties(orderingProperties);
+        
 		SearchResult<Company> result = companyService.searchCooperateCompany(filter);
 		PagingResult pagingResult = result.getPagingResult();
 		map.put("data", CompanyVO.toVOs(result.getResult()));
@@ -156,7 +179,7 @@ public class CooperateCompanyController {
 	}
 
 	/*
-	 * 返回类型： 0 成功 1已存在该职位 2.详情不能为Null 3.权重必须大于0
+	 *发布职位
 	 * 
 	 */
 	@RequestMapping("/position/create")
@@ -206,40 +229,50 @@ public class CooperateCompanyController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
-
+	
 	/*
-	 * 返回类型：0成功
+	 * 查询职位信息
 	 * */
 	@RequestMapping(value = "/position/search", method = RequestMethod.GET,  produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String searchCooperateCompanyPositions(@RequestParam(value = "pageNumber") int pageNumber,
-			@RequestParam(value = "pageSize") int pageSize,
-			@RequestParam(value = "title", required=false) String title,
-			@RequestParam(value = "city", required=false) String city,
-			@RequestParam(value = "isExpired", required=false) Integer isExpired,
-			@RequestParam(value = "companyId", required=false) Integer companyId,
-			@RequestParam(value = "companyName", required=false) String companyName) {
+	public String searchCooperateCompanyPositions(SearchPositionRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		
+		if(!request.validatePagingRequest()) {
+			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			return JSONObject.fromObject(map).toString();
+		}
 		PositionFilter filter = new PositionFilter();
-		if(!StringUtil1.isNull(title)) {
-			filter.setTitle(title);
+		if(!StringUtil1.isNull(request.getTitle())) {
+			filter.setTitle(request.getTitle());
 		}
 		
-		if(!StringUtil1.isNull(city)) {
-			filter.setCity(city);
+		if(!StringUtil1.isNull(request.getCity())) {
+			filter.setCity(request.getCity());
 		}
 		
-		if(!StringUtil1.isNull(companyName)) {
-			filter.setCompanyName(companyName);
+		if(!StringUtil1.isNull(request.getCompanyName())) {
+			filter.setCompanyName(request.getCompanyName());
 		}
 		
-		filter.setIsExpired(isExpired);
-		filter.setCompanyId(companyId);
+		filter.setIsExpired(request.getIsExpired());
+		filter.setCompanyId(request.getCompanyId());
 		
-		PagingData pagingData = new PagingData(pageNumber, pageSize);
+		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPaged(true);
 		filter.setPagingData(pagingData);
+		
+		List<OrderingProperty> orderingProperties = null;
+    	boolean ordered = false;
+        if (StringUtils.isNotBlank(request.getOrderBy())) {
+	        orderingProperties = new ArrayList<OrderingProperty>();
+			OrderingProperty orderingProperty = new OrderingProperty(1, request.getOrderBy(), request.isAsc());
+			orderingProperties.add(orderingProperty);
+	
+			ordered = true;
+        }
+		
+        filter.setOrdered(ordered);
+        filter.setOrderingProperties(orderingProperties);
 		
 		SearchResult<Position> result = positionService.searchPositionsByFilter(filter);
 		PagingResult pagingResult = result.getPagingResult();
@@ -250,7 +283,7 @@ public class CooperateCompanyController {
 		return JSONObject.fromObject(map).toString();
 	}
 	/*
-	 * 返回类型：0成功，1positionId非法2weight非法
+	 * 修改职位信息
 	 * */
 	@RequestMapping(value = "/position/modify")
 	@ResponseBody
@@ -285,6 +318,7 @@ public class CooperateCompanyController {
 			newPosition.setCity(city);
 		}
 		newPosition.setWeight(weight);
+		newPosition.setIsExpired(isExpired);
 		newPosition.setUpdateTime(new Date());
 		positionService.updateCompanyPosition(newPosition);
 		map.put("status", true);
@@ -292,8 +326,7 @@ public class CooperateCompanyController {
 	}
 	
 	/*
-	 * 通过positionId获取职位详情
-	 * 返回类型：0成功1positionId错误
+	 * 获取职位详情
 	 * */
 	@RequestMapping(value = "/position/info", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
@@ -309,6 +342,9 @@ public class CooperateCompanyController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
+	/*
+	 * 删除职位信息，也就是将职位IsExpired置为1
+	 * */
 	@RequestMapping(value = "/position/delete")
 	@ResponseBody
 	public String deletePosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
@@ -325,5 +361,4 @@ public class CooperateCompanyController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
-	
 }
