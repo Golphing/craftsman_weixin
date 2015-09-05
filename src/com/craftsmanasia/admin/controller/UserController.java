@@ -169,6 +169,63 @@ public class UserController {
 	}
 	
 	/*
+	 * 修改简历信息
+	 * */
+	@RequestMapping("/resume/modify")
+	@ResponseBody
+	public String modifyUserResume(@RequestParam(value = "resumeId", defaultValue = "") Integer resumeId,
+			@RequestParam(value = "userId", defaultValue = "") Integer userId,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "telephone", required = false) String telephone,
+			@RequestParam(value = "birthday", required = false) String birthday,
+			@RequestParam(value = "gender", required = false) String gender,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "home", required = false) String home) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(resumeId ==null) {
+			map.put("status", "简历信息不存在");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		ResumeUser resumeUser = new ResumeUser();
+		resumeUser.setId(resumeId);
+		
+		if(!StringUtil1.isNull(name)) {
+			resumeUser.setName(name);
+		}
+		
+		if(!StringUtil1.isNull(telephone)) {
+			resumeUser.setTelephone(telephone);
+			
+			//如果telephone不为null,则也需要改变user的telephone
+			User user = new User();
+			user.setId(userId);
+			user.setTelephone(telephone);
+			userService.update(user);
+		}
+		
+		if(!StringUtil1.isNull(birthday)) {
+			resumeUser.setBirthday(birthday);
+		}
+		
+		if(!StringUtil1.isNull(gender)) {
+			resumeUser.setGender(gender);
+		}
+		
+		if(!StringUtil1.isNull(email)) {
+			resumeUser.setEmail(email);
+		}
+		
+		if(!StringUtil1.isNull(home)) {
+			resumeUser.setHome(home);
+		}
+		
+		resumeUserService.updateResumeUser(resumeUser);
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*
 	 * 获取简历信息，包括工作经历
 	 * */
 	@RequestMapping(value = "/search/resume",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -239,7 +296,7 @@ public class UserController {
 	 * */
 	@RequestMapping("/work/modify")
 	@ResponseBody
-	public String modifyUserResume(@RequestParam(value = "workId", defaultValue = "") Integer workId,
+	public String modifyUserWork(@RequestParam(value = "workId", defaultValue = "") Integer workId,
 			@RequestParam(value = "beginTime", defaultValue = "") String beginTime,
 			@RequestParam(value = "endTime", defaultValue = "") String endTime,
 			@RequestParam(value = "company", defaultValue = "") String company,

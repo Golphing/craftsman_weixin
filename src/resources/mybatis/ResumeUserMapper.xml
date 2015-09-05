@@ -47,12 +47,37 @@
 		insert into resume_user(<include refid="FIELDS"/>) values(#{telephone},#{name},#{gender},#{birthday},#{email},#{home},#{userId})
 	</insert>
 	
-	<update id="update">
-		update resume_user set telephone=#{telephone},gender=#{gender},birthday=#{birthday},email=#{email},home=#{home} where id=#{id}
-	</update>
+	
 	<select id="count1" resultType="int">
 		select count(*) from resume_user
 	</select>
+	
+	<update id="updateResumeUser" parameterType="ResumeUser">
+		UPDATE
+			resume_user
+		<set>
+			<if test="name != null">
+				name = #{name, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="telephone != null">
+				telephone = #{telephone, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="home != null">
+				home = #{home, javaType=string, jdbcType=CHAR},
+			</if>
+		</set>
+		WHERE
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</update>
 	
 	<select id="selectResumeUserByUserId"
 	 resultMap="resumeUserResult">
