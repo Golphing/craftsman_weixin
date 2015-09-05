@@ -1,9 +1,23 @@
 <div class="page-path">
 	<div class="icon"></div>
-	<h1 class="path">首页 > 职位管理</h1>
-	<button type="button" class="btn btn-primary btn-sm add-btn">添加</button>
+	<h1 class="path">首页 > 用户查询</h1>
 </div>
 <div class="content">
+	<form class="form-inline" id="searchUserForm">
+		<div class="form-group">
+			<label for="searchUserForm_name">姓名</label>
+			<input type="text" class="form-control" id="searchUserForm_name" name="name" placeholder="">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="form-group">
+			<label for="searchUserForm_telephone">电话</label>
+			<input type="text" class="form-control" id="searchUserForm_telephone" name="telephone" placeholder="">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="form-group">
+			<label for="searchUserForm_wechatAccount">微信号</label>
+			<input type="text" class="form-control" id="searchUserForm_wechatAccount" name="wechatAccount" placeholder="">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;		
+		<button type="submit" class="btn btn-primary">查询</button>
+	</form>
 	<table id="jqGrid"></table>
 	<div id="jqGridPager"></div>
 </div>
