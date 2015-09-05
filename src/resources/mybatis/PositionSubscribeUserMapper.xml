@@ -191,6 +191,16 @@
 		<where>
 			<include refid="resumeSubscribeFilter"/>
 		</where>
+		ORDER BY
+		<choose>
+	  			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				ru.name ASC,
+	  				psu.status_id ASC
+	  			</otherwise>
+	  		</choose>
 		<include refid="pagingLimit"/>
 	</select>
 	

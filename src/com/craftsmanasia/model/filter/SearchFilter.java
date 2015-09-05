@@ -1,5 +1,10 @@
 package com.craftsmanasia.model.filter;
 
+import java.util.List;
+
+import com.craftsmanasia.utils.OrderByUtility;
+import com.craftsmanasia.utils.OrderingProperty;
+
 public class SearchFilter {
     // 用于控制最多的返回记录数，避免造成数据性能问题
     private static final int MAX_RECORD = 1000;
@@ -10,6 +15,7 @@ public class SearchFilter {
     private PagingData pagingData;
     
     private boolean ordered;
+    private List<OrderingProperty> orderingProperties;
 
 	public boolean isPaged() {
         return paged;
@@ -46,4 +52,16 @@ public class SearchFilter {
         this.ordered = ordered;
     }
 
+	public List<OrderingProperty> getOrderingProperties() {
+		return orderingProperties;
+	}
+
+	public void setOrderingProperties(List<OrderingProperty> orderingProperties) {
+		this.orderingProperties = orderingProperties;
+	}
+
+	public String getOrderBy() {
+	    String orderBy = OrderByUtility.getOrderByString(this);
+		return orderBy;
+	}
 }

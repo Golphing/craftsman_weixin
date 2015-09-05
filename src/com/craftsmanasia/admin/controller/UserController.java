@@ -35,14 +35,12 @@ public class UserController {
 	@Autowired
 	WorkService workService;
 	/*
-	 * 返回类型：0成功1电话不能为空,不能存在已有电话2密码不正确3微信号不能为空
-	 * 4姓名不能为空5性别不能为空6生日不能为空
+	 * 注册用户，并向简历表添加信息
 	 * */
 	@RequestMapping("/create")
 	@ResponseBody
 	public String registerUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "password", defaultValue = "") String password,
-			@RequestParam(value = "repassword", defaultValue = "") String repassword,
 			@RequestParam(value = "nickName", defaultValue = "") String nickName,
 			@RequestParam(value = "gender", defaultValue = "") String gender,
 			@RequestParam(value = "birthday", defaultValue = "") String birthday,
@@ -53,12 +51,12 @@ public class UserController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		if(StringUtil1.isNull(telephone) || userService.getUserByTelephone(telephone) != null) {
-			map.put("status", "电话不能为空");
+			map.put("status", "电话不能为空或已存在该电话");
 			return JSONObject.fromObject(map).toString();
 		}
-		// password不能为空，repassword不能为空，password equals repassword
-		if(StringUtil1.isNull(password) || StringUtil1.isNull(repassword) || !password.equals(repassword)) {
-			map.put("status", "密码不能为空 或者前后两次密码不一致");
+		// password不能为空
+		if(StringUtil1.isNull(password)) {
+			map.put("status", "密码不能为空 ");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(name)) {
@@ -102,7 +100,7 @@ public class UserController {
 	public String searchUser(@RequestParam(value = "telephone", defaultValue = "") String telephone) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByTelephone(telephone);
-		map.put("user", user);
+		map.put("data", user);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
@@ -117,15 +115,15 @@ public class UserController {
 		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
 		List<Work> works = workService.getUserWorksByUserId(userId);
 		
-		map.put("resume", ResumeVO.toVO(resumeUser, works));
+		map.put("data", ResumeVO.toVO(resumeUser, works));
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
 	/*
-	 * 返回类型：0成功1user非法2起始时间为空3company为空4职位为空
+	 * 添加工作经历
 	 * */
-	@RequestMapping("/resume/create")
+	@RequestMapping("/work/create")
 	@ResponseBody
 	public String createUserResume(@RequestParam(value = "userId", defaultValue = "0") Integer userId,
 			@RequestParam(value = "beginTime", defaultValue = "") String beginTime,
@@ -174,9 +172,9 @@ public class UserController {
 	}
 	
 	/*
-	 * 返回类型：0成功workId非法
+	 * 修改工作经历
 	 * */
-	@RequestMapping("/resume/modify")
+	@RequestMapping("/work/modify")
 	@ResponseBody
 	public String modifyUserResume(@RequestParam(value = "workId", defaultValue = "") Integer workId,
 			@RequestParam(value = "beginTime", defaultValue = "") String beginTime,
@@ -195,23 +193,47 @@ public class UserController {
 		
 		Work work = new Work();
 		work.setId(workId);
-		work.setBeginTime(beginTime);
-		work.setEndTime(endTime);
-		work.setCompany(company);
-		work.setPosition(position);
-		work.setDepartment(department);
-		work.setDescription(description);
-		work.setProfession(profession);
-		work.setRemark(remark);
+		if(!StringUtil1.isNull(beginTime)) {
+			work.setBeginTime(beginTime);
+		}
+		
+		if(!StringUtil1.isNull(endTime)) {
+			work.setEndTime(endTime);
+		}
+		
+		if(!StringUtil1.isNull(company)) {
+			work.setCompany(company);
+		}
+		
+		if(!StringUtil1.isNull(position)) {
+			work.setPosition(position);
+		}
+		
+		if(!StringUtil1.isNull(department)) {
+			work.setDepartment(department);
+		}
+		
+		if(!StringUtil1.isNull(description)) {
+			work.setDescription(description);
+		}
+		
+		if(!StringUtil1.isNull(profession)) {
+			work.setProfession(profession);
+		}
+		
+		if(!StringUtil1.isNull(department)) {
+			work.setDepartment(department);
+		}
+		
 		workService.updatWork(work);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
 	/*
-	 * 返回类型：0成功，1work非法
+	 * 删除工作经历
 	 * */
-	@RequestMapping(value = "/resume/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/work/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public String deleteUserResume(@RequestParam(value = "workId", defaultValue = "0") Integer workId) {
 		Map<String, Object> map = new HashMap<String, Object>();
