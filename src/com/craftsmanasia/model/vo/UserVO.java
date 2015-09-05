@@ -15,30 +15,33 @@ public class UserVO {
 	private String wechatAccount;
 	private String nickName;
 	
-	public static List<UserVO> toVOs(List<ResumeUser> resumeUsers) {
+	public static List<UserVO> toVOs(List<User> users) {
 		List<UserVO> vos = new ArrayList<UserVO>();
-		if(resumeUsers == null) {
+		if(users == null) {
 			return vos;
 		}
-		for(ResumeUser resumeUser : resumeUsers) {
-			vos.add(UserVO.toVO(resumeUser));
+		for(User user : users) {
+			vos.add(UserVO.toVO(user));
 		}
 		return vos;
 	}
 	
-	public static UserVO toVO(ResumeUser resumeUser) {
-		if(resumeUser == null) {
+	public static UserVO toVO(User user) {
+		if(user == null) {
 			return null;
 		}
 		UserVO vo = new UserVO();
-		User user = resumeUser.getUser();
+		
 		vo.setId(user.getId());
 		vo.setNickName(user.getNickName());
 		vo.setWechatAccount(user.getWechatAccount());
+		vo.setTelephone(user.getTelephone());
 		
-		vo.setName(resumeUser.getName());
-		vo.setGender(resumeUser.getGender());
-		vo.setTelephone(resumeUser.getTelephone());
+		ResumeUser resumeUser = user.getResumeUser();
+		if(resumeUser!=null) {
+			vo.setName(resumeUser.getName());
+			vo.setGender(resumeUser.getGender());
+		}
 		return vo;
 		
 	}

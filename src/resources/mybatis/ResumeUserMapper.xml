@@ -28,10 +28,6 @@
 		telephone,name,gender,birthday,email,home,user_id
 	</sql>
 	
-	<sql id="pagingLimit">
-		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
-	</sql>
-	
 	<sql id="userColumns">
 		<include refid="com.craftsmanasia.dao.UserDao.userColumns"/>
 	</sql>
@@ -66,58 +62,6 @@
 			resume_user ru
 		WHERE
 			ru.user_id = #{userId, javaType=int, jdbcType=INTEGER}
-	</select>
-	
-	<sql id="userFilter">
-		<if test="filter.nickName !=null">
-			user.nickName = #{filter.nickName, javaType=string, jdbcType=CHAR}
-		</if>
-		<if test="filter.wechatAccount !=null">
-			AND uuser.wechat_account = #{filter.wechatAccount, javaType=string, jdbcType=CHAR}
-		</if>
-		<if test="filter.name !=null">
-			AND ru.name = #{filter.name, javaType=string, jdbcType=CHAR}
-		</if>
-		<if test="filter.telephone !=null">
-			AND user.telephone = #{filter.telephone, javaType=string, jdbcType=CHAR}
-		</if>
-	</sql>
-	
-	<select id="selectResumeUsersByUserFilter"
-	 parameterType="map"
-	 resultMap="resumeUserResult">
-		SELECT
-			<include refid="resumeUserColomns"/>,
-			<include refid="userColumns"/>
-		FROM
-			resume_user ru
-			INNER JOIN user ON user.id = ru.user_id
-		<where>
-			<include refid="userFilter"/>
-		</where>
-		ORDER BY
-		<choose>
-			<when test="filter.ordered == true">
-	  				${filter.orderBy}
-	  			</when>
-	  			<otherwise>
-	  				user.id ASC
-	  			</otherwise>
-	  		</choose>
-		<include refid="pagingLimit"/>
-	</select>
-	
-	<select id="countResumeUsersByUserFilter"
-	 resultType="int">
-		SELECT
-			count(*)
-		FROM
-			resume_user ru
-			INNER JOIN user ON user.id = ru.user_id
-		<where>
-			<include refid="userFilter"/>
-		</where>
-		<include refid="pagingLimit"/>
 	</select>
 	
 </mapper>

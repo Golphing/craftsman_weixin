@@ -13,18 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.filter.UserFilter;
-import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.Work;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.SearchResult;
 import com.craftsmanasia.model.vo.ResumeVO;
-import com.craftsmanasia.model.vo.ResumeVO2;
 import com.craftsmanasia.model.vo.UserVO;
-import com.craftsmanasia.request.SearchResumeSubscribeRequest;
 import com.craftsmanasia.request.SearchUserRequest;
 import com.craftsmanasia.service.PositionSubscribeUserService;
 import com.craftsmanasia.service.ResumeUserService;
@@ -147,7 +143,7 @@ public class UserController {
 			filter.setTelephone(request.getTelephone());
 		}
 		
-		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageNumber());
+		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPaged(true);
 		filter.setPagingData(pagingData);
 		
@@ -164,7 +160,7 @@ public class UserController {
         filter.setOrdered(ordered);
         filter.setOrderingProperties(orderingProperties);
 		
-		SearchResult<ResumeUser> result = resumeUserService.searchResumeUsersByUserFilter(filter);
+		SearchResult<User> result = userService.searchUsersByUserFilter(filter);
 
 		map.put("data", UserVO.toVOs(result.getResult()));
 		map.put("pagingResult", result.getPagingResult());
