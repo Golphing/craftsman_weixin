@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	initJqGrid();
-	bindSearchCompanyFormAction();
+	bindSearchUserFormAction();
 	bindJqGridDataAction();
 	bindEditCompanyFormAction();
 	
@@ -8,35 +8,32 @@ $(document).ready(function() {
 		$("#jqGrid").jqGrid({
 			url: '../user/search.do',
 			colModel: [
-				{label: '名称', name: 'name', width: '20%'},
-				{label: '权重', name: 'weight', width: '20%'},
-				{label: 'url', name: 'url', width: '20%', formatter: function(cellValue, options, rowObject) {
-					return '<a href="'+ cellValue +'" target="_blank">'+ cellValue +'</a>';
-				}},
-				{label: '是否过期', name: 'isExpired', width: '20%', formatter: function(cellValue, options, rowObject) {
-					if(cellValue == '1') {
-						return '是';
-					}
-					return '否';
-				}},
+				{label: '微信号', name: 'name', width: '20%'},
+				{label: '昵称', name: 'weight', width: '20%'},
+				{label: '姓名', name: 'weight', width: '20%'},
+				{label: '性别', name: 'weight', width: '20%'},
+				{label: '出生日期', name: 'weight', width: '20%'},
+				{label: '电话', name: 'weight', width: '20%'},
+				{label: 'email', name: 'weight', width: '20%'},
+				{label: '籍贯', name: 'weight', width: '20%'},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
-				//	return '<span class="glyphicon glyphicon-pencil btn"></span><span class="glyphicon glyphicon-remove btn"></span></a>';
-					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button><button type="button" data-action="positionMgmt" class="btn btn-primary">职位管理</button>'
+					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button><button type="button" data-action="positionMgmt" class="btn btn-primary">简历管理</button>'
 				}}
 			],
 			serializeGridData: function(postData) {
-				postData.name = $('#searchCompanyForm_name').val();
-				postData.isExpired = $('#searchCompanyForm_expire').val();
+				postData.name = $('#searchUserForm_name').val();
+				postData.telephone = $('#searchUserForm_telephone').val();
+				postData.wechatAccount = $('#searchUserForm_wechatAccount').val();
 				return postData;
 			},
 			loadComplete:function(xhr) {
-				pageData.companyList = xhr.data;
+				pageData.userList = xhr.data;
 			},
 			pager: "#jqGridPager"
 		});
 	}
-	function bindSearchCompanyFormAction() {
-		$('#searchCompanyForm').submit(function() {
+	function bindSearchUserFormAction() {
+		$('#searchUserForm').submit(function() {
 			$('#jqGrid').trigger("reloadGrid");
 			return false;
 		});
@@ -45,9 +42,9 @@ $(document).ready(function() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
 			var rowId = parseInt($(this).closest('tr')[0].id);
-			var company = ADMIN.getItemFromByAttr(pageData.companyList, 'id', rowId);
+			var user = ADMIN.getItemFromByAttr(pageData.userList, 'id', rowId);
 			if(action == 'edit') {
-				$('#editCompanyDialog').data().id = company.id;
+				$('#editCompanyDialog').data().id = user.id;
 				$('#editCompanyDialog [name="name"]').text(company.name);
 				$('#editCompanyDialog [name="weight"]').val(company.weight);
 				$('#editCompanyDialog [name="url"]').val(company.url);

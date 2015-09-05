@@ -29,7 +29,7 @@ $(document).ready(function() {
 			$('[name=repassword]', this).parents('.form-group').addClass('has-error').find('.input-tips').text('两次密码输入不同').show();
 			return false;
 		} else {
-			$('[name=repassword]', this).parents('.form-group').addClass('has-error').find('.input-tips').hide();
+			$('[name=repassword]', this).parents('.form-group').removeClass('has-error').find('.input-tips').hide();
 		}
 		var data = {
 			wechatAccount: $('[name=wechatAccount]', this).val(),
@@ -42,10 +42,10 @@ $(document).ready(function() {
 			email: $('[name=email]', this).val(),
 			home: $('[name=home]', this).val(),
 		};
-		$.post('../company/create.do', data, function(result) {
+		$.post('../user/create.do', data, function(result) {
 			if(result.status) {
 				alert('成功');
-				$('#addCompanyForm')[0].reset();
+				$('#addUserForm')[0].reset();
 			} else {
 				alert(result.msg);
 			}
