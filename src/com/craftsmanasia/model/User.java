@@ -8,6 +8,8 @@ public class User {
 	private String nickName;
 	private String wechatAccount;
 	
+	private ResumeUser resumeUser;
+	
 	public int getId() {
 		return id;
 	}
@@ -54,6 +56,14 @@ public class User {
 
 	public void setWechatAccount(String wechatAccount) {
 		this.wechatAccount = wechatAccount;
+	}
+
+	public ResumeUser getResumeUser() {
+		return resumeUser;
+	}
+
+	public void setResumeUser(ResumeUser resumeUser) {
+		this.resumeUser = resumeUser;
 	}
 	
 }

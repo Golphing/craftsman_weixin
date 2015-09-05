@@ -4,6 +4,10 @@
 
 <mapper namespace="com.craftsmanasia.dao.UserDao">
 	
+	<resultMap type="ResumeUser" 
+		id="resumeUserResult" extends="com.craftsmanasia.dao.ResumeUserDao.resumeUserResult">
+	</resultMap>
+	
 	<resultMap 
 		type="User" 
 		id="userResult">
@@ -14,6 +18,10 @@
         <result property="telephone" column="user_telephone" />
         <result property="nickName" column="user_nickname" />
         <result property="wechatAccount" column="user_wechat_account" />
+        
+        <association property="resumeUser" 
+			javaType="ResumeUser" resultMap="resumeUserResult">
+		</association>
 	</resultMap>
 	
 	<sql id="userColumns"> 
@@ -23,6 +31,14 @@
 		user.telephone AS user_telephone,
 		user.nickName AS user_nickname,
 		user.wechat_account AS user_wechat_account
+	</sql>
+	
+	<sql id="pagingLimit">
+		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
+	</sql>
+	
+	<sql id="resumeUserColomns">
+		<include refid="com.craftsmanasia.dao.ResumeUserDao.resumeUserColomns"/>
 	</sql>
 	
 	<select id="get" resultType="User">
@@ -50,5 +66,57 @@
 	
 	<select id="selectUserByTelephone" resultType="User">
 		select * from user where telephone=#{telephone}
+	</select>
+	
+	<sql id="userFilter">
+		<if test="filter.nickName !=null">
+			user.nickName = #{filter.nickName, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.wechatAccount !=null">
+			AND user.wechat_account = #{filter.wechatAccount, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.name !=null">
+			AND ru.name = #{filter.name, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.telephone !=null">
+			AND user.telephone = #{filter.telephone, javaType=string, jdbcType=CHAR}
+		</if>
+	</sql>
+	
+	<select id="selectUsersByUserFilter"
+	 parameterType="map"
+	 resultMap="userResult">
+		SELECT
+			<include refid="userColumns"/>,
+			<include refid="resumeUserColomns"/>
+		FROM
+			user
+			LEFT JOIN resume_user ru ON ru.user_id = user.id
+		<where>
+			<include refid="userFilter"/>
+		</where>
+		ORDER BY
+		<choose>
+			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				user.id ASC
+	  			</otherwise>
+	  		</choose>
+		<include refid="pagingLimit"/>
+	</select>
+	
+	<select id="countUsersByUserFilter"
+	 resultType="int">
+		SELECT
+			count(*)
+		FROM
+			user
+			LEFT JOIN resume_user ru ON ru.user_id = user.id
+		<where>
+			<include refid="userFilter"/>
+		</where>
+		<include refid="pagingLimit"/>
 	</select>
 </mapper>

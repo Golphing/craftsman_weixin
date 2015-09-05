@@ -12,7 +12,6 @@ import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
-import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.PagingResult;
 import com.craftsmanasia.model.filter.SearchResult;

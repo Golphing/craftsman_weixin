@@ -1,5 +1,10 @@
 package com.craftsmanasia.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.craftsmanasia.filter.UserFilter;
 import com.craftsmanasia.model.User;
 import com.ebaoyang.dao.MyBatisRepository;
 
@@ -19,5 +24,9 @@ public interface UserDao {
 	public User selectUserById(int id);
 
 	public User selectUserByTelephone(String telephone);
+	
+	public List<User> selectUsersByUserFilter(@Param("filter") UserFilter filter);
+	
+	public int countUsersByUserFilter(@Param("filter") UserFilter filter);
 	
 }
