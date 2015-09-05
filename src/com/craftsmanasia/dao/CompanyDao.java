@@ -19,7 +19,7 @@ public interface CompanyDao {
 	
 	public Company getCompanyByName(@Param("name") String name);
 	
-	public List<Company> getAllNoExpiredCompanys();
+	public List<Company> selectAllNoExpiredCooperateCompanys();
 	
 	public List<Company> selectCooperateCompanyByFilter(@Param("filter") CooperateCompanyFilter filter);
 

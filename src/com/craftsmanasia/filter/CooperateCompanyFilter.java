@@ -7,6 +7,7 @@ public class CooperateCompanyFilter extends SearchFilter{
 
 	private String name;
 	private Integer isExpired;
+	private Integer companyTypeId;
 
 	public String getName() {
 		return name;
@@ -25,6 +26,14 @@ public class CooperateCompanyFilter extends SearchFilter{
 
 	public void setIsExpired(Integer isExpired) {
 		this.isExpired = isExpired;
+	}
+
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
+
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
 	}
 	
 }

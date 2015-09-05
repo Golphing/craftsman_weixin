@@ -7,6 +7,7 @@ public class SearchPositionRequest extends PagingRequest{
 	private Integer isExpired;
 	private Integer companyId;
 	private String companyName;
+	private String companyTypeCode;
 
 	public String getTitle() {
 		return title;
@@ -46,6 +47,14 @@ public class SearchPositionRequest extends PagingRequest{
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public String getCompanyTypeCode() {
+		return companyTypeCode;
+	}
+
+	public void setCompanyTypeCode(String companyTypeCode) {
+		this.companyTypeCode = companyTypeCode;
 	}
 	
 }
