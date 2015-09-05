@@ -20,6 +20,7 @@ import com.craftsmanasia.filter.CooperateCompanyFilter;
 import com.craftsmanasia.filter.PositionFilter;
 import com.craftsmanasia.model.Company;
 import com.craftsmanasia.model.Position;
+import com.craftsmanasia.model.filter.CompanyType;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.PagingResult;
 import com.craftsmanasia.model.filter.SearchResult;
@@ -63,12 +64,10 @@ public class CooperateCompanyController {
 		if (oldcompany!=null && oldcompany.getName().equals(name)) {
 			map.put("msg", "company name already exits");
 			return JSONObject.fromObject(map).toString();
-			//return JsonUtil.getJson(2, "company already exits").toString();
 		}
 		if (weight <= 0) {
 			map.put("msg", "weight cannot be null");
 			return JSONObject.fromObject(map).toString();
-			//return JsonUtil.getJson(3, "weight must be > 0").toString();
 		}
 		
 		company.setName(name);
@@ -76,6 +75,9 @@ public class CooperateCompanyController {
 		company.setWeight(weight);
 		// IsExpired默认为0.创建的时候不会过期
 		company.setIsExpired(0);
+		
+		// 本公司id是1，合作企业id是2
+		company.setCompanyTypeId(2);
 		Date now = new Date();
 		company.setCreateTime(now);
 		company.setUpdateTime(now);
@@ -152,6 +154,8 @@ public class CooperateCompanyController {
 			filter.setName(request.getName());
 		}
 		
+		// 查找的是合作企业所以companyTypeId设置为2
+		filter.setCompanyTypeId(2);
 		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPagingData(pagingData);
 		filter.setPaged(true);
@@ -186,6 +190,7 @@ public class CooperateCompanyController {
 	@ResponseBody
 	public String createCooperateCompanyPosition(
 			@RequestParam(value = "companyId", defaultValue = "1") int companyId,
+			@RequestParam(value = "companyTypeCode", defaultValue = "1") String companyTypeCode,
 			@RequestParam(value = "title", defaultValue = "") String title,
 			@RequestParam(value = "requirement", defaultValue = "") String requirement,
 			@RequestParam(value = "wage", defaultValue = "") String wage,
@@ -252,6 +257,11 @@ public class CooperateCompanyController {
 		
 		if(!StringUtil1.isNull(request.getCompanyName())) {
 			filter.setCompanyName(request.getCompanyName());
+		}
+		
+		if(!StringUtil1.isNull(request.getCompanyTypeCode())) {
+			Integer companyTypeId = CompanyType.getFromCode(request.getCompanyTypeCode()).getId();
+			filter.setCompanyTypeId(companyTypeId);
 		}
 		
 		filter.setIsExpired(request.getIsExpired());

@@ -158,7 +158,7 @@
 			position.title like #{filter.title, javaType=string, jdbcType=CHAR}
 		</if>
 		<if test="filter.statusId !=null">
-			AND psu.status_id = #{filter.statusId, javaType=string, jdbcType=CHAR}
+			AND psu.status_id = #{filter.statusId, javaType=int, jdbcType=INTEGER}
 		</if>
 		<if test="filter.name !=null">
 			AND ru.name = #{filter.name, javaType=string, jdbcType=CHAR}

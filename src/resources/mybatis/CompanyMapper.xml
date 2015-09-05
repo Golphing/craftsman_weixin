@@ -16,6 +16,7 @@
 		<result property="url" column="company_url" />
         <result property="weight" column="company_weight" />
         <result property="isExpired" column="company_is_expired" />
+		<result property="companyTypeId" column="company_company_type_id"/>
 	</resultMap>
     
     <sql id="companyColumns"> 
@@ -25,7 +26,8 @@
 		company.update_time AS company_update_time,
 		company.url AS company_url,
 		company.weight AS company_weight,
-		company.is_expired AS company_is_expired
+		company.is_expired AS company_is_expired,
+		company.company_type_id AS company_company_type_id
 	</sql>
 	
 	<sql id="pagingLimit">
@@ -44,14 +46,16 @@
 		update_time,
 		url,
 		weight,
-		is_expired
+		is_expired,
+		company_type_id
 		) VALUES (
 		#{name, javaType=string, jdbcType=CHAR},
 		#{createTime, javaType=date, jdbcType=TIMESTAMP},
 		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
 		#{url, javaType=string, jdbcType=CHAR},
 		#{weight, javaType=int, jdbcType=INTEGER},
-		#{isExpired, javaType=int, jdbcType=INTEGER}
+		#{isExpired, javaType=int, jdbcType=INTEGER},
+		#{companyTypeId, javaType=int, jdbcType=INTEGER}
 		)
 	</insert>
 	
@@ -74,6 +78,9 @@
             </if>
             <if test="isExpired != null">
 				company.is_expired = #{isExpired, javaType=int, jdbcType=INTEGER},
+            </if>
+            <if test="companyTypeId != null">
+				company.company_type_id = #{companyTypeId, javaType=int, jdbcType=INTEGER},
             </if>
 		</set>
 		WHERE
@@ -108,7 +115,7 @@
 	</select>
 	
 	<select 
-		id="getAllNoExpiredCompanys"
+		id="selectAllNoExpiredCooperateCompanys"
 		parameterType="map" 
 		resultMap="companyResult" >
             
@@ -118,6 +125,7 @@
 			company
 		WHERE
 			company.is_expired = 0
+			AND company.company_type_id >1
 	</select>
 	
 	<sql id="cooperateCompanyFilter">
@@ -126,6 +134,9 @@
 		</if>
 		<if test="filter.isExpired != null">
 			AND company.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
+		</if>
+		<if test="filter.companyTypeId != null">
+			AND company.company_type_id = #{filter.companyTypeId, javaType=int, jdbcType=INTEGER}
 		</if>
 	</sql>
 	

@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.craftsmanasia.dao.UserDao;
+import com.craftsmanasia.filter.UserFilter;
 import com.craftsmanasia.model.User;
+import com.craftsmanasia.model.filter.SearchResult;
 
 
 
@@ -40,4 +42,5 @@ public class UserService {
 	public User getUserByTelephone(String telephone) {
 		return userDao.selectUserByTelephone(telephone);
 	}
+	
 }

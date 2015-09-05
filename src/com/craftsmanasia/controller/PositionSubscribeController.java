@@ -224,15 +224,13 @@ public class PositionSubscribeController {
 	
 	/*
 	 * 微信找到本公司的所有职位信息
-	 * 
-	 * 
 	*/
 	@RequestMapping(value = "/search/own", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchOwnPositions() {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
-		List<Position> positions = positionService.getCompanyPositionsByCompanyId(1);
+		List<Position> positions = positionService.getOwnCompanyPositions();
 		
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
 		map.put("data", positionvos);
@@ -248,7 +246,7 @@ public class PositionSubscribeController {
 	@ResponseBody
 	public String searchCooperateCompany() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Company> companies = companyService.getAllNoExpiredCompanies();
+		List<Company> companies = companyService.getAllNoExpiredCooperateCompanies();
 		map.put("data", CompanyVO.toVOs(companies));
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();

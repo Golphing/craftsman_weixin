@@ -47,6 +47,10 @@ public class PositionService {
 		return positionDao.getPositionsByCompanyId(companyId);
 	}
 	
+	public List<Position> getOwnCompanyPositions() {
+		return positionDao.selectOwnCompanyPositions();
+	}
+	
 	public Position getPositionByCompanyIdAndTitle(int companyId, String title) {
 		return positionDao.getPositionsByCompanyIdAndTitle(companyId, title);
 	}

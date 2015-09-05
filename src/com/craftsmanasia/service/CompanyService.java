@@ -47,8 +47,8 @@ public class CompanyService {
 	 * 找到所有仍在合作的公司
 	 * */
 	
-	public List<Company> getAllNoExpiredCompanies() {
-		return companyDao.getAllNoExpiredCompanys();
+	public List<Company> getAllNoExpiredCooperateCompanies() {
+		return companyDao.selectAllNoExpiredCooperateCompanys();
 	}
 	
 	public SearchResult<Company> searchCooperateCompany(CooperateCompanyFilter filter) {

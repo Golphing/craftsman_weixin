@@ -1,9 +1,11 @@
 package com.craftsmanasia.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.craftsmanasia.filter.ResumeSubscribeFilter;
+import com.craftsmanasia.filter.UserFilter;
+import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.Work;
+import com.craftsmanasia.model.filter.PagingData;
+import com.craftsmanasia.model.filter.SearchResult;
 import com.craftsmanasia.model.vo.ResumeVO;
+import com.craftsmanasia.model.vo.ResumeVO2;
+import com.craftsmanasia.model.vo.UserVO;
+import com.craftsmanasia.request.SearchResumeSubscribeRequest;
+import com.craftsmanasia.request.SearchUserRequest;
+import com.craftsmanasia.service.PositionSubscribeUserService;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.UserService;
 import com.craftsmanasia.service.WorkService;
+import com.craftsmanasia.utils.OrderingProperty;
 import com.craftsmanasia.utils.StringUtil1;
 
 import net.sf.json.JSONObject;
@@ -34,6 +47,9 @@ public class UserController {
 	
 	@Autowired
 	WorkService workService;
+	
+	@Autowired
+	PositionSubscribeUserService positionSubscribeUserService;
 	/*
 	 * 注册用户，并向简历表添加信息
 	 * */
@@ -95,12 +111,63 @@ public class UserController {
 	/*
 	 * 获取user信息
 	 * */
-	@RequestMapping(value ="/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/search/bytelephone", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchUser(@RequestParam(value = "telephone", defaultValue = "") String telephone) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByTelephone(telephone);
 		map.put("data", user);
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	@RequestMapping(value ="/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String searchUser(SearchUserRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(!request.validatePagingRequest()) {
+			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			return JSONObject.fromObject(map).toString();
+		}
+		UserFilter filter = new UserFilter();
+		
+		if(!StringUtil1.isNull(request.getName())) {
+			filter.setName(request.getName());
+		}
+		
+		if(!StringUtil1.isNull(request.getNickName())) {
+			filter.setNickName(request.getNickName());
+		}
+		
+		if(!StringUtil1.isNull(request.getWechatAccount())) {
+			filter.setWechatAccount(request.getWechatAccount());
+		}
+		
+		if(!StringUtil1.isNull(request.getTelephone())) {
+			filter.setTelephone(request.getTelephone());
+		}
+		
+		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageNumber());
+		filter.setPaged(true);
+		filter.setPagingData(pagingData);
+		
+		List<OrderingProperty> orderingProperties = null;
+    	boolean ordered = false;
+        if (StringUtils.isNotBlank(request.getOrderBy())) {
+	        orderingProperties = new ArrayList<OrderingProperty>();
+			OrderingProperty orderingProperty = new OrderingProperty(1, request.getOrderBy(), request.isAsc());
+			orderingProperties.add(orderingProperty);
+	
+			ordered = true;
+        }
+		
+        filter.setOrdered(ordered);
+        filter.setOrderingProperties(orderingProperties);
+		
+		SearchResult<ResumeUser> result = resumeUserService.searchResumeUsersByUserFilter(filter);
+
+		map.put("data", UserVO.toVOs(result.getResult()));
+		map.put("pagingResult", result.getPagingResult());
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}

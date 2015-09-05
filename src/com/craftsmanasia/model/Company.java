@@ -11,6 +11,7 @@ public class Company {
 	private String url;
 	private Integer weight;
 	private Integer isExpired;
+	private Integer companyTypeId;
 
 	public int getId() {
 		return id;
@@ -66,6 +67,14 @@ public class Company {
 
 	public void setIsExpired(Integer isExpired) {
 		this.isExpired = isExpired;
+	}
+
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
+
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
 	}
 
 }

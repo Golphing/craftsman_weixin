@@ -19,4 +19,5 @@ public interface UserDao {
 	public User selectUserById(int id);
 
 	public User selectUserByTelephone(String telephone);
+	
 }

@@ -17,6 +17,8 @@ public interface PositionDao {
 	
 	public List<Position> getPositionsByCompanyId(@Param("id") int companyId);
 	
+	public List<Position> selectOwnCompanyPositions();
+	
 	public Position getPositionById(@Param("id") int id);
 	
 	public List<Position> getPositionsByCompanyNameAndTitle(@Param("name")String name, @Param("title") String title);

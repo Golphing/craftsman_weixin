@@ -22,7 +22,15 @@
         <property name="gender" column="ru.gender" />
         <property name="statusId" column="psu.status_id" />
         <property name="companyName" column="company.name" />
-        <property name="wechatAccount" column="user_wechat_account" />
+        <property name="wechatAccount" column="user.wechat_account" />
         <property name="updateTime" column="psu.update_time" />
+    </filter>
+    
+    <filter name="com.craftsmanasia.filter.UserFilter">
+    	<property name="name" column="ru.name" />
+        <property name="telephone" column="user.telephone" />
+        <property name="gender" column="ru.gender" />
+        <property name="nickName" column="user.nickName" />
+        <property name="wechatAccount" column="user.wechat_account" />
     </filter>
 </mapper>
