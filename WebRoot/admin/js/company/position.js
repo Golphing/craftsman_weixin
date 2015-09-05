@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	$('#companyName').text(decodeURIComponent(ADMIN.URL.getHashParm('name')));
 	initJqGrid();
 	bindJqGridDataAction();
 	bindEditPositionFormAction();
@@ -10,7 +11,6 @@ $(document).ready(function () {
 			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
-				{label: '公司', name: 'company.name', width: '20%'},
 				{label: '职位', name: 'title', width: '20%'},
 				{label: '薪酬', name: 'wage', width: '20%'},
 				{label: '要求', name: 'requirement', width: '20%'},
@@ -23,7 +23,6 @@ $(document).ready(function () {
 					return '否';
 				}},
 				{ label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
-				//	return '<span class="glyphicon glyphicon-pencil btn"></span><span class="glyphicon glyphicon-remove btn"></span></a>';
 					return '<button type="button" data-action="edit" class="btn btn-warning">修改</button>';
 				}}
 			],
@@ -45,14 +44,16 @@ $(document).ready(function () {
 			var position = ADMIN.getItemFromByAttr(pageData.positionList, 'id', rowId);
 			if(action == 'edit') {
 				$('#editPositionDialog').data().id = position.id;
-				$('#editPositionDialog [name="name"]').text(position.company.name);
-				$('#editPositionDialog [name="title"]').val(position.title);
-				$('#editPositionDialog [name="wage"]').val(position.wage);
-				$('#editPositionDialog [name="requirement"]').val(position.requirement);
-				$('#editPositionDialog [name="city"]').val(position.city);
-				$('#editPositionDialog [name="weight"]').val(position.weight);
+				$('#editPositionForm [name="name"]').text(position.company.name);
+				$('#editPositionForm [name="title"]').val(position.title);
+				$('#editPositionForm [name="wage"]').val(position.wage);
+				$('#editPositionForm [name="requirement"]').val(position.requirement);
+				$('#editPositionForm [name="city"]').val(position.city);
+				$('#editPositionForm [name="weight"]').val(position.weight);
+				$('#editPositionForm [name="expire"][value="'+ position.isExpired +'"]')[0].checked = true;;
 				
-				$('#editPositionDialog [name="expire"][value="'+ position.isExpired +'"]').attr('checked', 'checked');
+				$('#editPositionDialog .has-error').removeClass('has-error');
+				$('#editPositionDialog .input-tips').hide();
 				$('#editPositionDialog').modal('show');
 			} else if(action == '') {
 				
@@ -62,6 +63,7 @@ $(document).ready(function () {
 	function bindEditPositionFormAction() {
 		$('#editPositionForm').submit(function() {
 			if(!ADMIN.formValidate('#editPositionForm', {
+				title: 'nonempty',
 				wage: 'nonempty',
 				requirement: 'nonempty',
 				city: 'nonempty',
@@ -92,6 +94,8 @@ $(document).ready(function () {
 	}
 	function bindAddPositionAction() {
 		$('.page-path .add-btn').click(function() {
+			$('#addPositionDialog .has-error').removeClass('has-error');
+			$('#addPositionDialog .input-tips').hide();
 			$('#addPositionDialog').modal('show');
 		});
 	}

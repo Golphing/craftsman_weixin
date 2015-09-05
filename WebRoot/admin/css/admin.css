@@ -265,3 +265,10 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 .has-error .input-tips{
 	color: #a94442;
 }
+.modal-dialog .input-tips{
+	padding-left: 15px;	
+	clear: left;
+}
+.input-group.date.form_datetime{
+	padding-left: 15px;
+}

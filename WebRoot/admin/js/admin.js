@@ -55,12 +55,17 @@ $("document").ready(function () {
 var pageData = {};
 var ADMIN = {
 	pageHashMap: {
-		'#/resume': 				'resume/search',
+		'#/resume': 			'resume/search',
+		'#/position':			'position/search',
 		
 		'#/company/add': 		'company/add',
 		'#/company/search':		'company/search',
 		'#/company/position':	'company/position',
 		'#/company/position/search':'company/search_position',
+		
+		'#/user/add':			'user/add',
+		'#/user/search':		'user/search',
+		'#/user/resume':		'user/resume',
 	},
 	initSidebar: function(hash) {
 		hash == '' && (hash = '#/resume');
@@ -147,6 +152,7 @@ var ADMIN = {
 			nonempty: '这是必填项',
 			number: '请输入数字',
 			http: '格式（http://*** 或 https://***）',
+			email: '格式(***@***)',
 		},
 		nonempty: function(value) {
 			if(value == '') {
@@ -162,6 +168,13 @@ var ADMIN = {
 		},
 		http: function(value) {
 			var reg = /(http|https):\/\/.*/;
+			if(value && !reg.test(value)) {
+				return false;
+			}
+			return true;
+		},
+		email: function(value) {
+			var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
 			if(value && !reg.test(value)) {
 				return false;
 			}
