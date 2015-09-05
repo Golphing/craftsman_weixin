@@ -1,15 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	initJqGrid();
-	bindSearchPositionListFormAction();
 	bindJqGridDataAction();
 	bindEditPositionFormAction();
+	bindAddPositionAction();
+	bindAddPositionFormAction();
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
 			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
-				{label: '公司', name: 'company.name', width: '20%'},
 				{label: '职位', name: 'title', width: '20%'},
 				{label: '薪酬', name: 'wage', width: '20%'},
 				{label: '要求', name: 'requirement', width: '20%'},
@@ -26,10 +26,7 @@ $(document).ready(function() {
 				}}
 			],
 			serializeGridData: function(postData) {
-				postData.companyName = $('#searchPositionForm_name').val();
-				postData.title = $('#searchPositionForm_title').val();
-				postData.isExpired = $('#searchPositionForm_expire').val();
-				postData.city = $('#searchPositionForm_city').val();
+				postData.companyTypeCode = 'self';
 				return postData;
 			},
 			loadComplete:function(xhr) {
@@ -38,12 +35,7 @@ $(document).ready(function() {
 			pager: "#jqGridPager"
 		});
 	}
-	function bindSearchPositionListFormAction() {
-		$('#searchPositionForm').submit(function() {
-			$('#jqGrid').trigger("reloadGrid");
-			return false;
-		});
-	}
+
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
@@ -51,14 +43,14 @@ $(document).ready(function() {
 			var position = ADMIN.getItemFromByAttr(pageData.positionList, 'id', rowId);
 			if(action == 'edit') {
 				$('#editPositionDialog').data().id = position.id;
-				$('#editPositionDialog [name="name"]').text(position.company.name);
-				$('#editPositionDialog [name="title"]').val(position.title);
-				$('#editPositionDialog [name="wage"]').val(position.wage);
-				$('#editPositionDialog [name="requirement"]').val(position.requirement);
-				$('#editPositionDialog [name="city"]').val(position.city);
-				$('#editPositionDialog [name="weight"]').val(position.weight);
-			//	debugger
-				$('#editPositionDialog [name="expire"][value="'+ position.isExpired +'"]')[0].checked = true;
+				$('#editPositionForm [name="name"]').text(position.company.name);
+				$('#editPositionForm [name="title"]').val(position.title);
+				$('#editPositionForm [name="wage"]').val(position.wage);
+				$('#editPositionForm [name="requirement"]').val(position.requirement);
+				$('#editPositionForm [name="city"]').val(position.city);
+				$('#editPositionForm [name="weight"]').val(position.weight);
+				$('#editPositionForm [name="expire"][value="'+ position.isExpired +'"]')[0].checked = true;;
+				
 				$('#editPositionDialog .has-error').removeClass('has-error');
 				$('#editPositionDialog .input-tips').hide();
 				$('#editPositionDialog').modal('show');
@@ -99,5 +91,42 @@ $(document).ready(function() {
 			return false;
 		});
 	}
-
+	function bindAddPositionAction() {
+		$('.page-path .add-btn').click(function() {
+			$('#addPositionDialog .has-error').removeClass('has-error');
+			$('#addPositionDialog .input-tips').hide();
+			$('#addPositionDialog').modal('show');
+		});
+	}
+	function bindAddPositionFormAction() {
+		$('#addPositionForm').submit(function() {
+			if(!ADMIN.formValidate('#addPositionForm', {
+				title: 'nonempty',
+				wage: 'nonempty',
+				requirement: 'nonempty',
+				city: 'nonempty',
+				weight: ['nonempty', 'number'],
+			})) {
+				return false;
+			}
+			var data = {
+				companyTypeCode: 'self',
+				title: $('#addPositionForm [name="title"]').val(),
+				wage: $('#addPositionForm [name="wage"]').val(),
+				requirement: $('#addPositionForm [name="requirement"]').val(),
+				city: $('#addPositionForm [name="city"]').val(),
+				weight: $('#addPositionForm [name="weight"]').val(),
+			};
+			$.post('../company/position/create.do', data, function(result) {
+				if(result.status) {
+					alert('成功');
+					$('#addPositionDialog').modal('hide');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+			return false;
+		});
+	}
 });

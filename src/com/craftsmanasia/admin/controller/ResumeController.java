@@ -99,20 +99,20 @@ public class ResumeController {
 		if(isPass == 0) {
 			positionSubscribeUser.setStatusId(statusId + 1);
 			ResumeSuscribeStatus status = ResumeSuscribeStatus.fromid(statusId + 1);
-			switch(status.getCode()) {
-				case "newSubscribe": positionSubscribeUser.setCreateTime(now);
+			switch(status.getId()) {
+				case 1: positionSubscribeUser.setCreateTime(now);
 						break;
-				case "recommended": positionSubscribeUser.setRecommendTime(now);;
+				case 2: positionSubscribeUser.setRecommendTime(now);;
 						break;
-				case "screenResumed": positionSubscribeUser.setScreenResumeTime(now);
+				case 3: positionSubscribeUser.setScreenResumeTime(now);
 						break;
-				case "firstInterviewed": positionSubscribeUser.setFirstInterviewTime(now);
+				case 4: positionSubscribeUser.setFirstInterviewTime(now);
 						break;
-				case "secondInterviewed": positionSubscribeUser.setSecondInterviewTime(now);
+				case 5: positionSubscribeUser.setSecondInterviewTime(now);
 						break;
-				case "thirdInterviewed": positionSubscribeUser.setThirdInterviewTime(now);
+				case 6: positionSubscribeUser.setThirdInterviewTime(now);
 						break;
-				case "waitingOffer": positionSubscribeUser.setWaitingOfferTime(now);
+				case 7: positionSubscribeUser.setWaitingOfferTime(now);
 						break;
 				default : map.put("status", "操作错误");
 						return JSONObject.fromObject(map).toString();
