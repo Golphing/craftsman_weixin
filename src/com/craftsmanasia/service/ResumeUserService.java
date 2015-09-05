@@ -26,8 +26,8 @@ public class ResumeUserService {
 		return userDao.count1();
 	}
 	
-	public void update(User user){
-		userDao.update(user);
+	public void updateResumeUser(ResumeUser resumeUser) {
+		userDao.updateResumeUser(resumeUser);
 	}
 	
 	public ResumeUser selectResumeUserByUserId(int userId) {

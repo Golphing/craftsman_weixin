@@ -14,6 +14,7 @@ public class ResumeVO {
 	private String birthday;
 	private String email;
 	private String home;
+	private Integer userId;
 	
 	private List<Work> works;
 
@@ -29,6 +30,7 @@ public class ResumeVO {
 		vo.setHome(resumeUser.getHome());
 		vo.setBirthday(resumeUser.getBirthday());
 		vo.setTelephone(resumeUser.getTelephone());
+		vo.setUserId(resumeUser.getUserId());
 		
 		vo.setWorks(works);
 		return vo;
@@ -97,6 +99,14 @@ public class ResumeVO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	
