@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	initUserInfo();
 	bindEditUserBtnAction();
+	bindEditWorkBtnAction();
+	bindEditWorkFormAction();
 /*	
 	$('.form_datetime').datetimepicker({
     	format: 'yyyy-mm-dd',
@@ -46,7 +48,7 @@ $(document).ready(function() {
 		for(var i=0; i<works.length; i++) {
 			html += '' +
 				'<div class="form-horizontal list-group-item">' +
-					'<a href="javascript:void(0)"><span class="glyphicon glyphicon-edit pull-right work-edit-icon"></span></a>' +
+					'<a href="javascript:void(0)" class="edit-work-btn" row="'+ i +'"><span class="glyphicon glyphicon-edit pull-right work-edit-icon"></span></a>' +
 					'<div class="form-group">' + 
 						'<label class="col-md-3 control-label">时间:</label>' +
 						'<div class="col-md-4">' +
@@ -102,13 +104,13 @@ $(document).ready(function() {
 					gender: $('#userInfoForm [name="gender"]:checked').val(),
 					birthday: $('#userInfoForm_birthday').val(),
 					telephone: $('#userInfoForm_telephone').val(),
+					email: $('#userInfoForm_email').val(),
+					home: $('#userInfoForm_home').val(),
 				};
 				$.post('../user/resume/modify.do', data, function(result) {
 					if(result.status) {
-						updateUserInfo(data);
+						initUserInfo();
 						$(this).text('修改');
-						$('#userInfoForm').hide();
-						$('#userInfo').show();
 					} else {
 						alert(result.msg);
 					}
@@ -116,5 +118,56 @@ $(document).ready(function() {
 			}
 		});
 	}
+	function bindEditWorkBtnAction() {
+		$('#workList').on('click', '.edit-work-btn', function() {
+			var row = $(this).attr('row');
+			var work = pageData.resume.works[row];
+			$('#editWorkDialog').data().row = row;
+			$('#editWorkDialog').data().id = work.id;
+			$('#editWorkDialog [name="beginTime"]').val(work.beginTime);
+			$('#editWorkDialog [name="endTime"]').val(work.endTime);			
+			$('#editWorkDialog [name="profession"]').val(work.profession);
+			$('#editWorkDialog [name="company"]').val(work.company);
+			$('#editWorkDialog [name="department"]').val(work.department);
+			$('#editWorkDialog [name="position"]').val(work.position);
+			$('#editWorkDialog [name="description"]').val(work.description);
+			
+			$('#editWorkDialog').modal('show');
+		});
+	}
+	function bindEditWorkFormAction() {
+		$('#editWorkForm').submit(function() {
+			if(!ADMIN.formValidate('#editWorkForm', {
+				beginTime: 'nonempty',
+				endTime: 'nonempty',
+				profession: 'nonempty',
+				company: ['nonempty'],
+				department: 'nonempty',
+				position: 'nonempty',
+				description: 'nonempty',
+			})) {
+				return false;
+			}
+			var data = {
+				workId: $('#editWorkDialog').data().id,
+				beginTime: $('#editWorkDialog [name="beginTime"]').val(),
+				endTime: $('#editWorkDialog [name="endTime"]').val(),				
+				profession: $('#editWorkDialog [name="profession"]').val(),
+				company: $('#editWorkDialog [name="company"]').val(),
+				department: $('#editWorkDialog [name="department"]').val(),
+				position: $('#editWorkDialog [name="position"]').val(),
+				description: $('#editWorkDialog [name="description"]').val(),
+			};
+			$.post('../user/work/modify.do', data, function(result) {
+				if(result.status) {
+					initUserInfo();
+					$('#editWorkDialog').modal('hide');
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+			return false;
+		});
+	} 
 	
 });
