@@ -12,8 +12,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.cxf.transport.http.Cookies;
-
 public class LoginFilter implements Filter {
 
 	@Override
@@ -43,7 +41,7 @@ public class LoginFilter implements Filter {
 			}
 		}
 		if(!hasSessionId){
-			String sessionid=(String) request.getSession().getId();
+			String sessionid=request.getSession().getId();
 			Cookie sessionId=new Cookie("JSESSIONID", sessionid); 
 			sessionId.setMaxAge(60 * 60 * 24 * 14);
 			response.addCookie(sessionId);

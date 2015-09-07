@@ -1,11 +1,5 @@
 package com.craftsmanasia.utils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 //验证码

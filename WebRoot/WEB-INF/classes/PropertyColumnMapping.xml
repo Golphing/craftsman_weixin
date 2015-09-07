@@ -1,0 +1,36 @@
+<mapper>
+    <filter name="com.craftsmanasia.filter.CooperateCompanyFilter">
+        <property name="name" column="company.name" />
+        <property name="isExpired" column="company.is_expired" />
+        <property name="weight" column="company.weight" />
+        <property name="url" column="company.url" />
+    </filter>
+    
+    <filter name="com.craftsmanasia.filter.PositionFilter">
+        <property name="company.name" column="company.name" />
+        <property name="title" column="position.title" />
+        <property name="wage" column="position.wage" />
+        <property name="requirement" column="position.requirement" />
+        <property name="city" column="position.city" />
+        <property name="weight" column="position.weight" />
+        <property name="isExpired" column="position.is_expired" />
+    </filter>
+    
+    <filter name="com.craftsmanasia.filter.ResumeSubscribeFilter">
+    	<property name="name" column="ru.name" />
+        <property name="telephone" column="ru.telephone" />
+        <property name="gender" column="ru.gender" />
+        <property name="statusId" column="psu.status_id" />
+        <property name="companyName" column="company.name" />
+        <property name="wechatAccount" column="user.wechat_account" />
+        <property name="updateTime" column="psu.update_time" />
+    </filter>
+    
+    <filter name="com.craftsmanasia.filter.UserFilter">
+    	<property name="name" column="ru.name" />
+        <property name="telephone" column="user.telephone" />
+        <property name="gender" column="ru.gender" />
+        <property name="nickName" column="user.nickName" />
+        <property name="wechatAccount" column="user.wechat_account" />
+    </filter>
+</mapper>

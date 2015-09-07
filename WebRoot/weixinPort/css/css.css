@@ -149,7 +149,7 @@ a:hover
 .mq_con_list dl.mq_img img{ width:60px; height:60px;}
 .mq_con_list dl.mq_word{ width:90%; overflow:hidden; position:absolute; left:70px; }
 
-.mq_word dd{ font-size:13px; font-family:"Î¢ÈíÑÅºÚ", "ËÎÌå"; color:#666; line-height:20px; height:20px; overflow:hidden; padding-right:65px; }
+.mq_word dd{ font-size:13px; font-family:"Î¢ï¿½ï¿½ï¿½Åºï¿½", "ï¿½ï¿½ï¿½ï¿½"; color:#666; line-height:20px; height:20px; overflow:hidden; padding-right:65px; }
 .mq_word dd.mq_com_n{ font-size:16px; line-height:22px; color:#333; height:22px; overflow:hidden;}
 
 .job_pages{height: 24px; padding: 18px 10px; position: relative;}
@@ -274,8 +274,8 @@ a:hover
 .c_bg{background:-webkit-gradient(linear,left top,left bottom,from(#FFFFFF),to(#F8F8F8));}
 .c_menu{overflow:hidden;}
 .c_menu ul{overflow:hidden;}
-.c_menu li{float:left;width:33%;text-align:center;}
-.c_menu li:nth-child(2){width:34%;}
+.c_menu li{float:left;width:50%;text-align:center;}
+.c_menu li:nth-child(2){width:50%;}
 .c_menu li a{font-size:14px;color:#333;display:block;line-height:39px;height:39px;border-bottom:1px solid #E5E5E5;border-right:1px solid #E5E5E5;background:#FEFEFE;}
 .c_menu li:last-child a{border-right:0}
 .c_menu li.active a{border-bottom:0;background:#FFF;}
@@ -707,8 +707,8 @@ input[type="checkbox"].disabledCheckbox:checked{width:18px;height:18px;backgroun
 
 
 .pre_next{ background:url(../images/pre_next.png) no-repeat; padding-right:10px; margin-top:150px; float:right; width:52px; height:81px; top:50px; text-align:center; position:fixed; right:5px;}
-.a_pre{ width:50px; height:39px; display:block; color:#a5a6a9; line-height:48px;font-size:13px;font-family:"ËÎÌå";}
-.a_next{ width:50px; height:35px; display:block;color:#a5a6a9; margin-top:3px; line-height:30px;font-size:13px;font-family:"ËÎÌå";}
+.a_pre{ width:50px; height:39px; display:block; color:#a5a6a9; line-height:48px;font-size:13px;font-family:"ï¿½ï¿½ï¿½ï¿½";}
+.a_next{ width:50px; height:35px; display:block;color:#a5a6a9; margin-top:3px; line-height:30px;font-size:13px;font-family:"ï¿½ï¿½ï¿½ï¿½";}
 .a_selected{color:#555; }
 
 

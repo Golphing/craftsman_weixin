@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -591,14 +590,17 @@ public class ImportZhiLianController {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
 			X509TrustManager tm = new X509TrustManager() {
+				@Override
 				public void checkClientTrusted(X509Certificate[] xcs,
 						String string) {
 				}
 
+				@Override
 				public void checkServerTrusted(X509Certificate[] xcs,
 						String string) {
 				}
 
+				@Override
 				public X509Certificate[] getAcceptedIssuers() {
 					return null;
 				}
