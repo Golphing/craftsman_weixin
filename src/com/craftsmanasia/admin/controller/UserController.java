@@ -107,14 +107,13 @@ public class UserController {
 	@RequestMapping("/resume/create")
 	@ResponseBody
 	public String createResumeUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
-			@RequestParam(value = "userId", defaultValue = "") Integer userId,
+			@RequestParam(value = "userid", defaultValue = "") String userid,
 			@RequestParam(value = "gender", defaultValue = "") String gender,
 			@RequestParam(value = "birthday", defaultValue = "") String birthday,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "home", defaultValue = "") String home) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		
 		if(StringUtil1.isNull(telephone)) {
 			map.put("status", "电话不能为空");
 			return JSONObject.fromObject(map).toString();
@@ -140,7 +139,8 @@ public class UserController {
 		resumeUser.setBirthday(birthday);
 		resumeUser.setGender(gender);
 		resumeUser.setEmail(email);
-		resumeUser.setUserId(userId);
+		System.out.println(Integer.parseInt(userid));
+		resumeUser.setUserId(Integer.parseInt(userid));
 		resumeUser.setHome(home);
 		
 		// 添加简历信息
@@ -290,7 +290,7 @@ public class UserController {
 	 * */
 	@RequestMapping("/work/create")
 	@ResponseBody
-	public String createUserResume(@RequestParam(value = "userId", defaultValue = "0") Integer userId,
+	public String createUserResume(@RequestParam(value = "userId", defaultValue = "0") String userId,
 			@RequestParam(value = "beginTime", defaultValue = "") String beginTime,
 			@RequestParam(value = "endTime", defaultValue = "") String endTime,
 			@RequestParam(value = "company", defaultValue = "") String company,
@@ -299,10 +299,10 @@ public class UserController {
 			@RequestParam(value = "profession", defaultValue = "") String profession,
 			@RequestParam(value = "remark", defaultValue = "") String remark,
 			@RequestParam(value = "department", defaultValue = "") String department) {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 添加工作经历
-		
-		if(userId == null || userId <=0 || userService.getUserById(userId)==null) {
+		if(userId == null || Integer.parseInt(userId) <=0 || userService.getUserById(Integer.parseInt(userId))==null) {
 			map.put("status", "该用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
@@ -321,6 +321,8 @@ public class UserController {
 			map.put("status", "职位不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
+		
+	
 		Work work = new Work();
 		work.setBeginTime(beginTime);
 		work.setEndTime(endTime);
@@ -330,7 +332,7 @@ public class UserController {
 		work.setDescription(description);
 		work.setProfession(profession);
 		work.setRemark(remark);
-		work.setUserId(userId);
+		work.setUserId(Integer.parseInt(userId));
 		workService.add(work);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();

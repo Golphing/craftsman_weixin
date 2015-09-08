@@ -25,10 +25,10 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 var url=window.location.href;
-var id = url.substr(url.indexOf("?id=") + 4);
-
+var id=url.split("?")[1].split("=")[1];
 var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 
+/*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组
@@ -47,6 +47,12 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 					document.getElementById("isExpired").innerHTML = expired;
 					
 				});
+				
+		/* 公司详情
+		var companyId = obj[0].company.id;	
+			 */
+			
+			
 			})
 </script>
 
@@ -78,7 +84,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 		<div class="c_menu">
 			<ul>
 				<li class="active"><a href="javascript:;">职位详情</a></li>
-				<li><a href="javascript:;">企业简介</a></li>
+			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->
 				
 			</ul>
 		</div>
@@ -118,14 +124,14 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 						<dd id="isExpired"></dd>
 					</dl>
 				</div>
-			<div class="d_description">
+			<!-- <div class="d_description">
 					<h3 class="d_title">职位描述</h3>
 					<div class="d_word">
-						<p>本厂在路桥蓬街</p>
+						<p></p>
 					</div>
 					<h3 class="d_title">联系方式</h3>
 					<span class="link"></span>
-				</div>
+				</div> -->
 			</div>
 
 
@@ -140,9 +146,9 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 		
 
 
-		<div class="job_content hide">
+		<!-- <div class="job_content hide">
 			<div class="job_box">
-				<h1 class="d_posName">台州市路桥悦丰喷雾器厂(普通合伙)</h1>
+				<h1 class="d_posName">百度</h1>
 				<div class="d_posInfo_box">
 					<dl>
 						<dt>公司性质：</dt>
@@ -150,25 +156,25 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 					</dl>
 					<dl>
 						<dt>公司规模：</dt>
-						<dd>少于50人</dd>
+						<dd>大于500人</dd>
 					</dl>
 					<dl>
 						<dt>主页：</dt>
-						<dd>&nbsp;</dd>
+						<dd>www.baidu.com &nbsp;</dd>
 					</dl>
 				</div>
 				<div class="d_description">
 					<h3 class="d_title">企业简介</h3>
 					<div class="d_word">
-						<p>台州市路桥悦丰喷雾器厂位于台州市路桥区蓬街镇光华南路69-5号，于2008年8月1日在台州工商局注册成立。
-							台州市路桥悦丰喷雾器厂愿与社会各界同仁携手合作，谋求共同发展，继续为新老客户提供最优秀的产品和服务。工厂与多家台州制造业零售商和代理商建立了长期稳定的合作关系，品种齐全、价格合理，企业实力雄厚，重信用、守合同、保证产品质量，以多品种经营特色和薄利多销的原则，赢得了广大客户的信任。
+						<p>百度（Nasdaq：BIDU）是全球最大的中文搜索引擎、最大的中文网站。2000年1月由李彦宏创立于北京中关村，致力于向人们提供“简单，可依赖”的信息获取方式。“百度”二字源于中国宋朝词人辛弃疾的《青玉案·元夕》词句“众里寻他千百度”
 						</p>
 					</div>
 					<h3 class="d_title">联系方式</h3>
 					<span class="link"></span>
 				</div>
 			</div>
-		</div>
+		</div> -->
+		
 
 
 		<script type="text/javascript" src="js/DeleteSession.js"></script>
@@ -185,10 +191,10 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 					} else {
 						parent.addClass("hover")
 						var hideTip = function() {
-							parent.removeClass("hover");
-							$(document).off("click", hideTip);
+							parent.removeClass("hover")
+							$(document).off("click", hideTip)
 						}
-						$(document).on("click", hideTip);
+						$(document).on("click", hideTip)
 					}
 				})
 			})

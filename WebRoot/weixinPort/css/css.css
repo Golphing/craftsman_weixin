@@ -274,7 +274,7 @@ a:hover
 .c_bg{background:-webkit-gradient(linear,left top,left bottom,from(#FFFFFF),to(#F8F8F8));}
 .c_menu{overflow:hidden;}
 .c_menu ul{overflow:hidden;}
-.c_menu li{float:left;width:50%;text-align:center;}
+.c_menu li{float:left;width:100%;text-align:center;}
 .c_menu li:nth-child(2){width:50%;}
 .c_menu li a{font-size:14px;color:#333;display:block;line-height:39px;height:39px;border-bottom:1px solid #E5E5E5;border-right:1px solid #E5E5E5;background:#FEFEFE;}
 .c_menu li:last-child a{border-right:0}
