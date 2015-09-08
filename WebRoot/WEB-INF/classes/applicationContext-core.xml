@@ -59,4 +59,8 @@
 		<property name="annotationClass" value="com.ebaoyang.dao.MyBatisRepository" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
+	
+	<bean class="com.craftsmanasia.utils.OrderByUtility">
+	  	<property name="configFile" value="classpath:/PropertyColumnMapping.xml"/>
+	</bean>
 </beans>

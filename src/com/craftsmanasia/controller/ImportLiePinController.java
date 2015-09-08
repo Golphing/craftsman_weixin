@@ -1,6 +1,5 @@
 package com.craftsmanasia.controller;
 
-import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -49,7 +47,6 @@ import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.Work;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.WorkService;
-import com.ebaoyang.utils.JsonUtil;
 
 
 

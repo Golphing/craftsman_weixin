@@ -148,6 +148,26 @@
 	</select>
 	
 	<select 
+		id="selectOwnCompanyPositions"
+		parameterType="map" 
+		resultMap="positionResult" >
+            
+		SELECT
+			<include refid="positionColumns"/>,
+			<include refid="companyColumns"/>
+		FROM
+			position
+			INNER JOIN company ON company.id = position.company_id
+		WHERE
+			company.is_expired = 0
+			AND position.is_expired = 0
+			AND company.company_type_id = 1
+		ORDER BY
+			position.weight ASC,
+			company.weight ASC	
+	</select>
+	
+	<select 
 		id="getPositionsByCompanyIdAndTitle"
 		resultMap="positionResult" >
             
@@ -195,6 +215,12 @@
 		<if test="filter.isExpired != null">
 			AND position.is_expired = #{filter.isExpired, javaType=int, jdbcType=INTEGER}
 		</if>
+		<if test="filter.companyId != null">
+			AND position.company_id = #{filter.companyId, javaType=int, jdbcType=INTEGER}
+		</if>
+		<if test="filter.companyTypeId != null">
+			AND company.company_type_id = #{filter.companyTypeId, javaType=int, jdbcType=INTEGER}
+		</if>
 		<if test="filter.city != null">
 			AND position.city = #{filter.city, javaType=string, jdbcType=CHAR}
 		</if>
@@ -217,9 +243,16 @@
 			<include refid="positionFilter"/>
 		</where>
 		ORDER BY 
-			company.weight ASC,
-			position.weight ASC,
-			position.title ASC
+	  		<choose>
+	  			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				company.weight ASC,
+	  				position.weight ASC,
+					position.title ASC
+	  			</otherwise>
+	  		</choose>
 		<include refid="pagingLimit" />
 	</select>
 	

@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @author  牛洪波
  * @date 2015-08-25 
  */  
-/*这个类供com.quiz.servlet.CoreServlet调用
+/*这个类供CoreServlet调用
 */
 public class SignUtil {  
     // 与接口配置信息中的Token一致  

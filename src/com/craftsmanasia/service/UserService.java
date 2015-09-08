@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.craftsmanasia.dao.UserDao;
-import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.filter.UserFilter;
-import com.craftsmanasia.model.PositionSubscribeUser;
-import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.PagingResult;

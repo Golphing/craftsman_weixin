@@ -123,7 +123,7 @@
 
 <script>
   		$(function(){
-  			$("#import").click(function(){
+  			$(".button").click(function(){
 				 var name=$("input[name='name']").val();
 				 var password=$("input[name='password']").val();
 				 var openId=$("input[name='openId']").val();
