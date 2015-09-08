@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -193,7 +195,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(@RequestParam(value = "loginName", defaultValue = "") String loginName,
+	public String login(HttpServletRequest request,
+			@RequestParam(value = "loginName", defaultValue = "") String loginName,
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		if(StringUtil1.isNull(loginName) || StringUtil1.isNull(password)) {
 			// loginName 或 password为空，返回登录页面
@@ -211,6 +214,16 @@ public class AdminController {
 			return "/admin/views/login.html";
 		}
 		
+		request.setAttribute("isAdminLogin", administrator);
+		
 		return "/admin/views/index.html";
+	}
+	
+	@RequestMapping("/loginout")
+	public String loginOut(HttpServletRequest request) {
+		
+		request.removeAttribute("isAdminLogin");
+		
+		return "/admin/views/login.html";
 	}
 }
