@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.craftsmanasia.dao.AdministratorDao">
+	
+    <resultMap 
+		id="administratorResult" 
+		type="Administrator" >
+		
+		<id property="id" column="administrator_id" />
+		
+		<result property="loginName" column="administrator_login_name" />
+		<result property="name" column="administrator_name" />
+		<result property="telephone" column="administrator_telephone" />		
+		<result property="email" column="administrator_email" />
+        <result property="password" column="administrator_password" />
+        <result property="createTime" column="administrator_create_time" />
+        <result property="updateTime" column="administrator_update_time" />
+	</resultMap>
+    
+    <sql id="administratorColumns"> 
+		administrator.id AS administrator_id,
+		administrator.loginName AS administrator_login_name,
+		administrator.name AS administrator_name,
+		administrator.telephone AS administrator_telephone,
+		administrator.email AS administrator_email,
+		administrator.create_time AS administrator_create_time,
+		administrator.update_time AS administrator_update_time,
+		administrator.password AS administrator_password
+	</sql>
+	
+	<sql id="pagingLimit">
+		<include refid="com.craftsmanasia.dao.CommonDataDao.pagingLimit"/>
+	</sql>
+	
+	<insert
+	    id="addAdministrator" 
+	    useGeneratedKeys="true" 
+	    keyProperty="id" 
+	    parameterType="Administrator"> 
+	    
+		INSERT INTO administrator (
+		name,
+		loginName,
+		telephone,
+		email,
+		create_time,
+		update_time,
+		password
+		) VALUES (
+		#{name, javaType=string, jdbcType=CHAR},
+		#{loginName, javaType=string, jdbcType=CHAR},
+		#{telephone, javaType=string, jdbcType=CHAR},
+		#{email, javaType=string, jdbcType=CHAR},
+		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
+		#{password, javaType=string, jdbcType=CHAR}
+		)
+	</insert>
+	
+	<update id="updateAdministrator" parameterType="Administrator">
+
+		UPDATE
+			administrator
+		<set>
+			<if test="name != null">
+				administrator.name = #{name, javaType=string, jdbcType=CHAR},
+            </if>
+			<if test="loginName != null">
+				administrator.loginName = #{loginName, javaType=string, jdbcType=CHAR},
+            </if>
+			<if test="telephone != null">
+				administrator.telephone = #{telephone, javaType=string, jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+				administrator.email = #{email, javaType=string, jdbcType=CHAR},
+            </if>
+            <if test="password != null">
+				administrator.password = #{password, javaType=string, jdbcType=CHAR},
+            </if>
+            <if test="updateTime != null">
+				administrator.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
+            </if>
+		</set>
+		WHERE
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</update>
+	
+	<select 
+		id="selectAdministratorByLoginName"
+		parameterType="map" 
+		resultMap="administratorResult" >
+            
+		SELECT
+			<include refid="administratorColumns"/>
+		FROM
+			administrator
+		WHERE
+			administrator.loginName = #{loginName, javaType=string, jdbcType=CHAR}
+	</select>
+
+	<sql id="administratorFilter">
+		<if test="filter.name != null">
+			administrator.name = #{filter.name, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.loginName != null">
+			AND administrator.loginName = #{filter.loginName, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.telephone != null">
+			AND administrator.telephone = #{filter.telephone, javaType=string, jdbcType=CHAR}
+		</if>
+	</sql>
+	
+	<select 
+		id="selectAdministratorsByFilter"
+		parameterType="map" 
+		resultMap="administratorResult" >
+            
+		SELECT
+			<include refid="administratorColumns"/>
+		FROM
+			administrator
+		<where>
+			<include refid="administratorFilter" />
+		</where>
+		ORDER BY 
+	  		<choose>
+	  			<when test="filter.ordered == true">
+	  				${filter.orderBy}
+	  			</when>
+	  			<otherwise>
+	  				administrator.id ASC
+	  			</otherwise>
+	  		</choose>
+		<include refid="pagingLimit" />
+	</select>
+	
+	<select 
+		id="countAdministratorsByFilter"
+		parameterType="map" 
+		resultType="int" >
+            
+		SELECT
+			count(*)
+		FROM
+			administrator
+		<where>
+			<include refid="administratorFilter" />
+		</where>
+	</select>
+	
+	<delete id="deleteAdministratorById" 
+		parameterType="int">
+		DELETE FROM
+			administrator
+		WHERE 
+			id = #{id, javaType=int, jdbcType=INTEGER}
+	</delete>
+	
+</mapper>
