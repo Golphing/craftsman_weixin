@@ -104,6 +104,51 @@ public class UserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
+	@RequestMapping("/resume/create")
+	@ResponseBody
+	public String createResumeUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
+			@RequestParam(value = "userId", defaultValue = "") Integer userId,
+			@RequestParam(value = "gender", defaultValue = "") String gender,
+			@RequestParam(value = "birthday", defaultValue = "") String birthday,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "email", defaultValue = "") String email,
+			@RequestParam(value = "home", defaultValue = "") String home) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		if(StringUtil1.isNull(telephone)) {
+			map.put("status", "电话不能为空");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		if(StringUtil1.isNull(name)) {
+			map.put("status", "姓名不能为空");
+			return JSONObject.fromObject(map).toString();
+		}
+		if(StringUtil1.isNull(gender)) {
+			map.put("status", "性别不能为空");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		if(StringUtil1.isNull(birthday)) {
+			map.put("status", "生日不能为空");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		ResumeUser resumeUser = new ResumeUser();
+		resumeUser.setTelephone(telephone);
+		resumeUser.setName(name);
+		resumeUser.setBirthday(birthday);
+		resumeUser.setGender(gender);
+		resumeUser.setEmail(email);
+		resumeUser.setUserId(userId);
+		resumeUser.setHome(home);
+		
+		// 添加简历信息
+		resumeUserService.add(resumeUser);
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
 	/*
 	 * 获取user信息
 	 * */
