@@ -20,7 +20,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/wechat/user")
-public class UserController {
+public class WechatUserController {
 	@Autowired
 	UserService userService;
 	

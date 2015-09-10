@@ -106,7 +106,7 @@ public class PositionSubscribeController {
 		for(PositionSubscribeUser position : positions) {
 			vos.add(PositionVO.toVO(position.getPosition()));
 		}
-		map.put("positions", vos);
+		map.put("data", vos);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
