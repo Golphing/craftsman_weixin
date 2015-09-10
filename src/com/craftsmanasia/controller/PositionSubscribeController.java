@@ -57,7 +57,6 @@ public class PositionSubscribeController {
 	@RequestMapping("/subscribe")
 	@ResponseBody
 	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
-			@RequestParam(value = "statusId", defaultValue = "1") int statusId,
 			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -77,7 +76,8 @@ public class PositionSubscribeController {
 		PositionSubscribeUser positionSubscribeUser = new PositionSubscribeUser();
 		positionSubscribeUser.setPositionId(positionId);
 		positionSubscribeUser.setUserId(user.getId());
-		positionSubscribeUser.setStatusId(statusId);
+		// 投递简历都属于新投递状态
+		positionSubscribeUser.setStatusId(1);
 		Date now = new Date();
 		positionSubscribeUser.setCreateTime(now);
 		
