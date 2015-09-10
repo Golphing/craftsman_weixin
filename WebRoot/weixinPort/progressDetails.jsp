@@ -25,68 +25,60 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 var url=window.location.href;
-var id=url.split("?")[1].split("=")[1];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
+
+
+var userId=url.split("=")[1].split("&")[0];
+var positionId=url.split("=")[2];
+var request ="<%=basePath%>/wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId;
 
 /*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
-					var obj = jsonObj.data;//obj是一个包含多个选项的数组
-						document.getElementById("companyName").innerHTML = obj[0].company.name;
-						document.getElementById("title").innerHTML = obj[0].title;
-					document.getElementById("city").innerHTML = obj[0].city;
-					document.getElementById("requirement").innerHTML = obj[0].requirement;
-					document.getElementById("wage").innerHTML = obj[0].wage;
-					document.getElementById("createTime").innerHTML =obj[0].createTime;
-					document.getElementById("updateTime").innerHTML = obj[0].updateTime;
-					var expired="";
-					if(obj[0].isExpired==0){
-					expired="否";
+					var obj = jsonObj.data;
+						document.getElementById("companyname").innerHTML = obj.position.company.name;
+						
+					document.getElementById("create_time").innerHTML = obj.createTime;
+					if(obj.recommendTime==""){document.getElementById("recommend_time").innerHTML = "</br>";
+					}else{document.getElementById("recommend_time").innerHTML = obj.recommendTime;}
+					if(obj.createTime==""){document.getElementById("screen_resume_time").innerHTML ="</br>";}else{document.getElementById("screen_resume_time").innerHTML =obj.createTime;}
+					
+					
+					if(obj.recommendTime==""){document.getElementById("first_interview_time").innerHTML = "</br>";
+					}else{document.getElementById("first_interview_time").innerHTML = obj.firstInterviewTime;}
+					
+					
+					if(obj.recommendTime==""){document.getElementById("second_interview_time").innerHTML = "</br>";
+					}else{document.getElementById("second_interview_time").innerHTML =obj.secondInterviewTime;}
+					
+					
+					if(obj.recommendTime==""){document.getElementById("third_interview_time").innerHTML = "</br>";
+					}else{document.getElementById("third_interview_time").innerHTML = obj.thirdInterviewTime;}
+					alert(obj.rejectTime);
+					if(obj.recommendTime==""){document.getElementById("reject_time").innerHTML ="</br>";
+					}else{document.getElementById("reject_time").innerHTML =obj.rejectTime;}
+					
+
+					var status="";
+					if(obj.statusId==1){
+					status="新投递";
+					}else if(obj.statusId==2){
+					status="简历已推荐";
+					}else if(obj.statusId==3){
+					status="简历已通过筛选";
+					}else if(obj.statusId==4){
+					status="一面通过";
+					}else if(obj.statusId==5){
+					status="二面通过";
+					}else if(obj.statusId==6){
+					status="三面通过";
+					}else if(obj.statusId==7){
+					status="等待offer";
 					}else{
-					expired="是";}
-					document.getElementById("isExpired").innerHTML = expired;
+					status="已拒绝";
+					}
+					document.getElementById("status").innerHTML = status;
 					
 				});
-				
-				
-/*  岗位投递*/				
-				$(".btn_apply").click(function() {
-				alert(id);
-				if (confirm('您确定应聘该岗位？')) {
-					$.ajax({
-						 type : "post",
-						url : "<%=basePath%>/position/subscribe.do", 
-						data : {
-							userId : 2,
-							positionId : 7
-						},
-						dataType : "html", 
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						}, 
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('成功应聘！');
-							} else if (data == "4") {
-								showTip('禁用会员！');
-							} else if (data == "5") {
-								showTip('成功应聘！');
-							}
-						} 
-					});}
-				})
-		/* 公司详情
-		var companyId = obj[0].company.id;	
-			 */
 			
 			
 			})
@@ -119,7 +111,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 		</div>
 		<div class="c_menu">
 			<ul>
-				<li class="active"><a href="javascript:;">职位详情</a></li>
+				<li class="active"><a href="javascript:;">职位进度详情</a></li>
 			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->
 				
 			</ul>
@@ -129,36 +121,46 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 				<h1 class="d_posName" id="title"></h1>
 				<!-- <h4 class="d_pos_Num">1人</h4> -->
 				<div class="d_posInfo_box">
-
+				<dl>
+						<dt >职位名称：</dt>
+						<dd id="companyname"></dd>
+					</dl>
+<dl>
+						<dt >状态：</dt>
+						<dd id="status"></dd>
+					</dl>
 					<dl>
-						<dt >公司名字：</dt>
-						<dd id="companyName"></dd>
+						<dt >投递时间：</dt>
+						<dd id="create_time"></dd>
 					</dl>
 
+					
 					<dl>
-						<dt >要求：</dt>
-						<dd id="requirement"></dd>
+						<dt >推荐时间：</dt>
+						<dd id="recommend_time"></dd>
 					</dl>
 					<dl>
-						<dt >工作地址：</dt>
-						<dd id="city"></dd>
+						<dt >通过筛选时间：</dt>
+						<dd id="screen_resume_time"></dd>
 					</dl>
 					<dl>
-						<dt >工资水平：</dt>
-						<dd id="wage"></dd>
+						<dt >一面时间：</dt>
+						<dd id="first_interview_time"></dd>
 					</dl>
 					<dl>
-						<dt >发布时间：</dt>
-						<dd id="createTime"></dd>
+						<dt >二面时间：</dt>
+						<dd id="second_interview_time"></dd>
+					</dl>
+					
+					<dl>
+						<dt >三面时间：</dt>
+						<dd id="third_interview_time"></dd>
 					</dl>
 					<dl>
-						<dt >更新时间：</dt>
-						<dd id="updateTime"></dd>
+						<dt >被拒时间：</dt>
+						<dd id="reject_time"></dd>
 					</dl>
-					<dl>
-						<dt >是否过期：</dt>
-						<dd id="isExpired"></dd>
-					</dl>
+					
 				</div>
 			<!-- <div class="d_description">
 					<h3 class="d_title">职位描述</h3>
@@ -173,10 +175,10 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 
 			<div class="overlay">&nbsp;</div>
 			<div class="apply_favorites">
-				<button class="btn_apply" data-id="59285" data-id2="190317">
+				<!-- <button class="btn_apply" data-id="59285" data-id2="190317">
 					应聘</button>
 				<button class="favorties" data-id="190317">收藏</button>
-				<a href="javascript:scroll(0,0)" class="btn_top fr"></a>
+				<a href="javascript:scroll(0,0)" class="btn_top fr"></a> -->
 			</div>
 		</div>
 		
@@ -256,7 +258,24 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 			</ul>
 		</div>
 		<div style="display:none;">
-			
+			<script>
+				var _hmt = _hmt || [];
+				(function() {
+					var hm = document.createElement("script");
+					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
+					var s = document.getElementsByTagName("script")[0];
+					s.parentNode.insertBefore(hm, s);
+				})();
+			</script>
+			<script>
+				var _hmt = _hmt || [];
+				(function() {
+					var hm = document.createElement("script");
+					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
+					var s = document.getElementsByTagName("script")[0];
+					s.parentNode.insertBefore(hm, s);
+				})();
+			</script>
 		</div>
 
 	</div>
@@ -296,7 +315,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 
 			});
 
-			/* $(".btn_apply").click(function() {
+			$(".btn_apply").click(function() {
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						type : "post",
@@ -329,7 +348,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 						}
 					});
 				}
-			}); */
+			});
 
 			$(".favorties").click(function() {
 				if (confirm('您确定收藏该岗位？')) {
