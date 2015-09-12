@@ -83,15 +83,16 @@ public class WechatController {
 		map.put("position", listPosition);
 		return JSONObject.fromObject(map).toString();
 	}
-//点击 我的简历 菜单
+
+	// 点击 我的简历 菜单
 	@RequestMapping(value = "/myResume", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public ModelAndView login(HttpSession session) {
+	public ModelAndView myResume(HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
-		System.out.println(user);
 		if (user == null) {
 			// 跳转到登陆页面
-			return new ModelAndView(new RedirectView("../../weixinPort/login.jsp"));
+			return new ModelAndView(new RedirectView(
+					"../../weixinPort/login.jsp"));
 
 		} else {
 			// 跳转到简历修改页面或者添加简历页面
@@ -100,15 +101,41 @@ public class WechatController {
 
 			if (resume == null) {
 				// 添加简历
-				return new ModelAndView(new RedirectView("../../weixinPort/fillResume.jsp"));
+				return new ModelAndView(new RedirectView(
+						"../../weixinPort/fillResume.jsp"));
 			} else {
 				// 修改简历
-				return new ModelAndView(new RedirectView("../../weixinPort/modifyResume.jsp"));
+				return new ModelAndView(new RedirectView(
+						"../../weixinPort/modifyResume.jsp"));
 			}
 
 		}
 
 	}
-	
-}
 
+	// 点击 我的简历 菜单
+	@RequestMapping(value = "/login", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String login(
+			HttpSession session,
+			@RequestParam(value = "telephone", defaultValue = "0") String telephone,
+			@RequestParam(value = "password", defaultValue = "0") String password) {
+		User user = userService.getUserByTelephone(telephone);
+		if (user == null) {
+		
+			return "手机号错误";
+			
+		} else {
+			if (user.getPassword().equals(password)) {
+				session.setAttribute("user", user);
+				
+				return "成功";
+				
+			} else {
+				return "密码错误";
+				
+			}
+		}
+
+	}
+}

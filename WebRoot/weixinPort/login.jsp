@@ -63,24 +63,30 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
-	var username="";
+	var telephone="";
 	var password = "";
 	
 		$('#btn').click(function() {
-			username = $('input#username').val();
+			telephone = $('input#telephone').val();
 			password = $('input#password').val();
-			if (username == "") {
-				alert("请输入账号!");
+			if (telephone == "") {
+				alert("请输入手机号!");
 			} else if (password == "") {
 				alert("请输入密码!");
 			}
-			var request url ="<%=basePath%>wechat/position/search/own.do?username="+username+"&password="+password;
-			$.get(request, function(data){
-			});
+			var request ="<%=basePath%>wechat/user/login.do?telephone="+telephone+"&password="+password;
 			
-			
+			$.get(request, function(data) {
+			if(data=="成功"){
+			location.href = "myResume.jsp";
+			}else if(data=="手机号错误"){
+			alert("手机号错误");
+			}else{
+			alert("密码错误");
+			};
 		});
-	})
+		});
+	});
 
 </script>
 
@@ -97,11 +103,11 @@
 
 			<ul>
 				<form action="<%=basePath%>wechat/user/login.do" method="get">
-					<li class="username"><input type="text" value=""
-						placeholder="账号" id="username" />
+					<li class="telephone"><input type="text" value=""
+						placeholder="账号" id="telephone" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="telephone"><input type="text" value=""
 						placeholder="密码" id="password" />
 					</li>
 				
