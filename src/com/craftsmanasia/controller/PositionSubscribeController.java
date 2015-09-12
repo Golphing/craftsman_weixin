@@ -56,7 +56,7 @@ public class PositionSubscribeController {
 	/*
 	 * 返回类型：0成功1PositionId非法2已订阅
 	 * */
-	@RequestMapping(value ="/subscribe",method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value ="/subscribe",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
 			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
@@ -81,6 +81,7 @@ public class PositionSubscribeController {
 		positionSubscribeUser.setStatusId(1);
 		Date now = new Date();
 		positionSubscribeUser.setCreateTime(now);
+		positionSubscribeUser.setUpdateTime(now);
 		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
 		map.put("status", "订阅成功");
 		

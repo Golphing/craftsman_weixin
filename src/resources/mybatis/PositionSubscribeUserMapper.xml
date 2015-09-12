@@ -95,6 +95,7 @@
 		user_id,
 		status_id,
 		create_time,
+		update_time,
 		recommend_time,
 		screen_resume_time,
 		first_interview_time,
@@ -106,6 +107,7 @@
 		#{userId, javaType=int, jdbcType=INTEGER},
 		#{statusId, javaType=int, jdbcType=INTEGER},
 		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
 		#{recommendTime, javaType=date, jdbcType=TIMESTAMP},
 		#{screenResumeTime, javaType=date, jdbcType=TIMESTAMP},
 		#{firstInterviewTime, javaType=date, jdbcType=TIMESTAMP},
@@ -249,6 +251,9 @@
 			</if>
 			<if test="waitingOfferTime !=null">
 				psu.waiting_offer_time = #{waitingOfferTime, javaType=date, jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateTime !=null">
+				psu.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP}
 			</if>
 			<if test="statusId !=null">
 				psu.status_id = #{statusId, javaType=int, jdbcType=INTEGER}
