@@ -25,8 +25,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 var url=window.location.href;
-var id=url.split("?")[1].split("=")[1];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
+var positionId=url.split("?")[1].split("=")[1];
+var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
 
 /*职位详情  */
 		$.get(request, function(data) {
@@ -49,13 +49,31 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 				});
 				
 				
-/*  岗位投递*/				
-				$(".btn_apply").click(function() {
-				alert(id);
+/*  岗位投递*/		
+var ll ="http://ghosters.imwork.net/craftsman_weixin/wechat/position/subscribe.do?userId=2&positionId=-7";	
+$(".btn_apply").click(function() {
+				alert(positionId);
+				
+				$.post(ll, function(data) {
+					alert(data);
+					
+				});
+				
+				
+				
+				})
+				
+		
+
+
+
+	
+				<%-- $(".btn_apply").click(function() {
+				alert(positionId);
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						 type : "post",
-						url : "<%=basePath%>/position/subscribe.do", 
+						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
 							userId : 2,
 							positionId : 7
@@ -66,27 +84,11 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 							return false
 						}, 
 						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('成功应聘！');
-							} else if (data == "4") {
-								showTip('禁用会员！');
-							} else if (data == "5") {
-								showTip('成功应聘！');
-							}
+							alert('应聘成功.');
 						} 
-					});}
-				})
-		/* 公司详情
-		var companyId = obj[0].company.id;	
-			 */
+					}); }
+				})--%>
+		
 			
 			
 			})
@@ -214,27 +216,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+id;
 
 
 		<script type="text/javascript" src="js/DeleteSession.js"></script>
-		<script type="text/javascript" language="JavaScript">
-			$(function() {
-				$(".per_name").click(function(e) {
-					var parent = $(this).parent().parent().parent()
-					if (e && e.stopPropagation)
-						e.stopPropagation()
-					if (e && e.preventDefault)
-						e.preventDefault()
-					if (parent.hasClass("hover")) {
-						parent.removeClass("hover")
-					} else {
-						parent.addClass("hover")
-						var hideTip = function() {
-							parent.removeClass("hover")
-							$(document).off("click", hideTip)
-						}
-						$(document).on("click", hideTip)
-					}
-				})
-			})
-		</script>
+		
 		<div class="footer">
 			<div class="footer_top">
 				<ul class="user_info">
