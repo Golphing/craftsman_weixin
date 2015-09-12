@@ -6,7 +6,6 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -64,32 +63,25 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
-	var name="";
-			var accout ="";
-			var password = "";
+	var username="";
+	var password = "";
+	
 		$('#btn').click(function() {
-			accout = $('input#accout').val();
-			 password = $('input#password').val();
-			
-			if (account == "") {
+			username = $('input#username').val();
+			password = $('input#password').val();
+			if (username == "") {
 				alert("请输入账号!");
 			} else if (password == "") {
 				alert("请输入密码!");
-			} 
-			var userid=Math.floor(Math.random()*10000+1);
-			$.ajax({
-				type : "POST",
-				url : "<%=basePath%>admin/user/resume/create.do",
-				data : "userid="+userid+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
-				success : function(msg) {
-				var jsonObj = eval("(" + msg + ")");
-					if(jsonObj.status==true){
-					window.location.href="<%=basePath%>weixinPort/fillWork.jsp?userid="+userid;}else{alert("提交错误，请重新输入！");}
-				}
+			}
+			var request url ="<%=basePath%>wechat/position/search/own.do?username="+username+"&password="+password;
+			$.get(request, function(data){
 			});
-
+			
+			
 		});
 	})
+
 </script>
 
 </head>
@@ -104,21 +96,22 @@
 
 
 			<ul>
-				<form action="<%=basePath%>admin/user/resume/create.do" method="get">
+				<form action="<%=basePath%>wechat/user/login.do" method="get">
 					<li class="username"><input type="text" value=""
-						placeholder="账号" id="account" />
+						placeholder="账号" id="username" />
 					</li>
 					<br /><br />
 					<li class="username"><input type="text" value=""
 						placeholder="密码" id="password" />
 					</li>
-				</form>
+				
 		
 				<li class="login_free"></li>
 				<li class="btn_submit">
 				<br/>
 					<button type="button" id="btn">登陆</button>
 				</li>
+				</form>
 			</ul>
 		</div>
 
