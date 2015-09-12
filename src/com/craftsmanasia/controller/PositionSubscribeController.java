@@ -156,7 +156,7 @@ public class PositionSubscribeController {
 	/*收藏职位
 	 * 返回类型：0成功1用户不存在2职位不存在3已收藏该职位
 	 * */
-	@RequestMapping(value = "/collect")
+	@RequestMapping(value = "/collect",method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String collectPosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId,
 			@RequestParam(value = "userId", defaultValue = "0") int userId) {
