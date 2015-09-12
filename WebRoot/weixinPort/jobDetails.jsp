@@ -50,25 +50,9 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				
 				
 /*  岗位投递*/		
-var ll ="http://ghosters.imwork.net/craftsman_weixin/wechat/position/subscribe.do?userId=2&positionId=-7";	
-$(".btn_apply").click(function() {
-				alert(positionId);
-				
-				$.post(ll, function(data) {
-					alert(data);
-					
-				});
-				
-				
-				
-				})
-				
-		
-
-
-
 	
-				<%-- $(".btn_apply").click(function() {
+				
+ $(".btn_apply").click(function() {
 				alert(positionId);
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
@@ -87,8 +71,29 @@ $(".btn_apply").click(function() {
 							alert('应聘成功.');
 						} 
 					}); }
-				})--%>
-		
+				});
+				/*岗位收藏  */
+				$(".favorties").click(function() {
+				if (confirm('您确定收藏该岗位？')) {
+					$.ajax({
+						type : "post",
+						url : "<%=basePath%>wechat/position/collect.do",
+						data : {
+							userId : 2,
+							positionId : 7
+						},
+						dataType : "html",
+						error : function() {
+							alert('系统出错,请稍候再试.');
+							return false;
+						},
+						success : function(data) {
+							alert(data);
+
+						}
+					});
+				}
+			});
 			
 			
 			})
@@ -313,7 +318,7 @@ $(".btn_apply").click(function() {
 				}
 			}); */
 
-			$(".favorties").click(function() {
+	/* 		$(".favorties").click(function() {
 				if (confirm('您确定收藏该岗位？')) {
 					$.ajax({
 						type : "post",
@@ -344,7 +349,7 @@ $(".btn_apply").click(function() {
 						}
 					});
 				}
-			});
+			}); */
 		});
 	</script>
 </body>
