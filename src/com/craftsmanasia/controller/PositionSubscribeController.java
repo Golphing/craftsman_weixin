@@ -3,8 +3,10 @@ package com.craftsmanasia.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,12 +56,11 @@ public class PositionSubscribeController {
 	/*
 	 * 返回类型：0成功1PositionId非法2已订阅
 	 * */
-	@RequestMapping("/subscribe")
+	@RequestMapping(value ="/subscribe",method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
 			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		
 		User user = new User();
 		user.setId(userId);
 		if(positionId <=0 ) {
@@ -80,10 +81,9 @@ public class PositionSubscribeController {
 		positionSubscribeUser.setStatusId(1);
 		Date now = new Date();
 		positionSubscribeUser.setCreateTime(now);
-		
 		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
+		map.put("status", "订阅成功");
 		
-		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
