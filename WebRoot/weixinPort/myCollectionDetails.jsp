@@ -1,8 +1,16 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8" />
+
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -17,14 +25,119 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 var url=window.location.href;
-var id = url.substr(url.indexOf("?id=") + 4);
-		alert(id);
-	})
+var positionId=url.split("?")[1].split("=")[1];
+var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
+
+/*职位详情  */
+		$.get(request, function(data) {
+					var jsonObj = eval("(" + data + ")");
+					var obj = jsonObj.data;//obj是一个包含多个选项的数组
+						document.getElementById("companyName").innerHTML = obj[0].company.name;
+						document.getElementById("title").innerHTML = obj[0].title;
+					document.getElementById("city").innerHTML = obj[0].city;
+					document.getElementById("requirement").innerHTML = obj[0].requirement;
+					document.getElementById("wage").innerHTML = obj[0].wage;
+					document.getElementById("createTime").innerHTML =obj[0].createTime;
+					document.getElementById("updateTime").innerHTML = obj[0].updateTime;
+					var expired="";
+					if(obj[0].isExpired==0){
+					expired="否";
+					}else{
+					expired="是";}
+					document.getElementById("isExpired").innerHTML = expired;
+					
+				});
+				
+				
+/*  岗位投递*/		
+	
+				
+ $(".btn_apply").click(function() {
+				
+				if (confirm('您确定应聘该岗位？')) {
+					$.ajax({
+						 type : "post",
+						url : "<%=basePath%>wechat/position/subscribe.do", 
+						data : {
+							userId : 2,
+							positionId : positionId
+						},
+						dataType : "html", 
+						error : function() {
+							alert('系统出错,请稍候再试.');
+							return false;
+						}, 
+						success : function(data) {
+							var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.status;//obj是一个包含多个选项的数组
+			alert(obj);
+						} 
+					}); }
+				});
+				/*岗位收藏  */
+				$(".favorties").click(function() {
+				if(document.getElementById("cancle").innerHTML == "取消收藏"){
+					$.ajax({
+						type : "post",
+						url : "<%=basePath%>wechat/position/cancle/collection/positions.do",
+						data : {
+							userId : 2,
+							positionId : 5
+						},
+						dataType : "html",
+						error : function() {
+							alert('系统出错,请稍候再试.');
+							return false;
+						},
+						success : function(data) {
+							var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.status;//obj是一个包含多个选项的数组
+			if(obj==true){
+			document.getElementById("cancle").innerHTML = "收藏";
+			}else{
+			alert('系统出错,请稍候再试.');
+			}
+
+						}
+					});
+				}else{
+						
+					$.ajax({
+						type : "get",
+						url : "<%=basePath%>wechat/position/collect.do",
+						data : {
+							userId : 2,
+							positionId : 5
+						},
+						dataType : "html",
+						error : function() {
+							alert('系统出错,请稍候再试.');
+							return false;
+						},
+						success : function(data) {
+							var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.status;//obj是一个包含多个选项的数组
+			if(obj==true){
+			document.getElementById("cancle").innerHTML = "取消收藏";
+			}else{
+			alert('系统出错,请稍候再试.');
+			}
+
+						}
+					});
+				
+				
+				
+				}
+			});
+			
+			
+			})
 </script>
 
 </head>
 <body>
-	<div class="mtzrl_box">
+<div class="mtzrl_box">
 
 		
 		<div class="mtzrl_header">
@@ -50,70 +163,71 @@ var id = url.substr(url.indexOf("?id=") + 4);
 		<div class="c_menu">
 			<ul>
 				<li class="active"><a href="javascript:;">职位详情</a></li>
-				<li><a href="javascript:;">企业简介</a></li>
+			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->
 				
 			</ul>
 		</div>
 		<div class="job_content">
 			<div class="job_box">
-				<h1 class="d_posName">外贸</h1>
-				<h4 class="d_pos_Num">1人</h4>
+				<h1 class="d_posName" id="title"></h1>
+				<!-- <h4 class="d_pos_Num">1人</h4> -->
 				<div class="d_posInfo_box">
 
 					<dl>
-						<dt id="companyName">企业名称：</dt>
-						<dd>台州市路桥悦丰喷雾器厂(普通合伙)</dd>
+						<dt >公司名字：</dt>
+						<dd id="companyName"></dd>
 					</dl>
-					
+
 					<dl>
-						<dt id="requirement",>工作要求：</dt>
-						<dd>全职</dd>
-					</dl>
-					<dl>
-						<dt id="city">工作地区：</dt>
-						<dd>路桥区</dd>
+						<dt >要求：</dt>
+						<dd id="requirement"></dd>
 					</dl>
 					<dl>
-						<dt id="wage">工资：</dt>
-						<dd>本科</dd>
+						<dt >工作地址：</dt>
+						<dd id="city"></dd>
 					</dl>
 					<dl>
-						<dt id="creatTime">创建日期：</dt>
-						<dd>2014-04-11 ~ 2014-07-10</dd>
+						<dt >工资水平：</dt>
+						<dd id="wage"></dd>
 					</dl>
 					<dl>
-						<dt id="updateTime">更新日期：</dt>
-						<dd>2014-04-11 ~ 2014-07-10</dd>
+						<dt >发布时间：</dt>
+						<dd id="createTime"></dd>
 					</dl>
 					<dl>
-						<dt id="isExpired">是否过期：</dt>
-						<dd>2014-04-11 ~ 2014-07-10</dd>
+						<dt >更新时间：</dt>
+						<dd id="updateTime"></dd>
+					</dl>
+					<dl>
+						<dt >是否过期：</dt>
+						<dd id="isExpired"></dd>
 					</dl>
 				</div>
-				<div class="d_description">
+			<!-- <div class="d_description">
 					<h3 class="d_title">职位描述</h3>
 					<div class="d_word">
-						<p>本厂在路桥蓬街</p>
+						<p></p>
 					</div>
 					<h3 class="d_title">联系方式</h3>
 					<span class="link"></span>
-				</div>
+				</div> -->
 			</div>
-			
-			
+
+
 			<div class="overlay">&nbsp;</div>
 			<div class="apply_favorites">
 				<button class="btn_apply" data-id="59285" data-id2="190317">
 					应聘</button>
-				<button class="favorties" data-id="190317">收藏</button>
+				<button class="favorties" data-id="190317" id="cancle">取消收藏</button>
 				<a href="javascript:scroll(0,0)" class="btn_top fr"></a>
 			</div>
 		</div>
 		
-		
-		<div class="job_content hide">
+
+
+		<!-- <div class="job_content hide">
 			<div class="job_box">
-				<h1 class="d_posName">台州市路桥悦丰喷雾器厂(普通合伙)</h1>
+				<h1 class="d_posName">百度</h1>
 				<div class="d_posInfo_box">
 					<dl>
 						<dt>公司性质：</dt>
@@ -121,50 +235,29 @@ var id = url.substr(url.indexOf("?id=") + 4);
 					</dl>
 					<dl>
 						<dt>公司规模：</dt>
-						<dd>少于50人</dd>
+						<dd>大于500人</dd>
 					</dl>
 					<dl>
 						<dt>主页：</dt>
-						<dd>&nbsp;</dd>
+						<dd>www.baidu.com &nbsp;</dd>
 					</dl>
 				</div>
 				<div class="d_description">
 					<h3 class="d_title">企业简介</h3>
 					<div class="d_word">
-						<p>台州市路桥悦丰喷雾器厂位于台州市路桥区蓬街镇光华南路69-5号，于2008年8月1日在台州工商局注册成立。
-							台州市路桥悦丰喷雾器厂愿与社会各界同仁携手合作，谋求共同发展，继续为新老客户提供最优秀的产品和服务。工厂与多家台州制造业零售商和代理商建立了长期稳定的合作关系，品种齐全、价格合理，企业实力雄厚，重信用、守合同、保证产品质量，以多品种经营特色和薄利多销的原则，赢得了广大客户的信任。
+						<p>百度（Nasdaq：BIDU）是全球最大的中文搜索引擎、最大的中文网站。2000年1月由李彦宏创立于北京中关村，致力于向人们提供“简单，可依赖”的信息获取方式。“百度”二字源于中国宋朝词人辛弃疾的《青玉案·元夕》词句“众里寻他千百度”
 						</p>
 					</div>
 					<h3 class="d_title">联系方式</h3>
 					<span class="link"></span>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 
 
 		<script type="text/javascript" src="js/DeleteSession.js"></script>
-		<script type="text/javascript" language="JavaScript">
-			$(function() {
-				$(".per_name").click(function(e) {
-					var parent = $(this).parent().parent().parent()
-					if (e && e.stopPropagation)
-						e.stopPropagation()
-					if (e && e.preventDefault)
-						e.preventDefault()
-					if (parent.hasClass("hover")) {
-						parent.removeClass("hover")
-					} else {
-						parent.addClass("hover")
-						var hideTip = function() {
-							parent.removeClass("hover")
-							$(document).off("click", hideTip)
-						}
-						$(document).on("click", hideTip)
-					}
-				})
-			})
-		</script>
+		
 		<div class="footer">
 			<div class="footer_top">
 				<ul class="user_info">
@@ -186,24 +279,7 @@ var id = url.substr(url.indexOf("?id=") + 4);
 			</ul>
 		</div>
 		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
+			
 		</div>
 
 	</div>
@@ -243,7 +319,7 @@ var id = url.substr(url.indexOf("?id=") + 4);
 
 			});
 
-			$(".btn_apply").click(function() {
+			/* $(".btn_apply").click(function() {
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						type : "post",
@@ -276,9 +352,9 @@ var id = url.substr(url.indexOf("?id=") + 4);
 						}
 					});
 				}
-			});
+			}); */
 
-			$(".favorties").click(function() {
+	/* 		$(".favorties").click(function() {
 				if (confirm('您确定收藏该岗位？')) {
 					$.ajax({
 						type : "post",
@@ -309,7 +385,7 @@ var id = url.substr(url.indexOf("?id=") + 4);
 						}
 					});
 				}
-			});
+			}); */
 		});
 	</script>
 </body>

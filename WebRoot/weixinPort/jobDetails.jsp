@@ -26,10 +26,10 @@
 	$(document).ready(function() {
 var url=window.location.href;
 var positionId=url.split("?")[1].split("=")[1];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
+var requestUrl ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
 
 /*职位详情  */
-		$.get(request, function(data) {
+		$.get(requestUrl, function(data) {
 					var jsonObj = eval("(" + data + ")");
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组
 						document.getElementById("companyName").innerHTML = obj[0].company.name;
@@ -53,22 +53,24 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 	
 				
  $(".btn_apply").click(function() {
-				alert(positionId);
+				
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						 type : "post",
 						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
 							userId : 2,
-							positionId : 7
+							positionId : positionId
 						},
 						dataType : "html", 
 						error : function() {
 							alert('系统出错,请稍候再试.');
-							return false
+							return false;
 						}, 
 						success : function(data) {
-							alert('应聘成功.');
+							var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.status;//obj是一个包含多个选项的数组
+			alert(obj);
 						} 
 					}); }
 				});
@@ -76,11 +78,11 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				$(".favorties").click(function() {
 				if (confirm('您确定收藏该岗位？')) {
 					$.ajax({
-						type : "post",
+						type : "get",
 						url : "<%=basePath%>wechat/position/collect.do",
 						data : {
 							userId : 2,
-							positionId : 7
+							positionId : positionId
 						},
 						dataType : "html",
 						error : function() {
@@ -88,7 +90,9 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 							return false;
 						},
 						success : function(data) {
-							alert(data);
+							var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.status;//obj是一个包含多个选项的数组
+			alert(obj);
 
 						}
 					});
@@ -283,73 +287,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 
 			});
 
-			/* $(".btn_apply").click(function() {
-				if (confirm('您确定应聘该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/yingpin.ashx",
-						data : {
-							comid : $(this).data("id"),
-							jobid : $(this).data("id2")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('成功应聘！');
-							} else if (data == "4") {
-								showTip('禁用会员！');
-							} else if (data == "5") {
-								showTip('成功应聘！');
-							}
-						}
-					});
-				}
-			}); */
-
-	/* 		$(".favorties").click(function() {
-				if (confirm('您确定收藏该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/shoucang.ashx",
-						data : {
-							jobid : $(this).data("id")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('禁用会员！');
-							} else if (data == "4") {
-								showTip('成功收藏！');
-							}
-
-						}
-					});
-				}
-			}); */
+			
 		});
 	</script>
 </body>
