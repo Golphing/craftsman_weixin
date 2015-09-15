@@ -27,7 +27,7 @@
 var url=window.location.href;
 var positionId=url.split("?")[1].split("=")[1];
 var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
-
+var userId='<%=session.getAttribute("userId")%>';
 /*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
@@ -59,7 +59,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						 type : "post",
 						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
-							userId : 2,
+							userId : userId,
 							positionId : positionId
 						},
 						dataType : "html", 
@@ -81,8 +81,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						type : "post",
 						url : "<%=basePath%>wechat/position/cancle/collection/positions.do",
 						data : {
-							userId : 2,
-							positionId : 5
+							userId : userId,
+							positionId : positionId
 						},
 						dataType : "html",
 						error : function() {
@@ -106,8 +106,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						type : "get",
 						url : "<%=basePath%>wechat/position/collect.do",
 						data : {
-							userId : 2,
-							positionId : 5
+							userId : userId,
+							positionId : positionId
 						},
 						dataType : "html",
 						error : function() {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -77,44 +78,59 @@ public class WechatController {
 					.getPositionById(positionSubscribeUserList.get(j)
 							.getPositionId());
 			listPosition.add(position);
-
 		}
-
 		map.put("position", listPosition);
 		return JSONObject.fromObject(map).toString();
 	}
 
 	// 点击 我的简历 菜单
 	@RequestMapping(value = "/myResume", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public ModelAndView myResume(HttpSession session) {
-
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
+	public void myResume(HttpServletRequest request) {
+		 String code = request.getParameter("code");
+		 System.out.println(code);
+		/*if (userId == null) {
 			// 跳转到登陆页面
 			return new ModelAndView(new RedirectView(
 					"../../weixinPort/login.jsp"));
 
 		} else {
 			// 跳转到简历修改页面或者添加简历页面
-			ResumeUser resume = resumeUserService.selectResumeUserByUserId(user
-					.getId());
-
-			if (resume == null) {
+			ResumeUser resume = resumeUserService.selectResumeUserByUserId((Integer)userId);
+			 List<Work> work = workService.getUserWorksByUserId((Integer)userId);
+			if (resume == null&&work.size()==0) {
+//				
 				// 添加简历
 				return new ModelAndView(new RedirectView(
 						"../../weixinPort/fillResume.jsp"));
-			} else {
+			} else if(resume!=null&&work.size()==0){
+				return new ModelAndView(new RedirectView(
+						"../../weixinPort/fillWork.jsp"));
+			}else {
 				// 修改简历
 				return new ModelAndView(new RedirectView(
-						"../../weixinPort/modifyResume.jsp"));
+						"../../weixinPort/myResume.jsp"));
 			}
 
 		}
-
+*/
 	}
 
+	
+	
 	// 点击 我的简历 菜单
-	@RequestMapping(value = "/login", produces = "text/plain;charset=UTF-8")
+		@RequestMapping(value = "/toRegisterPage", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+		public ModelAndView toRegisterPage(HttpSession session,@RequestParam(value = "telephone", defaultValue = "") String telephone) {
+
+			User user = userService.getUserByTelephone(telephone);
+			session.setAttribute("userId", user.getId());
+			return new ModelAndView(new RedirectView(
+					"../../weixinPort/register.jsp"));
+			
+
+		}
+
+	// 点击 我的简历 菜单
+	@RequestMapping(value = "/userlogin", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String login(
 			HttpSession session,
@@ -122,20 +138,28 @@ public class WechatController {
 			@RequestParam(value = "password", defaultValue = "0") String password) {
 		User user = userService.getUserByTelephone(telephone);
 		if (user == null) {
-		
+
 			return "手机号错误";
-			
+
 		} else {
 			if (user.getPassword().equals(password)) {
-				session.setAttribute("user", user);
-				
-				return "成功";
-				
+				session.setAttribute("userId", user.getId());
+				ResumeUser resume = resumeUserService
+						.selectResumeUserByUserId(user.getId());
+				if (resume == null) {
+					return "添加简历";
+				} else {
+					// 返回我的简历
+					return String.valueOf(resume.getId());
+				}
+
 			} else {
 				return "密码错误";
-				
+
 			}
 		}
 
 	}
+	
+	
 }

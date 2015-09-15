@@ -6,7 +6,6 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -64,46 +63,27 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
-	var name="";
-			var gender ="";
-			var email = "";
-			var home = "";
-			var birthday = "";
-			var telephone = "";
+	var telephone="";
+	var password = "";
+	
 		$('#btn').click(function() {
-			name = $('input#name').val();
-			 gender = $('input#gender').val();
-			email = $('input#email').val();
-		 home = $('input#home').val();
-			 birthday = $('input#birthday').val();
 			telephone = $('input#telephone').val();
-			if (name == "") {
-				alert("请输入姓名!");
-			} else if (gender == "") {
-				alert("请输入性别!");
-			} else if (email == "") {
-				alert("请输入邮箱！");
-			} else if (home == "") {
-				alert("请输入家乡！");
-			} else if (birthday == "") {
-				alert("请输入出生年月！");
+			password = $('input#password').val();
+			if (telephone == "") {
+				alert("请输入手机号!");
+			} else if (password == "") {
+				alert("请输入密码!");
 			}
-			var userId='<%=session.getAttribute("userId")%>';
+			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password;
 			
-			$.ajax({
-				type : "POST",
-				url : "<%=basePath%>admin/user/resume/create.do",
-				data : "userid="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
-				success : function(msg) {
-				var jsonObj = eval("(" + msg + ")");
-					if(jsonObj.status==true){
-				
-					window.location.href="fillWork.jsp";}else{alert("提交错误，请重新输入！");}
-				}
-			});
-
+			$.get(request, function(data) {
+			
+			location.href = "fillResume.jsp";
+			
 		});
-	})
+		});
+	});
+
 </script>
 
 </head>
@@ -111,39 +91,29 @@
 	<div class="mtzrl_box">
 		<div class="mq_top">
 
-			<div class="mq_title">个人信息</div>
+			<div class="mq_title">用户注册</div>
 			<div class="btn_ch_r"></div>
 		</div>
 		<div class="log_box">
 
 
 			<ul>
-				<form action="<%=basePath%>admin/user/resume/create.do" method="get">
-					<li class="username"><input type="text" value=""
-						placeholder="姓名" id="name" />
-					</li><br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="性别" id="gender" />
-					</li><br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="邮箱" id="email" />
-					</li><br /><br />
+				<form action="<%=basePath%>wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" value=""
-						placeholder="电话" id="telephone" />
+						placeholder="手机号" id="telephone" />
 					</li>
-<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="家乡" id="home" />
+					<br /><br />
+					<li class="telephone"><input type="password" value=""
+						placeholder="密码" id="password" />
 					</li>
-<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="出生年月" id="birthday" />
-					</li>
-				</form>
+				
+		
 				<li class="login_free"></li>
 				<li class="btn_submit">
-					<button type="button" id="btn">下一页</button>
+				<br/>
+					<button type="button" id="btn">注册</button>
 				</li>
+				</form>
 			</ul>
 		</div>
 
@@ -165,26 +135,8 @@
 				<li>&copy;2015</li>
 			</ul>
 		</div>
-		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-		</div>
+		
+		
 
 	</div>
 	<div class="overlay">&nbsp;</div>

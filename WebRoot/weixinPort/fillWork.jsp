@@ -96,16 +96,23 @@
 			}else if (profession == "") {
 				alert("请输入专业技能！");
 			}
-			var url=window.location.href;
-			var userid=url.split("?")[1].split("=")[1];
-
+			/* var url=window.location.href;()
+			var userid=url.split("?")[1].split("=")[1]; */
+var userId='<%=session.getAttribute("userId")%>';
 			$.ajax({
 				type : "POST",
 				url : "<%=basePath%>admin/user/work/create.do",
-				data : "userId="+userid+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
+				data : "userId="+userId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
-					if(jsonObj.status==true){confirm("是否继续添加？");
+					if(jsonObj.status==true){
+					
+					if(confirm("是否继续添加？")){
+					location.href = "fillWork.jsp";
+					}else{
+					location.href = "myResume.jsp";
+					};
+					
 					}else{alert("提交错误，请重新输入！");}
 				
 				}
@@ -131,25 +138,31 @@
 					<li class="username"><input type="text" value=""
 						placeholder="开始时间" id="begin_time" />
 					</li>
+					<br /><br />
 					<li class="username"><input type="text" value=""
 						placeholder="结束时间" id="end_time" />
 					</li>
+					<br /><br />
 					<li class="username"><input type="text" value=""
 						placeholder="公司名称" id="company" />
 					</li>
-					<li class="telephone"><input type="text" value=""
-						placeholder="职位" id="position" />
-					</li>
-
+					<br /><br />
 					<li class="username"><input type="text" value=""
 						placeholder="部门" id="department" />
 					</li>
+					<br /><br />
+					<li class="telephone"><input type="text" value=""
+						placeholder="职位" id="position" />
+					</li>
+					<br /><br />
+
+					
 					<li class="username"><input type="text" value=""
 						placeholder="部门" id="remark" />
-					</li>
+					</li><br /><br />
 <li class="username"><input type="text" value=""
 						placeholder="专业技能" id="profession" />
-					</li>
+					</li><br /><br />
 <li class="username"><input type="text" value=""
 						placeholder="详细描述" id="description" />
 					</li>

@@ -29,7 +29,8 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
-var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + 2;
+var userId='<%=session.getAttribute("userId")%>';
+var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + userId;
 
 						$.get(request, function(position) {
 							
@@ -37,7 +38,7 @@ var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + 2;
 					var obj = jsonObj.position;//obj是一个包含多个选项的数组			
 					var str="";
 					for ( var i in obj) {
-						str+='<li><a href='+'"'+"progressDetails.jsp?userId=2&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看进度</dd></dl></a></li>'
+						str+='<li><a href='+'"'+"progressDetails.jsp?userId="+userId+"&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看进度</dd></dl></a></li>'
 					}
 			
 						document.getElementById("joblist").innerHTML = str;
@@ -79,26 +80,7 @@ var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + 2;
 				<li>&copy;2015</li>
 			</ul>
 		</div>
-		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-		</div>
+		
 
 		<div class="right_menu mask selecter hide "
 			style="height: auto; background-color: rgba(51, 51, 51, 0);">

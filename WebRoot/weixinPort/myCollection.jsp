@@ -29,7 +29,9 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
-var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId=" + 2;
+var userId='<%=session.getAttribute("userId")%>';
+alert(userId);
+var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId=" + userId;
 
 						$.get(request, function(position) {
 						
@@ -37,7 +39,7 @@ var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组			
 					var str="";
 					for ( var i in obj) {
-						str+='<li><a href='+'"'+"myCollectionDetails.jsp?userId=2&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看详细</dd></dl></a></li>'
+						str+='<li><a href='+'"'+"myCollectionDetails.jsp?userId="+userId+"&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看详细</dd></dl></a></li>'
 					}
 			
 						document.getElementById("joblist").innerHTML = str;

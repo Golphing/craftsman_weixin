@@ -56,7 +56,7 @@ public class PositionSubscribeController {
 	/*
 	 * 返回类型：0成功1PositionId非法2已订阅
 	 * */
-	@RequestMapping(value ="/subscribe",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value ="/subscribe", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
 			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {

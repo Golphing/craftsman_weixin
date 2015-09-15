@@ -104,7 +104,7 @@ public class UserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping("/resume/create")
+	@RequestMapping(value ="/resume/create", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String createResumeUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "userid", defaultValue = "") String userid,
@@ -114,6 +114,7 @@ public class UserController {
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "home", defaultValue = "") String home) {
 		Map<String,Object> map = new HashMap<String,Object>();
+		
 		if(StringUtil1.isNull(telephone)) {
 			map.put("status", "电话不能为空");
 			return JSONObject.fromObject(map).toString();
@@ -139,7 +140,7 @@ public class UserController {
 		resumeUser.setBirthday(birthday);
 		resumeUser.setGender(gender);
 		resumeUser.setEmail(email);
-		System.out.println(Integer.parseInt(userid));
+		
 		resumeUser.setUserId(Integer.parseInt(userid));
 		resumeUser.setHome(home);
 		

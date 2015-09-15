@@ -53,13 +53,13 @@ var requestUrl ="<%=basePath%>wechat/position/search/own.do?positionId="+positio
 	
 				
  $(".btn_apply").click(function() {
-				
+				var userId='<%=session.getAttribute("userId")%>';
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
-						 type : "post",
+						 type : "POST",
 						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
-							userId : 2,
+							userId : userId,
 							positionId : positionId
 						},
 						dataType : "html", 
@@ -81,7 +81,7 @@ var requestUrl ="<%=basePath%>wechat/position/search/own.do?positionId="+positio
 						type : "get",
 						url : "<%=basePath%>wechat/position/collect.do",
 						data : {
-							userId : 2,
+							userId : userId,
 							positionId : positionId
 						},
 						dataType : "html",
