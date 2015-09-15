@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -85,10 +84,10 @@ public class WechatController {
 
 	// 点击 我的简历 菜单
 	@RequestMapping(value = "/myResume", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public void myResume(HttpServletRequest request) {
-		 String code = request.getParameter("code");
-		 System.out.println(code);
-		/*if (userId == null) {
+	public ModelAndView myResume(HttpSession session) {
+
+		  Object userId = session.getAttribute("userId");
+		if (userId == null) {
 			// 跳转到登陆页面
 			return new ModelAndView(new RedirectView(
 					"../../weixinPort/login.jsp"));
@@ -112,7 +111,7 @@ public class WechatController {
 			}
 
 		}
-*/
+
 	}
 
 	
