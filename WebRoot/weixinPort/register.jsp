@@ -75,9 +75,10 @@ var openId=url.split("?")[1].split("=")[1];
 			} else if (password == "") {
 				alert("请输入密码!");
 			}
-			
+		
 			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId;
-			$.get(request, function(data) {
+			alert(request);
+			$.post(request, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			location.href = "fillResume.jsp?userId="+jsonObj.status;
 			

@@ -51,6 +51,7 @@ public class WechatUserController {
 		user.setPassword(password);
 		user.setOpenId(openId);
 		userService.add(user);
+		
 		user = userService.getUserByTelephone(telephone);
 		
 		map.put("status", user.getId());
