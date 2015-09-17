@@ -85,14 +85,8 @@ public class Import51 {
 			@RequestParam(value="login_verify",defaultValue="") String login_verify,
 			@RequestParam(value="openId",defaultValue="") String openId){
 		Map<String,String> map=new HashMap<String,String>();
-		User user1=userService.getByOpenId(openId);
-		String getUrl="";
-		if(user1==null){
-			map.put("code", "5");
-			return JSONObject.fromObject(map).toString();
-		}
-		int userId=user1.getId();
-		
+		String getUrl="";		
+		int userId=0;		
 		map.put("name", name);
     	map.put("password", password);
 		if("".equals(name) | "".equals(password)){
@@ -399,7 +393,14 @@ public class Import51 {
                 			user.setHome(value);
                 		}
                 		else if("出生日期：".equals(item)){
+                			if(value !="" && value !=null){
+                				String[] ymd=value.split("-");
+                				if(ymd[1].length()<2){
+                					value=ymd[0]+"-0"+ymd[1]+"-"+ymd[2];
+                				}
+                			}
                 			user.setBirthday(value);
+                			
                 		}
                 		else{
                 //			peopleInfo.put(item, value);
