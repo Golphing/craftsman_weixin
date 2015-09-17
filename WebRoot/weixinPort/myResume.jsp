@@ -88,18 +88,11 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 		<div class="content" id="content">
 
 
-			<!-- <div class="company">
-				<h3 class="clr1">工作经历</h3>
-				<div class="company_details">
-					<h4>部门+时间</h4>
-					<h6>部门职位</h6>
-					<p class="cmpny1">详细描述</p>
-				</div>					
-			</div> -->
+			
 
 
 
 		</div></div>
-		<!---->
+		
 </body>
 </html>

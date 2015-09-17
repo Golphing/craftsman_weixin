@@ -33,7 +33,7 @@ public class WechatUserController {
 	 * */
 	@RequestMapping("/register")
 	@ResponseBody
-	public String registerUser(HttpSession session,@RequestParam(value = "telephone", defaultValue = "") String telephone, 
+	public String registerUser(@RequestParam(value = "openId", defaultValue = "") String openId,@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -49,10 +49,11 @@ public class WechatUserController {
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
+		user.setOpenId(openId);
 		userService.add(user);
 		user = userService.getUserByTelephone(telephone);
-		session.setAttribute("userId",user.getId());
-		map.put("status", true);
+		
+		map.put("status", user.getId());
 		return JSONObject.fromObject(map).toString();
 	}
 	

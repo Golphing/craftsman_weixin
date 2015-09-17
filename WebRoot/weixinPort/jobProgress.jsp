@@ -29,8 +29,9 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
-var userId='<%=session.getAttribute("userId")%>';
-var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + userId;
+ var url=window.location.href;
+			var userId=url.split("?")[1].split("=")[1];
+var request ="<%=basePath%>wechat/user/jobprogress.do?userId=" + userId;
 
 						$.get(request, function(position) {
 							
@@ -73,11 +74,7 @@ var request ="<%=basePath%>/wechat/user/jobprogress.do?userId=" + userId;
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../old/default.htm">普通版</a><span>|</span><a
-					href="fankui/default.htm">用户反馈</a><span>|</span><a
-					href="contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		

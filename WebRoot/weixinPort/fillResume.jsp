@@ -70,6 +70,9 @@
 			var home = "";
 			var birthday = "";
 			var telephone = "";
+			var url=window.location.href;
+var userId=url.split("?")[1].split("=")[1];
+
 		$('#btn').click(function() {
 			name = $('input#name').val();
 			 gender = $('input#gender').val();
@@ -88,17 +91,17 @@
 			} else if (birthday == "") {
 				alert("请输入出生年月！");
 			}
-			var userId='<%=session.getAttribute("userId")%>';
+			
 			
 			$.ajax({
 				type : "POST",
 				url : "<%=basePath%>admin/user/resume/create.do",
-				data : "userid="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
+				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
 				
-					window.location.href="fillWork.jsp";}else{alert("提交错误，请重新输入！");}
+					window.location.href="fillWork.jsp?userId="+userId;}else{alert("提交错误，请重新输入！");}
 				}
 			});
 
@@ -158,32 +161,11 @@
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
+			
 		</div>
 
 	</div>

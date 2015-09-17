@@ -107,7 +107,7 @@ public class UserController {
 	@RequestMapping(value ="/resume/create", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String createResumeUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
-			@RequestParam(value = "userid", defaultValue = "") String userid,
+			@RequestParam(value = "userId", defaultValue = "") String userId,
 			@RequestParam(value = "gender", defaultValue = "") String gender,
 			@RequestParam(value = "birthday", defaultValue = "") String birthday,
 			@RequestParam(value = "name", defaultValue = "") String name,
@@ -141,12 +141,13 @@ public class UserController {
 		resumeUser.setGender(gender);
 		resumeUser.setEmail(email);
 		
-		resumeUser.setUserId(Integer.parseInt(userid));
+		resumeUser.setUserId(Integer.parseInt(userId));
 		resumeUser.setHome(home);
 		
 		// 添加简历信息
 		resumeUserService.add(resumeUser);
-		map.put("status", true);
+		
+		map.put("status", userId);
 		return JSONObject.fromObject(map).toString();
 	}
 	

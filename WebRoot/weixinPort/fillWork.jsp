@@ -96,9 +96,9 @@
 			}else if (profession == "") {
 				alert("请输入专业技能！");
 			}
-			/* var url=window.location.href;()
-			var userid=url.split("?")[1].split("=")[1]; */
-var userId='<%=session.getAttribute("userId")%>';
+			 var url=window.location.href;
+			var userId=url.split("?")[1].split("=")[1]; 
+
 			$.ajax({
 				type : "POST",
 				url : "<%=basePath%>admin/user/work/create.do",
@@ -108,9 +108,9 @@ var userId='<%=session.getAttribute("userId")%>';
 					if(jsonObj.status==true){
 					
 					if(confirm("是否继续添加？")){
-					location.href = "fillWork.jsp";
+					location.href = "fillWork.jsp?userId="+userId;
 					}else{
-					location.href = "myResume.jsp";
+					location.href = "myResume.jsp?userId="+userId;
 					};
 					
 					}else{alert("提交错误，请重新输入！");}
@@ -186,32 +186,11 @@ var userId='<%=session.getAttribute("userId")%>';
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
+			
 		</div>
 
 	</div>

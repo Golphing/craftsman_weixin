@@ -29,13 +29,14 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
-
+			var url=window.location.href;
+var userId=url.split("?")[1].split("=")[1];
 $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			var str="";
 			for ( var i in obj) {
-			str+='<li><a href='+'"'+"jobDetails.jsp?id="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>'
+			str+='<li><a href='+'"'+"jobDetails.jsp?positionId="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>'
 			}
 			
 			document.getElementById("joblist").innerHTML = str;
@@ -105,33 +106,11 @@ $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../old/default.htm">普通版</a><span>|</span><a
-					href="fankui/default.htm">用户反馈</a><span>|</span><a
-					href="contact/default.htm">联系我们</a>
-				</li>
-				<li>&copy;2015</li>
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
+			
 		</div>
 
 		<div class="right_menu mask selecter hide "

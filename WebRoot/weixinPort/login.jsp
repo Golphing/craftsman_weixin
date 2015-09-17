@@ -65,7 +65,9 @@
 	$(function() {
 	var telephone="";
 	var password = "";
-	
+	var url=window.location.href;
+var openId=url.split("?")[1].split("=")[1];
+document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?openId="+openId;
 		$('#btn').click(function() {
 			telephone = $('input#telephone').val();
 			password = $('input#password').val();
@@ -74,7 +76,7 @@
 			} else if (password == "") {
 				alert("请输入密码!");
 			}
-			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+telephone+"&password="+password;
+			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+telephone+"&password="+password+"&openId="+openId;
 			
 			$.get(request, function(data) {
 			if(data=="添加简历"){
@@ -90,7 +92,8 @@
 		});
 		});
 	});
-
+	
+	
 </script>
 
 </head>
@@ -99,7 +102,7 @@
 		<div class="mq_top">
 
 			<div class="mq_title">用户登陆</div>
-			<div class="btn_ch_r"><a href="register.jsp" id="register">注册</a></div>
+			<div class="btn_ch_r"><a  id="register">注册</a></div>
 		</div>
 		<div class="log_box">
 
@@ -135,11 +138,8 @@
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+				
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		
