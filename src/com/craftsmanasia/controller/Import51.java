@@ -83,10 +83,10 @@ public class Import51 {
 			@RequestParam(value="name",defaultValue="") String name,
 			@RequestParam(value="password",defaultValue="") String password,
 			@RequestParam(value="login_verify",defaultValue="") String login_verify,
-			@RequestParam(value="openId",defaultValue="") String openId){
+			@RequestParam(value="userId") String userId1){
 		Map<String,String> map=new HashMap<String,String>();
 		String getUrl="";		
-		int userId=0;		
+		int userId=Integer.parseInt(userId1);		
 		map.put("name", name);
     	map.put("password", password);
 		if("".equals(name) | "".equals(password)){
