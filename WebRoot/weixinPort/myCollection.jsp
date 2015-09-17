@@ -29,7 +29,9 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
-var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId=" + 2;
+var url=window.location.href;
+			var userId=url.split("?")[1].split("=")[1]; 
+var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId=" + userId;
 
 						$.get(request, function(position) {
 						
@@ -37,7 +39,7 @@ var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组			
 					var str="";
 					for ( var i in obj) {
-						str+='<li><a href='+'"'+"myCollectionDetails.jsp?userId=2&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看详细</dd></dl></a></li>'
+						str+='<li><a href='+'"'+"myCollectionDetails.jsp?userId="+userId+"&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看详细</dd></dl></a></li>'
 					}
 			
 						document.getElementById("joblist").innerHTML = str;
@@ -72,11 +74,8 @@ var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../old/default.htm">普通版</a><span>|</span><a
-					href="fankui/default.htm">用户反馈</a><span>|</span><a
-					href="contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+				
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">
