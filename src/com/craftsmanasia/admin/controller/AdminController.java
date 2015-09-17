@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.craftsmanasia.filter.AdministratorFilter;
 import com.craftsmanasia.model.Administrator;
@@ -200,30 +202,31 @@ public class AdminController {
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		if(StringUtil1.isNull(loginName) || StringUtil1.isNull(password)) {
 			// loginName 或 password为空，返回登录页面
-			return "/admin/views/login.html";
+			return "redirect:/admin/views/login.html";
 		}
 		
 		Administrator administrator = administratorService.getAdministratorByLoginName(loginName);
 		if(administrator == null) {
 			// loginName的administrator不存在，返回登录页面
-			return "/admin/views/login.html";
+			return "redirect:/admin/views/login.html";
 		}
 		
 		if(!administrator.getPassword().equals(password)) {
 			// 密码不正确返回登录页面
-			return "/admin/views/login.html";
+			return "redirect:/admin/views/login.html";
 		}
 		
-		request.setAttribute("isAdminLogin", administrator);
+		request.setAttribute("adminUser", administrator);
+		System.out.println("yes");
 		
-		return "/admin/views/index.html";
+		return "redirect:/admin/views/index.html";
 	}
 	
 	@RequestMapping("/loginout")
 	public String loginOut(HttpServletRequest request) {
 		
-		request.removeAttribute("isAdminLogin");
+		request.removeAttribute("adminUser");
 		
-		return "/admin/views/login.html";
+		return "redirect:/admin/views/login.html";
 	}
 }
