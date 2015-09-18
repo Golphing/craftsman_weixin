@@ -33,7 +33,6 @@ public class LoginFilter implements Filter {
 		arg1.setCharacterEncoding("UTF-8");
 		Boolean isLogin =(Boolean) request.getSession().getAttribute("isLogin");
 		Administrator administrator = (Administrator) request.getSession().getAttribute("adminUser");
-		System.out.println("ahga...");
 		//request.getSession().getAttribute("adminUser");
 		Cookie[] cooks=request.getCookies();
 		boolean hasSessionId=false;
