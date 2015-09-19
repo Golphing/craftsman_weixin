@@ -70,7 +70,7 @@ public class PositionSubscribeController {
 		PositionSubscribeUser oldPositionSubscribeUser = positionSubscribeUserService
 					.getSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		if(oldPositionSubscribeUser != null) {
-			map.put("status", "已经订阅该职位");
+			map.put("status", "已经应聘过该职位");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -83,7 +83,7 @@ public class PositionSubscribeController {
 		positionSubscribeUser.setCreateTime(now);
 		positionSubscribeUser.setUpdateTime(now);
 		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
-		map.put("status", "订阅成功");
+		map.put("status", "应聘成功");
 		
 		return JSONObject.fromObject(map).toString();
 	}
