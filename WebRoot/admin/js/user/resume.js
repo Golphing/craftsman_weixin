@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	initUserInfo();
 	bindEditUserBtnAction();
+	bindAddWorkBtnAction();
+	bindAddWorkFormAction();
 	bindEditWorkBtnAction();
 	bindEditWorkFormAction();
 /*	
@@ -116,6 +118,45 @@ $(document).ready(function() {
 					}
 				}, 'json');
 			}
+		});
+	}
+	function bindAddWorkBtnAction() {
+		$('#addWorkBtn').click(function() {
+			$('#addWorkDialog').modal('show');
+		});
+	}
+	function bindAddWorkFormAction() {
+		$('#addWorkForm').submit(function() {
+			if(!ADMIN.formValidate('#addWorkForm', {
+				beginTime: 'nonempty',
+				endTime: 'nonempty',
+				profession: 'nonempty',
+				company: ['nonempty'],
+				department: 'nonempty',
+				position: 'nonempty',
+				description: 'nonempty',
+			})) {
+				return false;
+			}
+			var data = {
+				workId: $('#editWorkDialog').data().id,
+				beginTime: $('#addWorkForm [name="beginTime"]').val(),
+				endTime: $('#addWorkForm [name="endTime"]').val(),				
+				profession: $('#addWorkForm [name="profession"]').val(),
+				company: $('#addWorkForm [name="company"]').val(),
+				department: $('#addWorkForm [name="department"]').val(),
+				position: $('#addWorkForm [name="position"]').val(),
+				description: $('#addWorkForm [name="description"]').val(),
+			};
+			$.post('../user/work/create.do', data, function(result) {
+				if(result.status) {
+					initUserInfo();
+					$('#addWorkDialog').modal('hide');
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+			return false;
 		});
 	}
 	function bindEditWorkBtnAction() {

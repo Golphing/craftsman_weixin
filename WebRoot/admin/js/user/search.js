@@ -13,7 +13,7 @@ $(document).ready(function() {
 				{label: '性别', name: 'gender', width: '20%'},
 				{label: '电话', name: 'telephone', width: '20%'},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
-					return '<button type="button" data-action="resumeMgmt" class="btn btn-primary">简历管理</button>'
+					return '<button type="button" data-action="resumeMgmt" class="btn btn-primary">简历管理</button><button type="button" data-action="resumeDeliver" class="btn btn-info">投递</button>';
 				}}
 			],
 			serializeGridData: function(postData) {
@@ -41,6 +41,8 @@ $(document).ready(function() {
 			var user = ADMIN.getItemFromByAttr(pageData.userList, 'id', rowId);
 			if(action == 'resumeMgmt') {
 				window.open('#/user/resume?userId=' + user.id);
+			} else if(action == 'resumeDeliver') {
+				window.open('#/user/resume/deliver?userId=' + user.id);
 			}
 		});
 	}

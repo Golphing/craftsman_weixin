@@ -66,6 +66,7 @@ var ADMIN = {
 		'#/user/add':			'user/add',
 		'#/user/search':		'user/search',
 		'#/user/resume':		'user/resume',
+		'#/user/resume/deliver':'user/resumeDeliver',
 	},
 	initSidebar: function(hash) {
 		hash == '' && (hash = '#/resume');
