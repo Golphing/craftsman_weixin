@@ -30,9 +30,9 @@
  
 $(document).ready(function() {
 var url=window.location.href;
-var positionId=url.split("=")[1].split("&")[0];
+var companyId=url.split("=")[1].split("&")[0];
 var userId=url.split("=")[2];
-var requestUrl ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
+var requestUrl ="<%=basePath%>wechat/position/search/company/positions.do?companyId="+companyId;
 $.get(requestUrl, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组

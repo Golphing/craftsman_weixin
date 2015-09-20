@@ -27,19 +27,20 @@
 	var url=window.location.href;
 var positionId=url.split("=")[1].split("&")[0];
 var userId=url.split("=")[2];
-var requestUrl ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
+var requestUrl ="<%=basePath%>wechat/position/info.do?positionId="+positionId;
 
 /*职位详情  */
 		$.get(requestUrl, function(data) {
 					var jsonObj = eval("(" + data + ")");
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组
-						document.getElementById("companyName").innerHTML = obj[0].company.name;
-						document.getElementById("title").innerHTML = obj[0].title;
-					document.getElementById("city").innerHTML = obj[0].city;
-					document.getElementById("requirement").innerHTML = obj[0].requirement;
-					document.getElementById("wage").innerHTML = obj[0].wage;
-					document.getElementById("createTime").innerHTML =obj[0].createTime;
-					document.getElementById("updateTime").innerHTML = obj[0].updateTime;
+					
+						document.getElementById("companyName").innerHTML = obj.company.name;
+						document.getElementById("title").innerHTML = obj.title;
+					document.getElementById("city").innerHTML = obj.city;
+					document.getElementById("requirement").innerHTML = obj.requirement;
+					document.getElementById("wage").innerHTML = obj.wage;
+					document.getElementById("createTime").innerHTML =obj.createTime;
+					document.getElementById("updateTime").innerHTML = obj.updateTime;
 					var expired="";
 					if(obj[0].isExpired==0){
 					expired="否";
