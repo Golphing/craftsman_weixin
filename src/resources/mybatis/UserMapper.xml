@@ -64,7 +64,7 @@
 		select
 			<include refid="userColumns"/>
 		from user 
-		where id=#{id,javaType=int,jdbcType=Integer}
+		where user.id=#{id, javaType=int, jdbcType=INTEGER}
 	</select>
 	
 	<select id="selectUserByTelephone" resultType="User">
