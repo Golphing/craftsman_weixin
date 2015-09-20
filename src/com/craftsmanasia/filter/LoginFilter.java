@@ -5,12 +5,15 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.craftsmanasia.model.Administrator;
 
 public class LoginFilter implements Filter {
 
@@ -29,6 +32,8 @@ public class LoginFilter implements Filter {
 		arg1.setContentType("text/html;charset=UTF-8");  
 		arg1.setCharacterEncoding("UTF-8");
 		Boolean isLogin =(Boolean) request.getSession().getAttribute("isLogin");
+		Administrator administrator = (Administrator) request.getSession().getAttribute("adminUser");
+		//request.getSession().getAttribute("adminUser");
 		Cookie[] cooks=request.getCookies();
 		boolean hasSessionId=false;
 		int len=0;
@@ -48,7 +53,20 @@ public class LoginFilter implements Filter {
 			
 		}		
 		String path=request.getRequestURI();
-		System.out.println(path);	
+		System.out.println(path);
+		String adminBack1 = "/craftsman_weixin/admin/administrator/login.do";
+		String adminBack="/admin/views/login.html";
+		RequestDispatcher requestDispatcher  = request.getRequestDispatcher(adminBack);
+		// 路径以后台的开始验证是否登录
+		if(path.equals(adminBack1)) {
+			arg2.doFilter(arg0, arg1);
+			return;
+		}
+		if(path.startsWith("/craftsman_weixin/admin") && administrator == null) {
+			requestDispatcher.forward(arg0, arg1);
+			return;
+		}
+	//	System.out.println(path);	
 		arg2.doFilter(arg0, arg1);
 		return;
 	}

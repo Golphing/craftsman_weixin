@@ -53,7 +53,7 @@ var request ="<%=basePath%>/wechat/position/search/subscribed/deatil/info.do?use
 					
 					if(obj.recommendTime==""){document.getElementById("third_interview_time").innerHTML = "</br>";
 					}else{document.getElementById("third_interview_time").innerHTML = obj.thirdInterviewTime;}
-					alert(obj.rejectTime);
+					
 					if(obj.recommendTime==""){document.getElementById("reject_time").innerHTML ="</br>";
 					}else{document.getElementById("reject_time").innerHTML =obj.rejectTime;}
 					
@@ -162,56 +162,19 @@ var request ="<%=basePath%>/wechat/position/search/subscribed/deatil/info.do?use
 					</dl>
 					
 				</div>
-			<!-- <div class="d_description">
-					<h3 class="d_title">职位描述</h3>
-					<div class="d_word">
-						<p></p>
-					</div>
-					<h3 class="d_title">联系方式</h3>
-					<span class="link"></span>
-				</div> -->
+			
 			</div>
 
 
 			<div class="overlay">&nbsp;</div>
 			<div class="apply_favorites">
-				<!-- <button class="btn_apply" data-id="59285" data-id2="190317">
-					应聘</button>
-				<button class="favorties" data-id="190317">收藏</button>
-				<a href="javascript:scroll(0,0)" class="btn_top fr"></a> -->
+				
 			</div>
 		</div>
 		
 
 
-		<!-- <div class="job_content hide">
-			<div class="job_box">
-				<h1 class="d_posName">百度</h1>
-				<div class="d_posInfo_box">
-					<dl>
-						<dt>公司性质：</dt>
-						<dd>合资企业</dd>
-					</dl>
-					<dl>
-						<dt>公司规模：</dt>
-						<dd>大于500人</dd>
-					</dl>
-					<dl>
-						<dt>主页：</dt>
-						<dd>www.baidu.com &nbsp;</dd>
-					</dl>
-				</div>
-				<div class="d_description">
-					<h3 class="d_title">企业简介</h3>
-					<div class="d_word">
-						<p>百度（Nasdaq：BIDU）是全球最大的中文搜索引擎、最大的中文网站。2000年1月由李彦宏创立于北京中关村，致力于向人们提供“简单，可依赖”的信息获取方式。“百度”二字源于中国宋朝词人辛弃疾的《青玉案·元夕》词句“众里寻他千百度”
-						</p>
-					</div>
-					<h3 class="d_title">联系方式</h3>
-					<span class="link"></span>
-				</div>
-			</div>
-		</div> -->
+		
 		
 
 
@@ -239,44 +202,16 @@ var request ="<%=basePath%>/wechat/position/search/subscribed/deatil/info.do?use
 		</script>
 		<div class="footer">
 			<div class="footer_top">
-				<ul class="user_info">
-					<span><a href="../login/login.aspx">登录</a> <a
-						href="../reg/default.htm">注册</a>
-					</span>
-				</ul>
+				
 				<ul class="back_top">
 					<a href="javascript:scroll(0,0)">TOP</a>
 				</ul>
 			</div>
-			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a>
-				</li>
-				<li>&copy;2003-2013 浙B2-20110048</li>
+			<ul>
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
-		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-		</div>
+		
 
 	</div>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
@@ -315,73 +250,7 @@ var request ="<%=basePath%>/wechat/position/search/subscribed/deatil/info.do?use
 
 			});
 
-			$(".btn_apply").click(function() {
-				if (confirm('您确定应聘该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/yingpin.ashx",
-						data : {
-							comid : $(this).data("id"),
-							jobid : $(this).data("id2")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('成功应聘！');
-							} else if (data == "4") {
-								showTip('禁用会员！');
-							} else if (data == "5") {
-								showTip('成功应聘！');
-							}
-						}
-					});
-				}
-			});
 
-			$(".favorties").click(function() {
-				if (confirm('您确定收藏该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/shoucang.ashx",
-						data : {
-							jobid : $(this).data("id")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('禁用会员！');
-							} else if (data == "4") {
-								showTip('成功收藏！');
-							}
-
-						}
-					});
-				}
-			});
 		});
 	</script>
 </body>

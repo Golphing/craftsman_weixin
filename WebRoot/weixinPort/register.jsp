@@ -6,7 +6,6 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -64,62 +63,29 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
-	var profession ="";
-			var begin_time ="";
-			var end_time = "";
-			var company = "";
-			var position = "";
-			var department = "";
-			var description = "";
-			var remark = "";
+	var telephone="";
+	var password = "";
+		var url=window.location.href;
+var openId=url.split("?")[1].split("=")[1];
 		$('#btn').click(function() {
-			begin_time = $('input#begin_time').val();
-			 end_time = $('input#end_time').val();
-			company = $('input#company').val();
-		 position= $('input#position').val();
-			 department= $('input#department').val();
-			description = $('input#description').val();
-			profession = $('input#profession').val();
-			remark = $('input#remark').val();
-			if (begin_time == "") {
-				alert("请输入开始时间!");
-			} else if (end_time == "") {
-				alert("请输入结束时间!");
-			} else if (company == "") {
-				alert("请输入公司名称！");
-			} else if (position == "") {
-				alert("请输入职位！");
-			} else if (department == "") {
-				alert("请输入部门！");
-			}else if (description == "") {
-				alert("请输入描述！");
-			}else if (profession == "") {
-				alert("请输入专业技能！");
+			telephone = $('input#telephone').val();
+			password = $('input#password').val();
+			if (telephone == "") {
+				alert("请输入手机号!");
+			} else if (password == "") {
+				alert("请输入密码!");
 			}
-			 var url=window.location.href;
-			var userId=url.split("?")[1].split("=")[1]; 
-
-			$.ajax({
-				type : "POST",
-				url : "<%=basePath%>admin/user/work/create.do",
-				data : "userId="+userId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
-				success : function(msg) {
-				var jsonObj = eval("(" + msg + ")");
-					if(jsonObj.status==true){
-					
-					if(confirm("是否继续添加？")){
-					location.href = "fillWork.jsp?userId="+userId;
-					}else{
-					location.href = "myResume.jsp?userId="+userId;
-					};
-					
-					}else{alert("提交错误，请重新输入！");}
-				
-				}
-			});
-
+		
+			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId;
+			
+			$.post(request, function(data) {
+			var jsonObj = eval("(" + data + ")");
+			location.href = "importResume.jsp?userId="+jsonObj.status;
+			
 		});
-	})
+		});
+	});
+
 </script>
 
 </head>
@@ -127,51 +93,29 @@
 	<div class="mtzrl_box">
 		<div class="mq_top">
 
-			<div class="mq_title">工作经历</div>
+			<div class="mq_title">用户注册</div>
 			<div class="btn_ch_r"></div>
 		</div>
 		<div class="log_box">
 
 
 			<ul>
-				<form >
-					<li class="username"><input type="text" value=""
-						placeholder="开始时间" id="begin_time" />
-					</li>
-					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="结束时间" id="end_time" />
-					</li>
-					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="公司名称" id="company" />
-					</li>
-					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="部门" id="department" />
-					</li>
-					<br /><br />
+				<form action="<%=basePath%>wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" value=""
-						placeholder="职位" id="position" />
+						placeholder="手机号" id="telephone" />
 					</li>
 					<br /><br />
-
-					
-					<li class="username"><input type="text" value=""
-						placeholder="部门" id="remark" />
-					</li><br /><br />
-<li class="username"><input type="text" value=""
-						placeholder="专业技能" id="profession" />
-					</li><br /><br />
-<li class="username"><input type="text" value=""
-						placeholder="详细描述" id="description" />
+					<li class="telephone"><input type="password" value=""
+						placeholder="密码" id="password" />
 					</li>
-					
-				</form>
+				
+		
 				<li class="login_free"></li>
 				<li class="btn_submit">
-					<button type="button" id="btn">下一页</button>
+				<br/>
+					<button type="button" id="btn">注册</button>
 				</li>
+				</form>
 			</ul>
 		</div>
 
@@ -189,9 +133,8 @@
 				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
-		<div style="display:none;">
-			
-		</div>
+		
+		
 
 	</div>
 	<div class="overlay">&nbsp;</div>
@@ -211,7 +154,7 @@
 
 	<script type="text/javascript">
 		$(function() {
-			$("#begin_time,#end_time").mobiscroll().date();
+			$("#birthday").mobiscroll().date();
 
 			var currYear = (new Date()).getFullYear();
 

@@ -29,6 +29,8 @@
 <script type="text/javascript"> 
  
 $(document).ready(function() {
+var url=window.location.href;
+var userId=url.split("?")[1].split("=")[1];
 
 $.get("<%=basePath%>wechat/position/search/company.do", function(data) {
 			var jsonObj = eval("(" + data + ")");
@@ -36,7 +38,7 @@ $.get("<%=basePath%>wechat/position/search/company.do", function(data) {
 			
 			 var str="";
 			for ( var i in obj) {
-			str+='<li><a href='+'"'+"companyDetails.jsp?companyId="+obj[i].id+'"'+'><dl><dt>'+obj[i].name+'</dt><dd>'+obj[i].url+'</dd><dd class="dateTime">'+obj[i].updateTime+'</dd></dl></a></li>'
+			str+='<li><a href='+'"'+"companyDetails.jsp?companyId="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].name+'</dt><dd>'+obj[i].url+'</dd><dd class="dateTime">'+obj[i].updateTime+'</dd></dl></a></li>'
 			}
 			
 			document.getElementById("joblist").innerHTML = str; 
@@ -49,24 +51,7 @@ $.get("<%=basePath%>wechat/position/search/company.do", function(data) {
 		<div class="m_banner">
 			<img src="images/top.png" width="320" height="135" />
 		</div>
-		<!-- <form method="get" action="/touch/job/Search.aspx">
-			<div class="mtzrl_search">
-				<ul id="search_box01">
-					<li class="keyword_wrap">
-						<div class="add_icon">
-							<input id="area" type="hidden" name="area" value="" /> <span
-								class="select_area">地区</span>
-						</div>
-						<div class="input_box">
-							<input class="inp_search" type="search" placeholder="输入关键字"
-								name="keyword" id="keyword">
-						</div>
-						<div class="btn_icon">
-							<button class="search_btn" type="submit"></button>
-						</div></li>
-				</ul>
-			</div>
-		</form> -->
+		
 
 		<div class="hot_com">
 			<h4>
@@ -106,33 +91,12 @@ $.get("<%=basePath%>wechat/position/search/company.do", function(data) {
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../old/default.htm">普通版</a><span>|</span><a
-					href="fankui/default.htm">用户反馈</a><span>|</span><a
-					href="contact/default.htm">联系我们</a>
-				</li>
-				<li>&copy;2015</li>
+				
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
+			
 		</div>
 
 		<div class="right_menu mask selecter hide "

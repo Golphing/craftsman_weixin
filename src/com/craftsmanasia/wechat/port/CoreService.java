@@ -55,7 +55,7 @@ public class CoreService {
 				"邮箱地址： enquires@craftsmanasia.com\n"+
 				"微信号：CM_Asia";
 				article.setDescription(introduction);
-				article.setPicUrl("http://123.160.217.64/craftsman_weixin/weixinPort/images/topic_intro.jpg");			
+				article.setPicUrl("http://ghosters.imwork.net/craftsman_weixin/weixinPort/images/topic_intro.jpg");			
 //				article.setUrl("www.craftsmanasia.com");
 				articleList.add(article);
 				newsMessage.setArticleCount(articleList.size());

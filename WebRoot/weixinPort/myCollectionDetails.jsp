@@ -27,7 +27,7 @@
 var url=window.location.href;
 var positionId=url.split("?")[1].split("=")[1];
 var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
-
+var userId='<%=session.getAttribute("userId")%>';
 /*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
@@ -59,7 +59,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						 type : "post",
 						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
-							userId : 2,
+							userId : userId,
 							positionId : positionId
 						},
 						dataType : "html", 
@@ -81,8 +81,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						type : "post",
 						url : "<%=basePath%>wechat/position/cancle/collection/positions.do",
 						data : {
-							userId : 2,
-							positionId : 5
+							userId : userId,
+							positionId : positionId
 						},
 						dataType : "html",
 						error : function() {
@@ -106,8 +106,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						type : "get",
 						url : "<%=basePath%>wechat/position/collect.do",
 						data : {
-							userId : 2,
-							positionId : 5
+							userId : userId,
+							positionId : positionId
 						},
 						dataType : "html",
 						error : function() {
@@ -203,14 +203,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						<dd id="isExpired"></dd>
 					</dl>
 				</div>
-			<!-- <div class="d_description">
-					<h3 class="d_title">职位描述</h3>
-					<div class="d_word">
-						<p></p>
-					</div>
-					<h3 class="d_title">联系方式</h3>
-					<span class="link"></span>
-				</div> -->
+			
 			</div>
 
 
@@ -225,34 +218,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 		
 
 
-		<!-- <div class="job_content hide">
-			<div class="job_box">
-				<h1 class="d_posName">百度</h1>
-				<div class="d_posInfo_box">
-					<dl>
-						<dt>公司性质：</dt>
-						<dd>合资企业</dd>
-					</dl>
-					<dl>
-						<dt>公司规模：</dt>
-						<dd>大于500人</dd>
-					</dl>
-					<dl>
-						<dt>主页：</dt>
-						<dd>www.baidu.com &nbsp;</dd>
-					</dl>
-				</div>
-				<div class="d_description">
-					<h3 class="d_title">企业简介</h3>
-					<div class="d_word">
-						<p>百度（Nasdaq：BIDU）是全球最大的中文搜索引擎、最大的中文网站。2000年1月由李彦宏创立于北京中关村，致力于向人们提供“简单，可依赖”的信息获取方式。“百度”二字源于中国宋朝词人辛弃疾的《青玉案·元夕》词句“众里寻他千百度”
-						</p>
-					</div>
-					<h3 class="d_title">联系方式</h3>
-					<span class="link"></span>
-				</div>
-			</div>
-		</div> -->
+		
 		
 
 
@@ -270,12 +236,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a>
-				</li>
-				<li>&copy;2003-2013 浙B2-20110048</li>
+				
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
 		<div style="display:none;">

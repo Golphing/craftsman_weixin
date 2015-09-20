@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class WechatUserController {
 	 * */
 	@RequestMapping("/register")
 	@ResponseBody
-	public String registerUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
+	public String registerUser(@RequestParam(value = "openId", defaultValue = "") String openId,@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -48,8 +49,12 @@ public class WechatUserController {
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
+		user.setOpenId(openId);
 		userService.add(user);
-		map.put("status", true);
+		
+		user = userService.getUserByTelephone(telephone);
+		
+		map.put("status", user.getId());
 		return JSONObject.fromObject(map).toString();
 	}
 	

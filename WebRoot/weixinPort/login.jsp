@@ -42,7 +42,7 @@
 	left: 50%;
 	z-index: 9999;
 	opacity: 0;
-	filter: alpha(opacity =   0);
+	filter: alpha(opacity =     0);
 	margin-left: -80px;
 }
 
@@ -65,29 +65,42 @@
 	$(function() {
 	var telephone="";
 	var password = "";
-	
+	var url=window.location.href;
+var openId=url.split("?")[1].split("=")[1];
+document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?openId="+openId;
+
 		$('#btn').click(function() {
 			telephone = $('input#telephone').val();
 			password = $('input#password').val();
-			if (telephone == "") {
-				alert("请输入手机号!");
-			} else if (password == "") {
-				alert("请输入密码!");
+			if(telephone==""){
+			alert("手机号不能为空！");
 			}
-			var request ="<%=basePath%>wechat/user/login.do?telephone="+telephone+"&password="+password;
+			if(password==""){
+			alert("密码不能为空！");
+			}
+			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+ telephone+ "&password="+ password+ "&openId=" + openId;
+							$.post(request,	function(data) {
+							var i = data.indexOf("&");
+							if(i<0){
+							alert(data);
+							}else{
+							var userId=data.split("&")[1];
+							i = data.split("&")[0];
+							if(i==1){
+							location.href = "importResume.jsp?userId="+ userId;
+							}else if(i==2){
+							location.href = "fillWork.jsp?userId="+ userId;
+							}else if(i=3){
+							location.href = "myResume.jsp?userId="	+ data;
+							}else{
+							alert("请稍后重试");
+							}
+							}
+							});
 			
-			$.get(request, function(data) {
-			if(data=="成功"){
-			location.href = "myResume.jsp";
-			}else if(data=="手机号错误"){
-			alert("手机号错误");
-			}else{
-			alert("密码错误");
-			};
-		});
-		});
+			});
+			
 	});
-
 </script>
 
 </head>
@@ -96,7 +109,9 @@
 		<div class="mq_top">
 
 			<div class="mq_title">用户登陆</div>
-			<div class="btn_ch_r"></div>
+			<div class="btn_ch_r">
+				<a id="register">注册</a>
+			</div>
 		</div>
 		<div class="log_box">
 
@@ -104,19 +119,15 @@
 			<ul>
 				<form action="<%=basePath%>wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" value=""
-						placeholder="账号" id="telephone" />
-					</li>
-					<br /><br />
-					<li class="telephone"><input type="text" value=""
-						placeholder="密码" id="password" />
-					</li>
-				
-		
-				<li class="login_free"></li>
-				<li class="btn_submit">
-				<br/>
-					<button type="button" id="btn">登陆</button>
-				</li>
+						placeholder="手机号" id="telephone" /></li> <br />
+					<br />
+					<li class="telephone"><input type="password" value=""
+						placeholder="密码" id="password" /></li>
+
+
+					<li class="login_free"></li>
+					<li class="btn_submit"><br />
+						<button type="button" id="btn">登陆</button></li>
 				</form>
 			</ul>
 		</div>
@@ -132,33 +143,11 @@
 				</ul>
 			</div>
 			<ul class="copyright">
-				<li><a href="../../tzrl/default.htm">电脑版</a><span>|</span><a
-					href="../../old/default.htm">普通版</a><span>|</span><a
-					href="../fankui/default.htm">用户反馈</a><span>|</span><a
-					href="../contact/default.htm">联系我们</a></li>
-				<li>&copy;2015</li>
+
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
-		<div style="display:none;">
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@46762e99312aba28b7c1a64e210ffc17";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-			<script>
-				var _hmt = _hmt || [];
-				(function() {
-					var hm = document.createElement("script");
-					hm.src = "../../../hm.baidu.com/hm.js@308c2667fa8dc0aff7950bf4c6636faf";
-					var s = document.getElementsByTagName("script")[0];
-					s.parentNode.insertBefore(hm, s);
-				})();
-			</script>
-		</div>
+
 
 	</div>
 	<div class="overlay">&nbsp;</div>
@@ -168,7 +157,7 @@
 				style="float:left;padding-top:6px;" />跳转中，请稍候...
 		</div>
 	</div>
-	<script type="text/javascript" src="../js/ShowTip.js"></script>
+
 
 
 
