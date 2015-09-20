@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	ADMIN.initDateTimePicker('.form_datetime');
 	initUserInfo();
 	bindEditUserBtnAction();
 	bindAddWorkBtnAction();
@@ -94,6 +95,7 @@ $(document).ready(function() {
 	function bindEditUserBtnAction() {
 		$('#userInfoEditBtn').click(function() {
 			$(this).toggleClass('editing');
+			$editBtn = $(this);
 			if($(this).hasClass('editing')) {
 				$(this).text('保存');
 				$('#userInfo').hide();
@@ -112,7 +114,9 @@ $(document).ready(function() {
 				$.post('../user/resume/modify.do', data, function(result) {
 					if(result.status) {
 						initUserInfo();
-						$(this).text('修改');
+						$('#userInfo').show();
+						$('#userInfoForm').hide();
+						$editBtn.text('修改');
 					} else {
 						alert(result.msg);
 					}

@@ -182,6 +182,18 @@ var ADMIN = {
 			return true;
 		},
 	},
+	initDateTimePicker: function(selector, config) {
+		$(selector).datetimepicker($.extend({
+	    	format: 'mm/dd/yyyy',
+	    	pickerPosition: "bottom-left",
+	        todayBtn:  true,
+			autoclose: true,
+			todayHighlight: true,
+			startView: 2,
+			minView: 2,
+			endDate: new Date()
+		}, config));
+	},
 	URL: {
 		getParam: function(param) {
 			var search = window.location.search;
