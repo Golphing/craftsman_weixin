@@ -1,14 +1,5 @@
 $(document).ready(function() {
-	$('.form_datetime').datetimepicker({
-    	format: 'yyyy-mm-dd',
-    	pickerPosition: "bottom-left",
-        todayBtn:  true,
-		autoclose: true,
-		todayHighlight: true,
-		startView: 4,
-		minView: 2,
-		endDate: new Date()
-	});
+	ADMIN.initDateTimePicker('.form_datetime');
 	$('#addUserForm').submit(function() {
 		if(!ADMIN.formValidate('#addUserForm', {
 			wechatAccount: 'nonempty',

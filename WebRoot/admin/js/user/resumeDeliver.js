@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	initJqGrid();
+	bindJqGridDataAction();
 	bindAddBtnAction();
 	bindAddDeliverDialogAction();
 	bindSearchCompanyDialogAction();
@@ -77,7 +78,28 @@ $(document).ready(function() {
 			pager: "#positionPager"
 		});		
 	}
-	
+	function bindJqGridDataAction() {
+		$('#jqGrid').on('click', 'tr button', function() {
+			var action = $(this).attr('data-action');
+			var rowId = parseInt($(this).closest('tr')[0].id);
+			var data = {
+				id: rowId,
+			};
+			if(action == 'access') {
+				data.pass = true;
+			} else {
+				data.pass = false;
+			}
+			$.post('../resume/pass.do', data, function(result) {
+				if(result.status) {
+					alert('成功');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+		});
+	}
 	function bindAddBtnAction() {
 		$('.add-btn').click(function() {
 			$('#addDeliverDialog').data().companyId = null;
@@ -113,7 +135,7 @@ $(document).ready(function() {
 				positionId: $('#addDeliverDialog').data().positionId,
 			};
 			
-			$.post('', function(result) {
+			$.post('../../wechat/position/subscribe.do', data, function(result) {
 				if(result.status) {
 					$('#addDeliverDialog').modal('hide');
 					$("#jqGrid").trigger('reloadGrid');

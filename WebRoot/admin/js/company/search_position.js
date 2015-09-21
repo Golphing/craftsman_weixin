@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('#editRequireForm .summernote').summernote({
+        height: 200,
+        tabsize: 2,
+        lang: 'zh-CN'
+    });
 	initJqGrid();
 	bindSearchPositionListFormAction();
 	bindJqGridDataAction();
@@ -12,7 +17,6 @@ $(document).ready(function() {
 				{label: '公司', name: 'company.name', width: '20%'},
 				{label: '职位', name: 'title', width: '20%'},
 				{label: '薪酬', name: 'wage', width: '20%'},
-				{label: '要求', name: 'requirement', width: '20%'},
 				{label: '城市', name: 'city', width: '20%'},
 				{label: '权重', name: 'weight', width: '20%'},
 				{ label: '是否过期', name: 'isExpired', width: '20%', formatter: function(cellValue, options, rowObject) {
@@ -68,6 +72,18 @@ $(document).ready(function() {
 		});
 	}
 	function bindEditPositionFormAction() {
+		$('#editPositionForm [name="requirement"]').click(function() {
+			$('#editRequireDialog').modal('show');
+			$('#editRequireDialog').data().type = "edit";
+			$('#editRequireForm .summernote').code($('#editPositionForm [name="requirement"]').val());
+		});
+		$('#editRequireForm').submit(function() {
+			var requirement = $('#editRequireForm .summernote').code();
+			$('#editRequireDialog').modal('hide');
+			$('#editPositionForm [name="requirement"]').val(requirement);
+
+			return false;
+		});
 		$('#editPositionForm').submit(function() {
 			if(!ADMIN.formValidate('#editPositionForm', {
 				title: 'nonempty',

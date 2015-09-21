@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	ADMIN.initDateTimePicker('.form_datetime');
 	initUserInfo();
 	bindEditUserBtnAction();
 	bindAddWorkBtnAction();
@@ -24,14 +25,17 @@ $(document).ready(function() {
 		$.get('../user/search/resume.do', data, function(result) {
 			if(result.status) {
 				pageData.resume = result.data;
-				updateUserInfo(result.data);
-				updateWorkInfo(result.data.works);
+				result.data && updateUserInfo(result.data);
+				result.data && updateWorkInfo(result.data.works);
 			} else {
 				alert(result.msg);
 			}
 		}, 'json');
 	}
 	function updateUserInfo(data) {
+		if(!data) {
+			return;
+		}
 		$('#userInfo_name').text(data.name);
 		$('#userInfoForm_name').val(data.name);
 		$('#userInfo_gender').text(data.gender);
@@ -94,6 +98,7 @@ $(document).ready(function() {
 	function bindEditUserBtnAction() {
 		$('#userInfoEditBtn').click(function() {
 			$(this).toggleClass('editing');
+			$editBtn = $(this);
 			if($(this).hasClass('editing')) {
 				$(this).text('保存');
 				$('#userInfo').hide();
@@ -108,11 +113,14 @@ $(document).ready(function() {
 					telephone: $('#userInfoForm_telephone').val(),
 					email: $('#userInfoForm_email').val(),
 					home: $('#userInfoForm_home').val(),
+					remark:'',
 				};
 				$.post('../user/resume/modify.do', data, function(result) {
 					if(result.status) {
 						initUserInfo();
-						$(this).text('修改');
+						$('#userInfo').show();
+						$('#userInfoForm').hide();
+						$editBtn.text('修改');
 					} else {
 						alert(result.msg);
 					}
@@ -139,6 +147,7 @@ $(document).ready(function() {
 				return false;
 			}
 			var data = {
+				userId: ADMIN.URL.getHashParm('userId'),
 				workId: $('#editWorkDialog').data().id,
 				beginTime: $('#addWorkForm [name="beginTime"]').val(),
 				endTime: $('#addWorkForm [name="endTime"]').val(),				
@@ -147,6 +156,7 @@ $(document).ready(function() {
 				department: $('#addWorkForm [name="department"]').val(),
 				position: $('#addWorkForm [name="position"]').val(),
 				description: $('#addWorkForm [name="description"]').val(),
+				remark:'',
 			};
 			$.post('../user/work/create.do', data, function(result) {
 				if(result.status) {
