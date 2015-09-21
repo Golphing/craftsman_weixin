@@ -1,0 +1,95 @@
+<div class="page-path">
+	<div class="icon"></div>
+	<h1 class="path">首页 > 用户管理 > 简历投递</h1>
+	<button type="button" class="btn btn-primary btn-sm add-btn">新投递</button>
+</div>
+<div class="content">
+	<table id="jqGrid"></table>
+	<div id="jqGridPager"></div>
+</div>
+
+<div class="modal fade" id="addDeliverDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form class="form-horizontal" id="addDeliverForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" class="dialogTitle">投递简历</h4>
+            </div>
+            <div class="modal-body dialogContent">
+				<div class="form-group">
+				    <label class="col-sm-2 control-label">*公司:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="company" placeholder="" readonly>
+				    </div>
+				    <span class="input-tips col-md-offset-2"></span>
+				</div>
+				<div class="form-group">
+				    <label class="col-sm-2 control-label">*职位:</label>
+				    <div class="col-sm-9">
+				    	<input type="text" class="form-control" name="position" placeholder="" readonly>
+				    </div>
+				    <span class="input-tips col-md-offset-2"></span>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定 </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="searchCompanyDialog" role="dialog" aria-hidden="true" style="">
+    <div class="modal-dialog" style="width:750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" class="dialogTitle">选择公司</h4>
+            </div>
+            <div class="modal-body dialogContent">
+				<form class="form-inline" id="searchCompanyForm">
+					<div class="form-group">
+						<label for="searchCompanyForm_name">名称</label>
+						<input type="text" class="form-control" id="searchCompanyForm_name" name="name" placeholder="">
+					</div>&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="form-group">
+						<label for="searchCompanyForm_expire">是否过期</label>
+						<select class="form-control" id="searchCompanyForm_expire" placeholder="">
+							<option value=""></option>
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</div>&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="submit" class="btn btn-primary">查询</button>
+				</form>
+				
+				<table id="companyGrid"></table>
+				<div id="companyPager"></div>
+            </div>
+        </div>
+        
+	</div>
+</div>
+<div class="modal fade" id="searchPositionDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" class="dialogTitle">选择职位</h4>
+            </div>
+            <div class="modal-body dialogContent">				
+				<table id="positionGrid"></table>
+				<div id="positionPager"></div>
+            </div>
+        </div>
+        
+	</div>
+</div>
+<script src="../js/user/resumeDeliver.js"></script>

@@ -154,8 +154,13 @@ public class CooperateCompanyController {
 			filter.setName(request.getName());
 		}
 		
+		if(!StringUtil1.isNull(request.getCompanyTypeCode())) {
+			Integer companyTypeId = CompanyType.getFromCode(request.getCompanyTypeCode()).getId();
+			filter.setCompanyTypeId(companyTypeId);
+		}
+		
 		// 查找的是合作企业所以companyTypeId设置为2
-		filter.setCompanyTypeId(2);
+		// filter.setCompanyTypeId(2);
 		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPagingData(pagingData);
 		filter.setPaged(true);
