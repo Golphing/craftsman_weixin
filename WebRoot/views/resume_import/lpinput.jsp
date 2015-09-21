@@ -38,6 +38,9 @@
   
   <script>
   		$(function(){
+  			var url=window.location.href;
+  			var userId=url.split("=")[1];
+  			alert(userId);
   			$("#import").click(function(){
 				 var name=$("input[name='name']").val();
 				 var password=$("input[name='password']").val();
@@ -50,7 +53,8 @@
 			      dataType: 'json',
 			      data: {
 			        "name":name,
-			        "password":password
+			        "password":password,
+			        "userId":userId
 			        
 			      },
 			      async : false,

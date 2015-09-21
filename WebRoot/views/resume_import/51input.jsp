@@ -38,6 +38,10 @@
   
   <script>
   		$(function(){
+  			 var url=window.location.href;
+  			var userId=url.split("=")[1];
+  			alert(userId);
+  			
   			$("#import").click(function(){
 				 var name=$("input[name='name']").val();
 				 var password=$("input[name='password']").val();
@@ -52,7 +56,8 @@
 			        "name":name,
 			        "password":password,
 			        "openId":openId,
-			        "login_verify":login_verify
+			        "login_verify":login_verify,
+			        "userId":userId
 			      },
 			      async : false,
 			      success: function(result) {
