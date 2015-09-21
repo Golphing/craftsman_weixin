@@ -15,4 +15,8 @@ public interface WorkDao {
 	public List<Work> selectUserWorksByUserId(@Param("userId") int userId);
 
 	public void deleteWork(@Param("id") int id);
+
+	public Work selectWorkByWorkId(@Param("workId") int workId);
+
+	
 }

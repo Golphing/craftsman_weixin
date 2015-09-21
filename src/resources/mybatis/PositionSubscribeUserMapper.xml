@@ -138,6 +138,17 @@
 	</select>
 	
 	<select 
+		id="selectPositionSubscribeUserById"
+		resultMap="positionSubscribeUserResult" >
+            
+		SELECT
+			<include refid="positionSubscribeUserColumns"/>
+		FROM
+			position_subscribe_user psu
+		WHERE
+			psu.id = #{id, javaType=int, jdbcType=INTEGER}
+	</select>
+	<select 
 		id="selectSubscribedPositionByUserIdAndPositionId"
 		resultMap="positionSubscribeUserResult" >
             
@@ -170,6 +181,9 @@
 		</if>
 		<if test="filter.telephone !=null">
 			AND user.telephone = #{filter.telephone, javaType=string, jdbcType=CHAR}
+		</if>
+		<if test="filter.wechatAccount !=null">
+			AND user.wechat_account = #{filter.wechatAccount, javaType=string, jdbcType=CHAR}
 		</if>
 	</sql>
 	
@@ -250,13 +264,10 @@
 				psu.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
 			</if>
 			<if test="waitingOfferTime !=null">
-				psu.waiting_offer_time = #{waitingOfferTime, javaType=date, jdbcType=TIMESTAMP}
-			</if>
-			<if test="updateTime !=null">
-				psu.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP}
+				psu.waiting_offer_time = #{waitingOfferTime, javaType=date, jdbcType=TIMESTAMP},
 			</if>
 			<if test="statusId !=null">
-				psu.status_id = #{statusId, javaType=int, jdbcType=INTEGER}
+				psu.status_id = #{statusId, javaType=int, jdbcType=INTEGER},
 			</if>
 		</set>
 		WHERE

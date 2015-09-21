@@ -57,6 +57,7 @@ public class ImportZhiLianController {
 	@Autowired
 	ResumeUserService resumeUserService;
 	
+	
 	private final String PARAM_USER = "LoginName";
     private final String PARAM_PWD = "Password";
     private final String PARAM_CHECK="CheckCode";
@@ -84,7 +85,9 @@ public class ImportZhiLianController {
 			HttpServletRequest request,
 			@RequestParam(value="name",defaultValue="") String name,
 			@RequestParam(value="password",defaultValue="") String password,
-			@RequestParam(value="login_verify",defaultValue="") String login_verify){
+			@RequestParam(value="login_verify",defaultValue="") String login_verify,
+			@RequestParam(value="userId") String userId1){
+		int userId=Integer.parseInt(userId1);	
 		HttpClient client=(HttpClient) session.getAttribute("zlclient");
 		Map<String,String> map=new HashMap<String,String>();
 		if(client==null){			
@@ -165,6 +168,7 @@ public class ImportZhiLianController {
 	                     user.setTelephone(phone);
 	                     String email=doc.select("input[name=emailshow]").first().attr("value");
 	                     user.setEmail(email);
+	                     user.setUserId(userId);
 	                    /* String home=doc.select("input[id=hukouF_button]").first().attr("value");
 	                     user.setHome(home);*/
 	                     if(getGeRenXinXi!=null)
@@ -211,6 +215,7 @@ public class ImportZhiLianController {
 		                    	work.setPosition(position);
 		                    	String description=doc2.select("textarea[name=job_description]").first().text();
 		                    	work.setDescription(description);
+		                    	work.setUserId(userId);
 		                    	/*Elements department=doc2.select("input[titlename=职位类别]");
 		                    	String department1=department.first().attr("value");		                    	
 		                    	work.setDepartment(department1);*/
@@ -263,6 +268,7 @@ public class ImportZhiLianController {
 			                    	work.setPosition(position);
 			                    	String description=doc1.select("textarea[name=job_description]").first().text();
 			                    	work.setDescription(description);
+			                    	work.setUserId(userId);
 			                    	/*Elements department=doc1.select("input[titlename=职位类别]");
 			                    	String department1=department.first().attr("value");		                    	
 			                    	work.setDepartment(department1);*/

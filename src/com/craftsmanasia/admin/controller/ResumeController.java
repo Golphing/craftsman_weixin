@@ -73,7 +73,11 @@ public class ResumeController {
 			filter.setTelephone(request.getTelephone());
 		}
 		
-		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageNumber());
+		if(!StringUtil1.isNull(request.getWechatAccount())) {
+			filter.setWechatAccount(request.getWechatAccount());
+		}
+		
+		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPaged(true);
 		filter.setPagingData(pagingData);
 		
@@ -101,17 +105,19 @@ public class ResumeController {
 	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyRusemeStatus(@RequestParam(value = "id") int id,
-			@RequestParam(value = "statusId") Integer statusId,
-			@RequestParam(value = "isPass") Integer isPass) {
+			@RequestParam(value = "statusId",required = false) Integer statusId,
+			@RequestParam(value = "pass") boolean pass) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(isPass == null) {
+		/*if(isPass == null) {
 			map.put("status", "参数传递错误");
 			return JSONObject.fromObject(map).toString();
-		}
+		}*/
+		PositionSubscribeUser old = positionSubscribeUserService.searchResumeSubscribeById(id);
+		statusId = old.getStatusId();
 		PositionSubscribeUser positionSubscribeUser = new PositionSubscribeUser();
 		positionSubscribeUser.setId(id);
 		Date now = new Date();
-		if(isPass == 0) {
+		if(pass) {
 			positionSubscribeUser.setStatusId(statusId + 1);
 			ResumeSuscribeStatus status = ResumeSuscribeStatus.fromid(statusId + 1);
 			switch(status.getId()) {

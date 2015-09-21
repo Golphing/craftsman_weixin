@@ -72,6 +72,108 @@
 			var department = "";
 			var description = "";
 			var remark = "";
+var url=window.location.href;
+var workId=url.split("=")[1];	
+		
+			$.get("<%=basePath%>admin/user/search/workById.do?workId="+workId, function(data) {
+			var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.work;
+			 $('input#company').attr('value',obj.company); 
+			 $('input#begin_time').attr('value',obj.beginTime);
+			 $('input#end_time').attr('value',obj.endTime);
+			 $('input#department').attr('value',obj.department);
+			 $('input#position').attr('value',obj.position);
+			 $('input#remark').attr('value',obj.remark);
+			 $('input#profession').attr('value',obj.profession);
+			  $('input#description').attr('value',obj.description);			 
+			document.getElementById("company").onfocus= function() {
+            if(this.value==obj.company){
+             this.value="";};
+   			};
+   			document.getElementById("company").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.company;
+   			 };
+   			 
+   			 
+   			 document.getElementById("begin_time").onfocus= function() {
+            if(this.value==obj.beginTime){
+             this.value="";};
+   			};
+   			document.getElementById("begin_time").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.beginTime;
+   			 };
+   			 
+   			 
+   			 document.getElementById("end_time").onfocus= function() {
+            if(this.value==obj.endTime){
+             this.value="";};
+   			};
+   			document.getElementById("end_time").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.endTime;
+   			 };
+   			 
+   			 
+   			 document.getElementById("department").onfocus= function() 
+
+{
+            if(this.value==obj.department){
+             this.value="";};
+   			};
+   			document.getElementById("department").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.department;
+   			 };
+   			 
+   			 
+   			 document.getElementById("position").onfocus= function() {
+            if(this.value==obj.position){
+             this.value="";};
+   			};
+   			document.getElementById("position").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.position;
+   			 };
+   			 
+   			 
+   			 document.getElementById("remark").onfocus= function() {
+            if(this.value==obj.remark){
+             this.value="";};
+   			};
+   			document.getElementById("remark").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.remark;
+   			 };
+   			 
+   			  document.getElementById("profession").onfocus= function() {
+            if(this.value==obj.profession){
+             this.value="";};
+   			};
+   			document.getElementById("profession").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.profession;
+   			 };
+   			 
+   			  document.getElementById("description").onfocus= function() 
+
+{
+            if(this.value==obj.description){
+             this.value="";};
+   			};
+   			document.getElementById("description").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.description;
+   			 };
+ 			 
+    });
+			
+			
+			
+			
+			
+	/* 修改 */		
 		$('#btn').click(function() {
 			begin_time = $('input#begin_time').val();
 			 end_time = $('input#end_time').val();
@@ -96,30 +198,24 @@
 			}else if (profession == "") {
 				alert("请输入专业技能！");
 			}
-			 var url=window.location.href;
-			var userId=url.split("=")[1]; 
+			 
 
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>admin/user/work/create.do",
-				data : "userId="+userId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
+				url : "<%=basePath%>admin/user/work/modify.do",
+				data : "workId="+workId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
+					 window.location.href="myResume.jsp?userId="+userId;
 					
-					if(confirm("是否继续添加工作经历？")){
-					location.href = "fillWork.jsp?userId="+userId;
-					}else{
-					location.href = "myResume.jsp?userId="+userId;
-					};
-					
-					}else{alert("提交错误，请重新输入！");}
+					}else{alert(jsonObj.status);}
 				
 				}
 			});
 
 		});
-	})
+	});
 </script>
 
 </head>
@@ -135,36 +231,28 @@
 
 			<ul>
 				<form >
-					<li class="username"><input type="text" value=""
-						placeholder="开始时间" id="begin_time" />
+					<li class="username"><input type="text"  id="begin_time" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="结束时间" id="end_time" />
+					<li class="username"><input type="text"  id="end_time" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="公司名称" id="company" />
+					<li class="username"><input type="text"  id="company" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="部门" id="department" />
+					<li class="username"><input type="text"  id="department" />
 					</li>
 					<br /><br />
-					<li class="telephone"><input type="text" value=""
-						placeholder="职位" id="position" />
+					<li class="telephone"><input type="text" id="position" />
 					</li>
 					<br /><br />
 
 					
-					<li class="username"><input type="text" value=""
-						placeholder="部门" id="remark" />
+					<li class="username"><input type="text"  id="remark" />
 					</li><br /><br />
-<li class="username"><input type="text" value=""
-						placeholder="专业技能" id="profession" />
+<li class="username"><input type="text"  id="profession" />
 					</li><br /><br />
-<li class="username"><input type="text" value=""
-						placeholder="详细描述" id="description" />
+<li class="username"><input type="text"  id="description" />
 					</li>
 					
 				</form>

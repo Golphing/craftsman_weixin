@@ -16,7 +16,7 @@ $(document).ready(function() {
 			$psw.parents('.form-group').removeClass('has-error');
 		}	
 		if(flag) {
-			window.location.href = 'index.html';
+			return true;
 		}
 		return false;
 	});

@@ -148,6 +148,22 @@
 	</select>
 	
 	<select 
+		id="getPositionsByTitle"
+		parameterType="map" 
+		resultMap="positionResult" >
+            
+		SELECT
+			<include refid="positionColumns"/>
+		FROM
+			position
+		WHERE
+			position.title = #{title, javaType=string, jdbcType=CHAR}
+			AND position.is_expired = 0
+		ORDER BY
+			position.weight ASC	
+	</select>
+	
+	<select 
 		id="selectOwnCompanyPositions"
 		parameterType="map" 
 		resultMap="positionResult" >

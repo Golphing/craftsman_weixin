@@ -47,7 +47,9 @@
 		WHERE
 			user_id = #{userId, javaType=int, jdbcType=INTEGER}
 	</select>
-	
+	<select id="selectWorkByWorkId" resultType="Work">
+		select * from work where id=#{param1}
+	</select>
 	<update id="updatWork">
 		UPDATE 
 			work

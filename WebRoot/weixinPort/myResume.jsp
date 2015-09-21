@@ -19,12 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/css.css" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link
-	href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700'
-	rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Varela+Round'
-	rel='stylesheet' type='text/css'>
+
 <!-- start menu -->
 
 <script type="text/javascript"> 
@@ -41,19 +38,33 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 			document.getElementById("name").innerHTML = obj.name;
 			document.getElementById("telephone").innerHTML = obj.telephone;
 			document.getElementById("home").innerHTML = obj.home;
-			if(obj.gender=="女"){ $("img").attr("src","images/girl.jpg");
+			 if(obj.gender=="女"){ $("img").attr("src","images/girl.jpg");
 			}else{$("img").attr("src","images/boy.jpg");
-			}
+			} 
 			var str='<div class="company"><h3 class="clr1">工作经历</h3>';
 			for ( var i in obj.works) {
 			var work = obj.works[i];
-			 str+='<div class="company_details"><h4>'+work.company+"<span>"+work.beginTime+'--'+work.endTime+"</span>"+'</h4><h6>'+work.department+'</h6><p class="cmpny1">'+work.description+'</p></div></div>';
+			 str+='<div class="company_details" id="'+work.id+'"><h4>'+work.company+"<span>"+work.beginTime+'--'+work.endTime+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/modify.png onclick="modify('+work.id+')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/delete1.png onclick="delete1('+work.id+')">'+'</h4><h6>'+work.department+'</h6><p class="cmpny1">'+work.description+'</p></div></div>';
 
 		 	}
 		 	 document.getElementById("content").innerHTML=str; 
 		});
 
-	})
+	});
+	function modify(workId){
+  if (confirm('确定修改？')) {
+  window.location.href="modifyWork.jsp?workId="+workId;
+  
+  };
+};
+function delete1(workId){
+  if (confirm('确定删除？')) {
+  $.get("<%=basePath%>admin/user/work/delete.do?workId="+workId, function(data) {
+		$('#'+workId).remove();	
+		});
+  
+  };
+};
 </script>
 
 
@@ -62,19 +73,19 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 	<!-- header -->
 	<div class="col-sm-3 col-md-2 sidebar">
 		<div class="sidebar_top">
-			<h1 id ="name">牛洪波</h1>
+			<h1 id ="name"></h1>
 			<img  alt="" />
 		</div>
 		<div class="details">
 			<h3>电话</h3>
-			<p id = "telephone">+00 234 56 789</p>
+			<p id = "telephone"></p>
 			<h3>邮箱</h3>
 			<p id = "email">
-				mail@example.com
+				
 			</p>
 			<address>
 				<h3>地址</h3>
-				<span id = "home">河南</span>
+				<span id = "home"></span>
 			</address>
 
 		</div>
@@ -86,13 +97,18 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 	<!---//pop-up-box---->
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<div class="content" id="content">
-
-
-			
-
-
-
 		</div></div>
-		
+		<div class="footer">
+			<div class="footer_top">
+				
+				<ul class="back_top">
+					<a href="javascript:scroll(0,0)">TOP</a>
+				</ul>
+			</div>
+			<ul class="copyright">
+				
+				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
+			</ul>
+		</div>
 </body>
 </html>
