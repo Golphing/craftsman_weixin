@@ -103,7 +103,7 @@ public class WechatController {
 			List<Work> work = workService.getUserWorksByUserId(userId);
 			if (resume == null) {
 				return new ModelAndView(new RedirectView(
-						"../../weixinPort/fillResume.jsp?userId=" + userId));
+						"../../weixinPort/importResume.jsp?userId=" + userId));
 			} else if (work.size() == 0) {
 				return new ModelAndView(new RedirectView(
 						"../../weixinPort/fillWork.jsp?userId=" + userId));
@@ -151,12 +151,16 @@ public class WechatController {
 				}
 				ResumeUser resume = resumeUserService
 						.selectResumeUserByUserId(user.getId());
-				if (resume == null) {
-					return "添加简历";
-				} else {
-					// 返回我的简历
-					return String.valueOf(resume.getId());
+				List<Work> work = workService.getUserWorksByUserId(user.getId());
+				if(resume==null){
+					return "1&"+user.getId();
+				}else if(work.size()==0){
+					return "2&"+user.getId();
+				}else{
+					return "3&"+user.getId();
+				
 				}
+				
 
 			} else {
 				return "密码错误";
@@ -184,7 +188,7 @@ public class WechatController {
 			List<Work> work = workService.getUserWorksByUserId(userId);
 			if (resume == null) {
 				return new ModelAndView(new RedirectView(
-						"../../weixinPort/fillResume.jsp?userId=" + userId));
+						"../../weixinPort/importResume.jsp?userId=" + userId));
 			} else if (work.size() == 0) {
 				return new ModelAndView(new RedirectView(
 						"../../weixinPort/fillWork.jsp?userId=" + userId));
@@ -215,7 +219,7 @@ public class WechatController {
 			List<Work> work = workService.getUserWorksByUserId(userId);
 			if (resume == null) {
 				return new ModelAndView(new RedirectView(
-						"../../weixinPort/fillResume.jsp?userId=" + userId));
+						"../../weixinPort/importResume.jsp?userId=" + userId));
 			} else if (work.size() == 0) {
 				return new ModelAndView(new RedirectView(
 						"../../weixinPort/fillWork.jsp?userId=" + userId));

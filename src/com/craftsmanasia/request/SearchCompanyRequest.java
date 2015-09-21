@@ -4,6 +4,7 @@ public class SearchCompanyRequest extends PagingRequest{
 
 	private String name;
 	private Integer isExpired;
+	private String companyTypeCode;
 
 	public String getName() {
 		return name;
@@ -19,6 +20,14 @@ public class SearchCompanyRequest extends PagingRequest{
 
 	public void setIsExpired(Integer isExpired) {
 		this.isExpired = isExpired;
+	}
+
+	public String getCompanyTypeCode() {
+		return companyTypeCode;
+	}
+
+	public void setCompanyTypeCode(String companyTypeCode) {
+		this.companyTypeCode = companyTypeCode;
 	}
 	
 }

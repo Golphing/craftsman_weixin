@@ -97,7 +97,7 @@
 				alert("请输入专业技能！");
 			}
 			 var url=window.location.href;
-			var userId=url.split("?")[1].split("=")[1]; 
+			var userId=url.split("=")[1]; 
 
 			$.ajax({
 				type : "POST",
@@ -107,7 +107,7 @@
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
 					
-					if(confirm("是否继续添加？")){
+					if(confirm("是否继续添加工作经历？")){
 					location.href = "fillWork.jsp?userId="+userId;
 					}else{
 					location.href = "myResume.jsp?userId="+userId;

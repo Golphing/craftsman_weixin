@@ -299,7 +299,7 @@ public class UserController {
 			@RequestParam(value = "position", defaultValue = "") String position,
 			@RequestParam(value = "description", defaultValue = "") String description,
 			@RequestParam(value = "profession", defaultValue = "") String profession,
-			@RequestParam(value = "remark", defaultValue = "") String remark,
+			@RequestParam(value = "remark", required=false) String remark,
 			@RequestParam(value = "department", defaultValue = "") String department) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -414,4 +414,19 @@ public class UserController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
+	/*
+	 * 获取工作信息
+	 * */
+	@RequestMapping(value = "/search/workById",method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String workById(@RequestParam(value = "workId", defaultValue = "") int workId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Work work = workService.getUserWorksByWorkId(workId);
+		
+		map.put("work", work);
+		
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
 }

@@ -58,7 +58,7 @@ var request ="<%=basePath%>wechat/user/jobprogress.do?userId=" + userId;
 
 		<div class="hot_com">
 			<h4>
-				<a href="job/default.htm" class="a_hot_title">岗位进度</a>
+				<a href="#" class="a_hot_title">岗位进度</a>
 			</h4>
 			<ul id="joblist">
 			</ul>

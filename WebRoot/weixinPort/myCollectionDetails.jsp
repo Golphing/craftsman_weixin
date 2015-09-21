@@ -25,9 +25,10 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 var url=window.location.href;
-var positionId=url.split("?")[1].split("=")[1];
+var positionId=url.split("=")[2];
+var userId=url.split("=")[1].split("&")[0];
 var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
-var userId='<%=session.getAttribute("userId")%>';
+
 /*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
@@ -142,7 +143,7 @@ var userId='<%=session.getAttribute("userId")%>';
 		
 		<div class="mtzrl_header">
 			<h1 class="m_logo">
-				<a href="../default.htm"></a>
+				<a href="#"></a>
 			</h1>
 
 
@@ -226,11 +227,7 @@ var userId='<%=session.getAttribute("userId")%>';
 		
 		<div class="footer">
 			<div class="footer_top">
-				<ul class="user_info">
-					<span><a href="../login/login.aspx">登录</a> <a
-						href="../reg/default.htm">注册</a>
-					</span>
-				</ul>
+				
 				<ul class="back_top">
 					<a href="javascript:scroll(0,0)">TOP</a>
 				</ul>

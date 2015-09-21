@@ -27,10 +27,10 @@
 
 
 <script type="text/javascript"> 
- 
-$(document).ready(function() {
-			var url=window.location.href;
+ var url=window.location.href;
 var userId=url.split("?")[1].split("=")[1];
+$(document).ready(function() {
+			
 $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
@@ -41,7 +41,33 @@ $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 			
 			document.getElementById("joblist").innerHTML = str;
 		});
-	})
+	});
+
+	function search(){
+	var title=document.getElementById("keyword").value;
+	var area=document.getElementById("area").value;
+	var url="<%=basePath%>wechat/position/search/company/position/byTitle.do?title="+title;
+	url=encodeURI(url);
+url=encodeURI(url);
+	$.get(url, function(data) {
+			var jsonObj = eval("(" + data + ")");
+			var obj=jsonObj.data;//obj是一个包含多个选项的数组
+			var str="";
+			for ( var i in obj) {
+			if(area==""){
+			str+='<li><a href='+'"'+"jobDetails.jsp?positionId="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].title+'</dt><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>';
+			}else{
+			if(area==obj[i].city){
+			str+='<li><a href='+'"'+"jobDetails.jsp?positionId="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].title+'</dt><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>';
+			}
+			}
+						}
+			
+			document.getElementById("joblist").innerHTML = str;
+		});
+	};
+	
+	
 </script>
 </head>
 <body>
@@ -49,7 +75,7 @@ $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 		<div class="m_banner">
 			<img src="images/top.png" width="320" height="135" />
 		</div>
-		<form method="get" action="/touch/job/Search.aspx">
+		
 			<div class="mtzrl_search">
 				<ul id="search_box01">
 					<li class="keyword_wrap">
@@ -58,19 +84,19 @@ $.get("<%=basePath%>wechat/position/search/own.do", function(data) {
 								class="select_area">地区</span>
 						</div>
 						<div class="input_box">
-							<input class="inp_search" type="search" placeholder="输入关键字"
-								name="keyword" id="keyword">
+							<input class="inp_search" type="search" placeholder="输入职位名称"
+								name="keyword" id="keyword" >
 						</div>
 						<div class="btn_icon">
-							<button class="search_btn" type="submit"></button>
+							<button class="search_btn" type="submit" onclick="search()"></button>
 						</div></li>
 				</ul>
 			</div>
-		</form>
+		
 
 		<div class="hot_com">
 			<h4>
-				<a href="job/default.htm" class="a_hot_title">企业热招</a>
+				<a href="#" class="a_hot_title">企业热招</a>
 			</h4>
 			<ul id="joblist">
 			</ul>

@@ -21,7 +21,7 @@ public interface UserDao {
 	
 	public User getByOpenId(String openId);
 	
-	public User selectUserById(int id);
+	public User selectUserById(@Param("id")int id);
 
 	public User selectUserByTelephone(String telephone);
 	

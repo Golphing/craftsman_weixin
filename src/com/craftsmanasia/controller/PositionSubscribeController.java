@@ -1,5 +1,6 @@
 package com.craftsmanasia.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,7 +71,7 @@ public class PositionSubscribeController {
 		PositionSubscribeUser oldPositionSubscribeUser = positionSubscribeUserService
 					.getSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		if(oldPositionSubscribeUser != null) {
-			map.put("status", "已经订阅该职位");
+			map.put("status", "已经应聘过该职位");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -83,7 +84,7 @@ public class PositionSubscribeController {
 		positionSubscribeUser.setCreateTime(now);
 		positionSubscribeUser.setUpdateTime(now);
 		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
-		map.put("status", "订阅成功");
+		map.put("status", "应聘成功");
 		
 		return JSONObject.fromObject(map).toString();
 	}
@@ -184,7 +185,7 @@ public class PositionSubscribeController {
 		positionCollection.setUserId(userId);
 		
 		positionSubscribeUserService.collectPosition(positionCollection);
-		map.put("status", true);
+		map.put("status", "收藏成功！");
 		return JSONObject.fromObject(map).toString();
 	}
 	
@@ -271,12 +272,17 @@ public class PositionSubscribeController {
 	 * */
 	@RequestMapping(value = "/search/company/position/byTitle", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String searchPositionsByTitle(@RequestParam(value = "title", defaultValue = "") String title,
-			@RequestParam(value = "companyId", defaultValue = "1") int companyId) {
+	public String searchPositionsByTitle(@RequestParam(value = "title", defaultValue = "") String title)
+			 {
+		try {
+			title = java.net.URLDecoder.decode(title, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		Position position = positionService.getPositionByCompanyIdAndTitle(companyId, title);
-		map.put("data", PositionVO.toVO(position));
+		List<Position> position = positionService.getPositionByTitle(title);
+		map.put("data", position);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}

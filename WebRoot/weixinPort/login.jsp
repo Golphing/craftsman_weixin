@@ -42,7 +42,7 @@
 	left: 50%;
 	z-index: 9999;
 	opacity: 0;
-	filter: alpha(opacity =   0);
+	filter: alpha(opacity =     0);
 	margin-left: -80px;
 }
 
@@ -68,32 +68,39 @@
 	var url=window.location.href;
 var openId=url.split("?")[1].split("=")[1];
 document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?openId="+openId;
+
 		$('#btn').click(function() {
 			telephone = $('input#telephone').val();
 			password = $('input#password').val();
-			if (telephone == "") {
-				alert("请输入手机号!");
-			} else if (password == "") {
-				alert("请输入密码!");
+			if(telephone==""){
+			alert("手机号不能为空！");
 			}
-			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+telephone+"&password="+password+"&openId="+openId;
+			if(password==""){
+			alert("密码不能为空！");
+			}
+			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+ telephone+ "&password="+ password+ "&openId=" + openId;
+							$.post(request,	function(data) {
+							var i = data.indexOf("&");
+							if(i<0){
+							alert(data);
+							}else{
+							var userId=data.split("&")[1];
+							i = data.split("&")[0];
+							if(i==1){
+							location.href = "importResume.jsp?userId="+ userId;
+							}else if(i==2){
+							location.href = "fillWork.jsp?userId="+ userId;
+							}else if(i=3){
+							location.href = "myResume.jsp?userId="	+ data;
+							}else{
+							alert("请稍后重试");
+							}
+							}
+							});
 			
-			$.get(request, function(data) {
-			if(data=="添加简历"){
-			location.href = "fillResume.jsp";
-			}else if(data=="手机号错误"){
-			alert("手机号错误");
-			}else if(data=="密码错误"){
-			alert("密码错误");
-			}else{
-			/*  此时data是userId*/
-			location.href = "myResume.jsp?userId="+data;
-			};
-		});
-		});
+			});
+			
 	});
-	
-	
 </script>
 
 </head>
@@ -102,7 +109,9 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 		<div class="mq_top">
 
 			<div class="mq_title">用户登陆</div>
-			<div class="btn_ch_r"><a  id="register">注册</a></div>
+			<div class="btn_ch_r">
+				<a id="register">注册</a>
+			</div>
 		</div>
 		<div class="log_box">
 
@@ -110,19 +119,15 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 			<ul>
 				<form action="<%=basePath%>wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" value=""
-						placeholder="手机号" id="telephone" />
-					</li>
-					<br /><br />
+						placeholder="手机号" id="telephone" /></li> <br />
+					<br />
 					<li class="telephone"><input type="password" value=""
-						placeholder="密码" id="password" />
-					</li>
-				
-		
-				<li class="login_free"></li>
-				<li class="btn_submit">
-				<br/>
-					<button type="button" id="btn">登陆</button>
-				</li>
+						placeholder="密码" id="password" /></li>
+
+
+					<li class="login_free"></li>
+					<li class="btn_submit"><br />
+						<button type="button" id="btn">登陆</button></li>
 				</form>
 			</ul>
 		</div>
@@ -138,11 +143,11 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 				</ul>
 			</div>
 			<ul class="copyright">
-				
+
 				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
-		
+
 
 	</div>
 	<div class="overlay">&nbsp;</div>
@@ -152,7 +157,7 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 				style="float:left;padding-top:6px;" />跳转中，请稍候...
 		</div>
 	</div>
-	
+
 
 
 
