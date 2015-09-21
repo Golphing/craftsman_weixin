@@ -44,6 +44,10 @@ public class PositionSubscribeUserService {
 		positionSubscribeUserDao.updatePositionSubscribeUser(user);
 	}
 	
+	public PositionSubscribeUser searchResumeSubscribeById(int id) {
+		return positionSubscribeUserDao.selectPositionSubscribeUserById(id);
+	}
+	
 	public List<Position> getAllCollectionPositionsByUserId(int userId) {
 		List<PositionCollection> positionCollections = positionCollectionDao.selectPositionsByUserId(userId);
 		List<Position> positions = new ArrayList<Position>();
@@ -70,7 +74,7 @@ public class PositionSubscribeUserService {
 
 			PagingResult pagingResult = new PagingResult();
 			pagingResult.setPageNumber(pagingData.getPageNumber());
-			pagingResult.setPageSize(pagingData.getPageNumber());
+			pagingResult.setPageSize(pagingData.getPageSize());
 			pagingResult.setRecordNumber(recordnumbers);
 			
 			result.setPaged(true);

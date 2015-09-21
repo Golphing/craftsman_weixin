@@ -62,7 +62,12 @@ public class LoginFilter implements Filter {
 			arg2.doFilter(arg0, arg1);
 			return;
 		}
-		if(path.startsWith("/craftsman_weixin/admin") && administrator == null) {
+		if(path.endsWith("/index.html") && administrator == null) {
+			requestDispatcher.forward(arg0, arg1);
+			return;
+		}
+		
+		if(path.endsWith("/search.js") && administrator == null) {
 			requestDispatcher.forward(arg0, arg1);
 			return;
 		}

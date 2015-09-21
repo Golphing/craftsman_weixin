@@ -10,6 +10,7 @@ public class ResumeSubscribeFilter extends SearchFilter{
 	private String name;
 	private String companyName;
 	private String telephone;
+	private String wechatAccount;
 
 	public String getTitle() {
 		return title;
@@ -53,6 +54,14 @@ public class ResumeSubscribeFilter extends SearchFilter{
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getWechatAccount() {
+		return wechatAccount;
+	}
+
+	public void setWechatAccount(String wechatAccount) {
+		this.wechatAccount = wechatAccount;
 	}
 	
 }
