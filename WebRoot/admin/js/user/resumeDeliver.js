@@ -84,13 +84,14 @@ $(document).ready(function() {
 			var rowId = parseInt($(this).closest('tr')[0].id);
 			var data = {
 				id: rowId,
+				
 			};
 			if(action == 'access') {
 				data.pass = true;
 			} else {
 				data.pass = false;
 			}
-			$.post('../resume/pass.do', data, function(result) {
+			$.post('../resume/modify.do', data, function(result) {
 				if(result.status) {
 					alert('成功');
 					$('#jqGrid').trigger("reloadGrid");

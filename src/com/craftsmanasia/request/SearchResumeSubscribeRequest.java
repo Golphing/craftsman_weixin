@@ -6,6 +6,7 @@ public class SearchResumeSubscribeRequest extends PagingRequest{
 	private String name;
 	private String telephone;
 	private String companyName;
+	private String wechatAccount;
 
 	public String getTitle() {
 		return title;
@@ -37,6 +38,14 @@ public class SearchResumeSubscribeRequest extends PagingRequest{
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getWechatAccount() {
+		return wechatAccount;
+	}
+
+	public void setWechatAccount(String wechatAccount) {
+		this.wechatAccount = wechatAccount;
 	}
 	
 }

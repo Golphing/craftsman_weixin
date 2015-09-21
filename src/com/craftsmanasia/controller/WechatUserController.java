@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.UserService;
@@ -33,7 +34,8 @@ public class WechatUserController {
 	 * */
 	@RequestMapping("/register")
 	@ResponseBody
-	public String registerUser(@RequestParam(value = "openId", defaultValue = "") String openId,@RequestParam(value = "telephone", defaultValue = "") String telephone, 
+	public String registerUser(@RequestParam(value = "openId", defaultValue = "") String openId,
+			@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -58,6 +60,52 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
+	@RequestMapping("/resume/create")
+	@ResponseBody
+	public String createResume(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
+			@RequestParam(value = "telephone", defaultValue = "") String telephone,
+			@RequestParam(value = "gender", defaultValue = "") String gender,
+			@RequestParam(value = "birthday", defaultValue = "") String birthday,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "email", defaultValue = "") String email,
+			@RequestParam(value = "home", defaultValue = "") String home) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		ResumeUser resumeUser = new ResumeUser();
+		resumeUser.setTelephone(telephone);
+		resumeUser.setName(name);
+		resumeUser.setBirthday(birthday);
+		resumeUser.setGender(gender);
+		resumeUser.setEmail(email);
+		resumeUser.setUserId(userId);
+		resumeUser.setHome(home);
+		resumeUserService.add(resumeUser);
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	/*@RequestMapping("/work/create")
+	@ResponseBody
+	public String createWork(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
+			@RequestParam(value = "telephone", defaultValue = "") String telephone,
+			@RequestParam(value = "gender", defaultValue = "") String gender,
+			@RequestParam(value = "birthday", defaultValue = "") String birthday,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "email", defaultValue = "") String email,
+			@RequestParam(value = "home", defaultValue = "") String home) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		ResumeUser resumeUser = new ResumeUser();
+		resumeUser.setTelephone(telephone);
+		resumeUser.setName(name);
+		resumeUser.setBirthday(birthday);
+		resumeUser.setGender(gender);
+		resumeUser.setEmail(email);
+		resumeUser.setUserId(userId);
+		resumeUser.setHome(home);
+		resumeUserService.add(resumeUser);
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	*/
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,

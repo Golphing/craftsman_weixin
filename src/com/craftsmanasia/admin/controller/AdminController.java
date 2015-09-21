@@ -223,7 +223,6 @@ public class AdminController {
 		httpSession.setAttribute("adminUser", administrator);
 		//request.setAttribute("adminUser", administrator);
 
-		System.out.println("yes");
 		return new ModelAndView(new RedirectView("../../admin/views/index.html"));
 		//return "redirect:/admin/views/index.html";
 	}

@@ -15,6 +15,8 @@ public interface PositionSubscribeUserDao {
 
 	public void updatePositionSubscribeUser(PositionSubscribeUser positionSubscribeUser);
 	
+	public PositionSubscribeUser selectPositionSubscribeUserById(@Param("id") int id);
+	
 	public List<PositionSubscribeUser> selectSubscribedPositionsByUserId(@Param("userId") int userId);
 	
 	public PositionSubscribeUser selectSubscribedPositionByUserIdAndPositionId(@Param("userId") int userId,

@@ -43,7 +43,7 @@ public class ResumeVO2 {
 		vo.setGender(resumeUser.getGender());
 		vo.setTelephone(resumeUser.getTelephone());
 		
-		vo.setStatus(ResumeSuscribeStatus.fromid(positionSubscribeUser.getId()).getDescription());
+		vo.setStatus(ResumeSuscribeStatus.fromid(positionSubscribeUser.getStatusId()).getDescription());
 		vo.setStatusId(positionSubscribeUser.getStatusId());
 		vo.setUpdateTime(DateTimeUtility.formatYYYYMMDD(positionSubscribeUser.getUpdateTime()));
 		vo.setCompanyName(positionSubscribeUser.getPosition().getCompany().getName());
