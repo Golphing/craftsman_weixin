@@ -34,6 +34,7 @@ $(document).ready(function() {
 				postData.title = $('#searchPositionForm_title').val();
 				postData.isExpired = $('#searchPositionForm_expire').val();
 				postData.city = $('#searchPositionForm_city').val();
+				postData.companyTypeCode = 'cooperate';
 				return postData;
 			},
 			loadComplete:function(xhr) {

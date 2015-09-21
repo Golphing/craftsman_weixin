@@ -32,6 +32,7 @@ $(document).ready(function () {
 			],
 			serializeGridData: function(postData) {
 				postData.companyId = ADMIN.URL.getHashParm('companyId');
+				postData.companyTypeCode = 'cooperate';
 				return postData;
 			},
 			loadComplete:function(xhr) {
