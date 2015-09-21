@@ -55,7 +55,7 @@ $.get("<%=basePath%>wechat/position/search/company.do", function(data) {
 
 		<div class="hot_com">
 			<h4>
-				<a href="job/default.htm" class="a_hot_title">企业热招</a>
+				<a href="#" class="a_hot_title">企业热招</a>
 			</h4>
 			<ul id="joblist">
 			</ul>

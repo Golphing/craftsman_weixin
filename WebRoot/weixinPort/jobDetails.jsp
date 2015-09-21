@@ -113,7 +113,7 @@ var requestUrl ="<%=basePath%>wechat/position/info.do?positionId="+positionId;
 		
 		<div class="mtzrl_header">
 			<h1 class="m_logo">
-				<a href="../default.htm"></a>
+				<a href="#"></a>
 			</h1>
 
 
