@@ -57,6 +57,7 @@ public class ImportZhiLianController {
 	@Autowired
 	ResumeUserService resumeUserService;
 	
+	
 	private final String PARAM_USER = "LoginName";
     private final String PARAM_PWD = "Password";
     private final String PARAM_CHECK="CheckCode";

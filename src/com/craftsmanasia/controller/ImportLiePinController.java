@@ -92,6 +92,8 @@ public class ImportLiePinController {
 	        String status=getResume(name, password,userId);
 	        Map<String,String> map=new HashMap<String,String>();
 	        map.put("code", status);
+	        
+	        
 	        return JSONObject.fromObject(map).toString();
 	      
 		
