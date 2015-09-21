@@ -28,4 +28,6 @@ public interface PositionDao {
 	public List<Position> selectPositionsByFilter(@Param("filter") PositionFilter filter);
 	
 	public int countPositionsByFilter(@Param("filter") PositionFilter filter);
+
+	public List<Position> getPositionsByTitle( @Param("title") String title);
 }

@@ -27,4 +27,8 @@ public class WorkService {
 	public void deleteWork(int id) {
 		workDao.deleteWork(id);
 	}
+
+	public Work getUserWorksByWorkId(int workId) {
+		return workDao.selectWorkByWorkId(workId);
+	}
 }

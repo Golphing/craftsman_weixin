@@ -78,4 +78,9 @@ public class PositionService {
 		
 		return result;
 	}
+
+	public List<Position> getPositionByTitle(String title) {
+		// TODO Auto-generated method stub
+		return positionDao.getPositionsByTitle(title);
+	}
 }
