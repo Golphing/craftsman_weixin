@@ -18,6 +18,7 @@
 <meta name="format-detection" content="email=no" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
+<link rel="stylesheet" type="text/css" href="../views/css/import.css" />
 <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet"
 	type="text/css" />
 <meta content="" name="keywords" />
@@ -62,27 +63,35 @@
 </style>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
-	$(function() {
-	var telephone="";
-	var password = "";
-		var url=window.location.href;
-var openId=url.split("?")[1].split("=")[1];
+	$(function() {	
 		$('#btn').click(function() {
-			telephone = $('input#telephone').val();
-			password = $('input#password').val();
+		var url=window.location.href;
+var openId=url.split("=")[1];
+			var telephone = $('input#telephone').val();
+			var password = $('input#password').val();
+			var yzm= $('input#yzm').val();
+			var password1 = $('input#password1').val();
 			if (telephone == "") {
 				alert("请输入手机号!");
 			} else if (password == "") {
 				alert("请输入密码!");
-			}
-		
-			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId;
+				
+			}else if(password1 == "") {
+				alert("请再次输入密码!");
+			}else if(yzm==""){
+			alert("请输入验证码!");
+			}else if(password!=password1){
+			alert("两次输入密码不同！");
+			}else{
+			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
 			var jsonObj = eval("(" + data + ")");
-			location.href = "importResume.jsp?userId="+jsonObj.status;
+			if(jsonObj.status=="验证码不正确"){alert(jsonObj.status);}
+			else if(jsonObj.status=="已存在该电话"){alert(jsonObj.status);}else{
+			location.href = "importResume.jsp?userId="+jsonObj.status;}
 			
-		});
+		});}
 		});
 	});
 
@@ -101,14 +110,20 @@ var openId=url.split("?")[1].split("=")[1];
 
 			<ul>
 				<form action="<%=basePath%>wechat/user/login.do" method="get">
-					<li class="telephone"><input type="text" value=""
+					<li class="telephone"><input type="text" 
 						placeholder="手机号" id="telephone" />
 					</li>
 					<br /><br />
-					<li class="telephone"><input type="password" value=""
+					<li class="telephone"><input type="password" 
 						placeholder="密码" id="password" />
 					</li>
-				
+					<br /><br /><li class="telephone"><input type="password" 
+						placeholder="再次输入密码" id="password1" />
+					</li>
+					<br /><br />
+				<li class="telephone" ><input type="text" style="width:40%;margin-left:auto;margin-right:auto;float: left;"
+						placeholder="验证码" id="yzm" /><input class="button blue"  style="float: right;" type="button" value="获取验证码" id="getyzm"></input>
+					</li>
 		
 				<li class="login_free"></li>
 				<li class="btn_submit">
@@ -154,52 +169,16 @@ var openId=url.split("?")[1].split("=")[1];
 
 	<script type="text/javascript">
 		$(function() {
-			$("#birthday").mobiscroll().date();
-
-			var currYear = (new Date()).getFullYear();
-
-			//初始化日期控件
-			var opt = {
-				preset : 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
-				theme : 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
-				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
-				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
-				lang : 'zh',
-				dateFormat : 'yyyy-mm-dd', // 日期格式
-				setText : '确定', //确认按钮名称
-				cancelText : '取消',//取消按钮名籍我
-				dateOrder : 'yyyymmdd', //面板中日期排列格式
-				dayText : '日',
-				monthText : '月',
-				yearText : '年', //面板中年月日文字
-				showNow : false,
-				nowText : "今",
-				startYear : 1950, //开始年份  
-				endYear : 2015
-			//结束年份  
-			//endYear:2099 //结束年份
-			};
-
-			$("#scroller").mobiscroll(opt);
-		});
+			$('#getyzm').click(function() {
+	var telephone = $('input#telephone').val();
+	if(telephone==""){
+	alert("请先输入手机号！");}else{
+	var request ="<%=basePath%>yzm/sendV.do?phoneNumber="+telephone;
+	$.post(request, function(data) {
+	});}
+	});
+	})
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>
