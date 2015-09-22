@@ -40,17 +40,25 @@ public class WechatUserController {
 			@RequestParam(value = "yzm", defaultValue = "") String yzm,
 			@RequestParam(value = "password", defaultValue = "") String password
 			) {
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		String yzm1=(String) session.getAttribute("yzm");
-		if(!yzm1.endsWith(yzm)){
+		if(yzm1==null || !yzm1.endsWith(yzm)){
 			map.put("status", "验证码不正确");
+			return JSONObject.fromObject(map).toString();
+		}
+		if(StringUtil1.isNull(telephone) || userService.getUserByTelephone(telephone) != null) {
+			map.put("status", "电话不能为空或已存在该电话");
+
 			return JSONObject.fromObject(map).toString();
 		}
 		if(userService.getUserByTelephone(telephone) != null) {
 			map.put("status", "已存在该电话");
 			return JSONObject.fromObject(map).toString();
 		}
+
 		
+
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
