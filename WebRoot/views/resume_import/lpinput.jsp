@@ -10,6 +10,7 @@
    
     <title>My JSP 'resumeinput.jsp' starting page</title>
     
+    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -38,6 +39,9 @@
   
   <script>
   		$(function(){
+  			var url=window.location.href;
+  			var userId=url.split("=")[1];
+  			alert(userId);
   			$("#import").click(function(){
 				 var name=$("input[name='name']").val();
 				 var password=$("input[name='password']").val();
@@ -50,7 +54,8 @@
 			      dataType: 'json',
 			      data: {
 			        "name":name,
-			        "password":password
+			        "password":password,
+			        "userId":userId
 			        
 			      },
 			      async : false,
