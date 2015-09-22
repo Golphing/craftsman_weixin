@@ -64,6 +64,7 @@ public class WechatUserController {
 			map.put("status", "两次密码输入不一致");
 			return JSONObject.fromObject(map).toString();
 		}
+
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
