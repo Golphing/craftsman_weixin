@@ -57,8 +57,6 @@ public class WechatUserController {
 			return JSONObject.fromObject(map).toString();
 		}
 
-		
-
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
@@ -92,7 +90,7 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	/*@RequestMapping("/work/create")
+	@RequestMapping("/work/create")
 	@ResponseBody
 	public String createWork(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,
@@ -114,7 +112,7 @@ public class WechatUserController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
-	*/
+	
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,

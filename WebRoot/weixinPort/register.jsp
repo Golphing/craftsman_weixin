@@ -160,11 +160,6 @@ var openId=url.split("=")[1];
 		</div>
 	</div>
 	<script type="text/javascript" src="../js/ShowTip.js"></script>
-
-
-
-
-
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
@@ -175,6 +170,10 @@ var openId=url.split("=")[1];
 	alert("请先输入手机号！");}else{
 	var request ="<%=basePath%>yzm/sendV.do?phoneNumber="+telephone;
 	$.post(request, function(data) {
+	var jsonObj = eval("(" + data + ")");
+	
+	if(jsonObj.status==-3){
+	alert("请填写正确的手机号！");}
 	});}
 	});
 	})
