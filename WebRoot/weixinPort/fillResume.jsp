@@ -75,15 +75,16 @@ var userId=url.split("?")[1].split("=")[1];
 
 		$('#btn').click(function() {
 			name = $('input#name').val();
-			 gender = $('input#gender').val();
+			var select = document.getElementById('gender');
+			 gender = select.value;
 			email = $('input#email').val();
 		 home = $('input#home').val();
 			 birthday = $('input#birthday').val();
 			telephone = $('input#telephone').val();
 			if (name == "") {
 				alert("请输入姓名!");
-			} else if (gender == "") {
-				alert("请输入性别!");
+			} else if (gender == "性别") {
+				alert("请选择性别!");
 			} else if (email == "") {
 				alert("请输入邮箱！");
 			} else if (home == "") {
@@ -106,6 +107,7 @@ var userId=url.split("?")[1].split("=")[1];
 			});
 
 		});
+		
 	})
 </script>
 
@@ -122,24 +124,30 @@ var userId=url.split("?")[1].split("=")[1];
 
 			<ul>
 				<form action="<%=basePath%>admin/user/resume/create.do" method="get">
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="姓名" id="name" />
 					</li><br /><br />
-					<li class="username"><input type="text" value=""
-						placeholder="性别" id="gender" />
+					<li class="username"><!-- <input type="text" 
+						placeholder="性别" id="gender" /> -->
+						
+						 <select style="width:100%;height:42px;font-size:14px" name="gender" id="gender" >   
+       <option>性别</option>
+        <option value="男">男</option>   
+        <option value="女">女</option>           
+      </select>   
 					</li><br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="邮箱" id="email" />
 					</li><br /><br />
-					<li class="telephone"><input type="text" value=""
+					<li class="telephone"><input type="text" 
 						placeholder="电话" id="telephone" />
 					</li>
 <br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text"
 						placeholder="家乡" id="home" />
 					</li>
 <br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text"
 						placeholder="出生年月" id="birthday" />
 					</li>
 				</form>
@@ -186,16 +194,16 @@ var userId=url.split("?")[1].split("=")[1];
 
 	<script type="text/javascript">
 		$(function() {
-			$("#birthday").mobiscroll().date();
+			/* $("#birthday").mobiscroll().date(); */
 
 			var currYear = (new Date()).getFullYear();
 
 			//初始化日期控件
 			var opt = {
 				preset : 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
-				theme : 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
-				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
-				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
+				theme : 'android', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
+				display : 'bubble', //显示方式 ，可选：modal\inline\bubble\top\bottom
+				mode : 'clickpick', //日期选择模式，可选：scroller\clickpick\mixed
 				lang : 'zh',
 				dateFormat : 'yyyy-mm-dd', // 日期格式
 				setText : '确定', //确认按钮名称
@@ -204,7 +212,7 @@ var userId=url.split("?")[1].split("=")[1];
 				dayText : '日',
 				monthText : '月',
 				yearText : '年', //面板中年月日文字
-				showNow : false,
+				showNow : true,
 				nowText : "今",
 				startYear : 1950, //开始年份  
 				endYear : 2015
@@ -212,7 +220,7 @@ var userId=url.split("?")[1].split("=")[1];
 			//endYear:2099 //结束年份
 			};
 
-			$("#scroller").mobiscroll(opt);
+			$("#birthday").mobiscroll(opt);
 		});
 	</script>
 

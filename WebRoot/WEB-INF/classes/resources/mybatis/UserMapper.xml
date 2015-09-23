@@ -60,8 +60,11 @@
 		select * from user where openId=#{param1}
 	</select>
 	
-	<select id="selectUserById" resultType="User">
-		select * from user where Id=#{id}
+	<select id="selectUserById" resultMap="userResult">
+		select
+			<include refid="userColumns"/>
+		from user 
+		where user.id=#{id, javaType=int, jdbcType=INTEGER}
 	</select>
 	
 	<select id="selectUserByTelephone" resultType="User">

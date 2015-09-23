@@ -34,28 +34,35 @@ public class WechatUserController {
 	 * */
 	@RequestMapping("/register")
 	@ResponseBody
-	public String registerUser(@RequestParam(value = "openId", defaultValue = "") String openId,
+	public String registerUser(HttpSession session,
+			@RequestParam(value = "openId", defaultValue = "") String openId,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone, 
-			@RequestParam(value = "password", defaultValue = "") String password) {
-		Map<String,Object> map = new HashMap<String,Object>();
+			@RequestParam(value = "yzm", defaultValue = "") String yzm,
+			@RequestParam(value = "password", defaultValue = "") String password
+			) {
 		
+		Map<String,Object> map = new HashMap<String,Object>();
+		String yzm1=(String) session.getAttribute("yzm");
+		if(yzm1==null || !yzm1.endsWith(yzm)){
+			map.put("status", "验证码不正确");
+			return JSONObject.fromObject(map).toString();
+		}
 		if(StringUtil1.isNull(telephone) || userService.getUserByTelephone(telephone) != null) {
 			map.put("status", "电话不能为空或已存在该电话");
+
 			return JSONObject.fromObject(map).toString();
 		}
-		// password不能为空
-		if(StringUtil1.isNull(password)) {
-			map.put("status", "密码不能为空 ");
+		if(userService.getUserByTelephone(telephone) != null) {
+			map.put("status", "已存在该电话");
 			return JSONObject.fromObject(map).toString();
 		}
+
 		User user = new User();
 		user.setTelephone(telephone);
 		user.setPassword(password);
 		user.setOpenId(openId);
-		userService.add(user);
-		
-		user = userService.getUserByTelephone(telephone);
-		
+		userService.add(user);		
+		user = userService.getUserByTelephone(telephone);		
 		map.put("status", user.getId());
 		return JSONObject.fromObject(map).toString();
 	}
@@ -83,7 +90,7 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	/*@RequestMapping("/work/create")
+	@RequestMapping("/work/create")
 	@ResponseBody
 	public String createWork(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,
@@ -105,7 +112,7 @@ public class WechatUserController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
-	*/
+	
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,

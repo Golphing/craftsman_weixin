@@ -94,9 +94,9 @@ $(document).ready(function() {
 var userId=url.split("?")[1].split("=")[1];
 
 document.getElementById("fillResume").href="fillResume.jsp?userId="+userId;
-document.getElementById("51job").href="../views/resume_import/51input1.jsp?userId="+userId;
-document.getElementById("zhilian").href="../views/resume_import/zlinput1.jsp?userId="+userId;
-document.getElementById("liepin").href="../views/resume_import/lpinput1.jsp?userId="+userId;
+document.getElementById("51job").href="../views/resume_import/51input.jsp?userId="+userId;
+document.getElementById("zhilian").href="../views/resume_import/zlinput.jsp?userId="+userId;
+document.getElementById("liepin").href="../views/resume_import/lpinput.jsp?userId="+userId;
 
 						
 
