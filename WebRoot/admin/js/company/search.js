@@ -27,6 +27,7 @@ $(document).ready(function() {
 			serializeGridData: function(postData) {
 				postData.name = $('#searchCompanyForm_name').val();
 				postData.isExpired = $('#searchCompanyForm_expire').val();
+				postData.companyTypeCode = 'cooperate';
 				return postData;
 			},
 			loadComplete:function(xhr) {

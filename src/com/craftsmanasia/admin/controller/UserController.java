@@ -133,19 +133,31 @@ public class UserController {
 			map.put("status", "生日不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
-		
-		ResumeUser resumeUser = new ResumeUser();
-		resumeUser.setTelephone(telephone);
-		resumeUser.setName(name);
-		resumeUser.setBirthday(birthday);
-		resumeUser.setGender(gender);
-		resumeUser.setEmail(email);
-		
-		resumeUser.setUserId(Integer.parseInt(userId));
-		resumeUser.setHome(home);
-		
-		// 添加简历信息
-		resumeUserService.add(resumeUser);
+		ResumeUser oldResumeUser =resumeUserService.selectResumeUserByUserId(Integer.parseInt(userId));
+		if(oldResumeUser != null) {
+			oldResumeUser.setTelephone(telephone);
+			oldResumeUser.setName(name);
+			oldResumeUser.setBirthday(birthday);
+			oldResumeUser.setGender(gender);
+			oldResumeUser.setEmail(email);
+			
+			oldResumeUser.setUserId(Integer.parseInt(userId));
+			oldResumeUser.setHome(home);
+			resumeUserService.updateResumeUser(oldResumeUser);
+		} else {
+			ResumeUser resumeUser = new ResumeUser();
+			resumeUser.setTelephone(telephone);
+			resumeUser.setName(name);
+			resumeUser.setBirthday(birthday);
+			resumeUser.setGender(gender);
+			resumeUser.setEmail(email);
+			
+			resumeUser.setUserId(Integer.parseInt(userId));
+			resumeUser.setHome(home);
+			
+			// 添加简历信息
+			resumeUserService.add(resumeUser);
+		}
 		
 		map.put("status", userId);
 		return JSONObject.fromObject(map).toString();
@@ -279,7 +291,14 @@ public class UserController {
 	@ResponseBody
 	public String searchUserl(@RequestParam(value = "userId", defaultValue = "") int userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
+		ResumeUser resumeUser = null;
+		try {
+			System.out.println("agga");
+			resumeUser = resumeUserService.selectResumeUserByUserId(userId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<Work> works = workService.getUserWorksByUserId(userId);
 		
 		map.put("data", ResumeVO.toVO(resumeUser, works));
