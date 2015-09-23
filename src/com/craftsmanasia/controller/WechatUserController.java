@@ -43,7 +43,7 @@ public class WechatUserController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		String yzm1=(String) session.getAttribute("yzm");
-		if(yzm1==null || !yzm1.endsWith(yzm)){
+		if(yzm1==null || !yzm1.equals(yzm)){
 			map.put("status", "验证码不正确");
 			return JSONObject.fromObject(map).toString();
 		}
