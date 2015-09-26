@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.craftsmanasia.common.SendMsgUtil;
 import com.craftsmanasia.model.User;
@@ -23,6 +24,7 @@ public class UserPwdController {
 	@Autowired
 	UserService userService;
 	@RequestMapping("/findPwd")
+	@ResponseBody
 	public String findPwd(HttpSession session,
 							@RequestParam(value = "telephone", defaultValue = "") String telephone,
 							@RequestParam(value = "yzm", defaultValue = "") String yzm,
