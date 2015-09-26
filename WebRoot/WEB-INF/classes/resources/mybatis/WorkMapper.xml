@@ -45,7 +45,7 @@
 		FROM
 			work
 		WHERE
-			user_id = #{userId, javaType=int, jdbcType=INTEGER}
+			work.user_id = #{userId, javaType=int, jdbcType=INTEGER}
 	</select>
 	<select id="selectWorkByWorkId" resultType="Work">
 		select * from work where id=#{param1}

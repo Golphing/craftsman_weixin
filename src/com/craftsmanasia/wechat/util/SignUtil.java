@@ -2,7 +2,7 @@ package com.craftsmanasia.wechat.util;
 
 import java.security.MessageDigest;  
 import java.security.NoSuchAlgorithmException;  
-import java.util.Arrays;  
+import java.util.Arrays;
 /** 
  * 核心服务类 
  *  

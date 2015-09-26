@@ -18,6 +18,7 @@
 <meta name="format-detection" content="email=no" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
+<link rel="stylesheet" type="text/css" href="../views/css/import.css" />
 <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet"
 	type="text/css" />
 <meta content="" name="keywords" />
@@ -42,7 +43,7 @@
 	left: 50%;
 	z-index: 9999;
 	opacity: 0;
-	filter: alpha(opacity =     0);
+	filter: alpha(opacity =   0);
 	margin-left: -80px;
 }
 
@@ -61,59 +62,40 @@
 }
 </style>
 <script type="text/javascript" src="js/jquery.js"></script>
-
 <script type="text/javascript">
-	$(function() {
-	var telephone="";
-	var password = "";
-	var url=window.location.href;
-var openId=url.split("?")[1].split("=")[1];
-document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?openId="+openId;
-
+	$(function() {	
 		$('#btn').click(function() {
-			telephone = $('input#telephone').val();
-			password = $('input#password').val();
-			
-			if(telephone==""){
-			alert("手机号不能为空！");
+		var url=window.location.href;
+var openId=url.split("=")[1];
+			var telephone = $('input#telephone').val();
+			var password = $('input#password').val();
+			var yzm= $('input#yzm').val();
+			var password1 = $('input#password1').val();
+			if (telephone == "") {
+				alert("请输入手机号!");
+				return false;
+			}else if(yzm==""){
+			alert("请输入验证码!");
 			return false;
-			}else{
+			}
 			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
 			if(!myreg.test(telephone)) 
 				{ 
     			alert('请输入有效的手机号码！'); 
     			return false; 
 				} 
-			};
+			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
 			
+			$.post(request, function(data) {
+			var jsonObj = eval("(" + data + ")");
+			if(jsonObj.status=="验证码不正确"){alert(jsonObj.status);}
+			else if(jsonObj.status=="已存在该电话"){alert(jsonObj.status);}else{
+			location.href = "importResume.jsp?userId="+jsonObj.status;}
 			
-			if(password==""){
-			alert("密码不能为空！");
-			return false;
-			}
-			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+ telephone+ "&password="+ password+ "&openId=" + openId;
-							$.post(request,	function(data) {
-							var i = data.indexOf("&");
-							if(i<0){
-							alert(data);
-							}else{
-							var userId=data.split("&")[1];
-							i = data.split("&")[0];
-							if(i==1){
-							location.href = "importResume.jsp?userId="+ userId;
-							}else if(i==2){
-							location.href = "fillWork.jsp?userId="+ userId;
-							}else if(i=3){
-							location.href = "myResume.jsp?userId="	+ userId;
-							}else{
-							alert("请稍后重试");
-							}
-							}
-							});
-			
-			});
-			
+		});
+		});
 	});
+
 </script>
 
 </head>
@@ -121,26 +103,27 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 	<div class="mtzrl_box">
 		<div class="mq_top">
 
-			<div class="mq_title">用户登陆</div>
-			<div class="btn_ch_r">
-				<a id="register" style="color:#FDFAFA">注册</a>
-			</div>
+			<div class="mq_title">找回密码</div>
+			<div class="btn_ch_r"></div>
 		</div>
 		<div class="log_box">
 
 
 			<ul>
 				<form action="<%=basePath%>wechat/user/login.do" method="get">
-					<li class="telephone"><input type="text" value=""
-						placeholder="手机号" id="telephone" /></li> <br />
-					<br />
-					<li class="telephone"><input type="password" value=""
-						placeholder="密码" id="password" /></li>
-
-
-					<li class="login_free"></li>
-					<li class="btn_submit"><br />
-						<button type="button" id="btn">登陆</button></li>
+					<li class="telephone"><input type="text" 
+						placeholder="手机号" id="telephone" />
+					</li>
+					<br /><br />
+				<li class="telephone" ><input type="text" style="width:40%;margin-left:auto;margin-right:auto;float: left;"
+						placeholder="验证码" id="yzm" /><input class="button blue"  style="float: right;" type="button" value="获取验证码" id="getyzm" onclick="settime(this)"></input>
+					</li><br />
+				<li class="login_free"></li>
+				<li style="text-align:center;" id="pw" hidden></li>
+				<li class="btn_submit">
+				<br/>
+					<button type="button" id="btn" >提交</button>
+				</li>
 				</form>
 			</ul>
 		</div>
@@ -150,20 +133,17 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 		</script>
 		<div class="footer">
 			<div class="footer_top">
-				<ul class="user_info">
-            <span><a href="retrievePw.jsp">找回密码</a> </span>
-        </ul>
 
 				<ul class="back_top">
 					<a href="javascript:scroll(0,0)">TOP</a>
 				</ul>
 			</div>
 			<ul class="copyright">
-
 				<li>2015 &copy; Craftsman. ALL Rights Reserved.</li>
 			</ul>
 		</div>
-
+		
+		
 
 	</div>
 	<div class="overlay">&nbsp;</div>
@@ -173,62 +153,41 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 				style="float:left;padding-top:6px;" />跳转中，请稍候...
 		</div>
 	</div>
-
-
-
-
-
-
+	<script type="text/javascript" src="../js/ShowTip.js"></script>
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		$(function() {
-			$("#birthday").mobiscroll().date();
-
-			var currYear = (new Date()).getFullYear();
-
-			//初始化日期控件
-			var opt = {
-				preset : 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
-				theme : 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
-				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
-				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
-				lang : 'zh',
-				dateFormat : 'yyyy-mm-dd', // 日期格式
-				setText : '确定', //确认按钮名称
-				cancelText : '取消',//取消按钮名籍我
-				dateOrder : 'yyyymmdd', //面板中日期排列格式
-				dayText : '日',
-				monthText : '月',
-				yearText : '年', //面板中年月日文字
-				showNow : false,
-				nowText : "今",
-				startYear : 1950, //开始年份  
-				endYear : 2015
-			//结束年份  
-			//endYear:2099 //结束年份
-			};
-
-			$("#scroller").mobiscroll(opt);
-		});
+	 $(function () {
+            $('#getyzm').click(function () {
+            var telephone = $('input#telephone').val();
+	if(telephone==""){
+	alert("请先输入手机号！");}else{
+	var request ="<%=basePath%>yzm/sendV.do?phoneNumber="+telephone;
+	$.post(request, function(data) {
+	var jsonObj = eval("(" + data + ")");
+	
+	if(jsonObj.status==-3){
+	alert("请填写正确的手机号！");}else{var count = 60;
+                var countdown = setInterval(CountDown, 1000);
+                function CountDown() {
+                    $("#getyzm").attr("disabled", true);
+                    $("#getyzm").val("请在" + count + " 秒后再次获取!");
+                    if (count == 0) {
+                        $("#getyzm").val("重新获取验证码").removeAttr("disabled");
+                        clearInterval(countdown);
+                    }
+                    count--;
+                }
+                }
+	});}
+	
+            
+               
+            });
+        });
+	
+	
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

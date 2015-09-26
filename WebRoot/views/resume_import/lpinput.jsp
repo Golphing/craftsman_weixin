@@ -71,7 +71,7 @@ span {
 	<div class="mtzrl_box">
 		<div class="mq_top">
 
-			<div class="mq_title">51job简历导入</div>
+			<div class="mq_title">猎聘简历导入</div>
 			<div class="btn_ch_r"></div>
 		</div>
 		<div class="log_box">

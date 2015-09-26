@@ -84,6 +84,10 @@ public class Import51 {
 			@RequestParam(value="password",defaultValue="") String password,
 			@RequestParam(value="login_verify",defaultValue="") String login_verify,
 			@RequestParam(value="userId") String userId1){
+		System.out.println(name);
+		System.out.println(password);
+		System.out.println(login_verify);
+		System.out.println(userId1);
 		Map<String,String> map=new HashMap<String,String>();
 		String getUrl="";		
 		int userId=Integer.parseInt(userId1);		

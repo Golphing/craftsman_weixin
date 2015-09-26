@@ -71,7 +71,7 @@
 			var position = "";
 			var department = "";
 			var description = "";
-			var remark = "";
+			/* var remark = ""; */
 		$('#btn').click(function() {
 			begin_time = $('input#begin_time').val();
 			 end_time = $('input#end_time').val();
@@ -80,7 +80,7 @@
 			 department= $('input#department').val();
 			description = $('input#description').val();
 			profession = $('input#profession').val();
-			remark = $('input#remark').val();
+			/* remark = $('input#remark').val(); */
 			if (begin_time == "") {
 				alert("请输入开始时间!");
 			} else if (end_time == "") {
@@ -101,8 +101,8 @@
 
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>admin/user/work/create.do",
-				data : "userId="+userId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
+				url : "<%=basePath%>resumeAction/work/create.do",
+				data : "userId="+userId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
@@ -157,9 +157,9 @@
 					<br /><br />
 
 					
-					<li class="username"><input type="text" value=""
+					<!-- <li class="username"><input type="text" value=""
 						placeholder="部门" id="remark" />
-					</li><br /><br />
+					</li><br /><br /> -->
 <li class="username"><input type="text" value=""
 						placeholder="专业技能" id="profession" />
 					</li><br /><br />
@@ -210,15 +210,13 @@
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		$(function() {
-			/* $("#begin_time,#end_time").mobiscroll().date(); */
-
-			var currYear = (new Date()).getFullYear();
+			$(function() {
+			
 
 			//初始化日期控件
 			var opt = {
 				preset : 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
-				theme : 'android', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
+				theme : 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
 				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
 				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
 				lang : 'zh',

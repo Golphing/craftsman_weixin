@@ -75,7 +75,7 @@
 var url=window.location.href;
 var workId=url.split("=")[1];	
 		
-			$.get("<%=basePath%>admin/user/search/workById.do?workId="+workId, function(data) {
+			$.get("<%=basePath%>resumeAction/search/workById.do?workId="+workId, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.work;
 			 $('input#company').attr('value',obj.company); 
@@ -83,7 +83,7 @@ var workId=url.split("=")[1];
 			 $('input#end_time').attr('value',obj.endTime);
 			 $('input#department').attr('value',obj.department);
 			 $('input#position').attr('value',obj.position);
-			 $('input#remark').attr('value',obj.remark);
+		/* 	 $('input#remark').attr('value',obj.remark); */
 			 $('input#profession').attr('value',obj.profession);
 			  $('input#description').attr('value',obj.description);			 
 			document.getElementById("company").onfocus= function() {
@@ -138,14 +138,14 @@ var workId=url.split("=")[1];
    			 };
    			 
    			 
-   			 document.getElementById("remark").onfocus= function() {
+   			/*  document.getElementById("remark").onfocus= function() {
             if(this.value==obj.remark){
              this.value="";};
-   			};
+   			}; 
    			document.getElementById("remark").onblur= function() {
        		 if(this.value=="")
             	this.value=obj.remark;
-   			 };
+   			 };*/
    			 
    			  document.getElementById("profession").onfocus= function() {
             if(this.value==obj.profession){
@@ -182,8 +182,11 @@ var workId=url.split("=")[1];
 			 department= $('input#department').val();
 			description = $('input#description').val();
 			profession = $('input#profession').val();
-			remark = $('input#remark').val();
-			if (begin_time == "") {
+			/* remark = $('input#remark').val(); */
+			var reg = /^w+((-w+)|(.w+))*@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+)*.[A-Za-z0-9]+$/;
+if (!reg.test($("#email").val())) {
+alert("请输入正确的邮箱格式");
+}else if (begin_time == "") {
 				alert("请输入开始时间!");
 			} else if (end_time == "") {
 				alert("请输入结束时间!");
@@ -198,12 +201,12 @@ var workId=url.split("=")[1];
 			}else if (profession == "") {
 				alert("请输入专业技能！");
 			}
-			 
+			 else{
 
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>admin/user/work/modify.do",
-				data : "workId="+workId+"&remark="+remark+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
+				url : "<%=basePath%>resumeAction/work/modify.do",
+				data : "workId="+workId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
@@ -213,7 +216,7 @@ var workId=url.split("=")[1];
 				
 				}
 			});
-
+}
 		});
 	});
 </script>
@@ -248,8 +251,8 @@ var workId=url.split("=")[1];
 					<br /><br />
 
 					
-					<li class="username"><input type="text"  id="remark" />
-					</li><br /><br />
+					<!-- <li class="username"><input type="text"  id="remark" />
+					</li><br /><br /> -->
 <li class="username"><input type="text"  id="profession" />
 					</li><br /><br />
 <li class="username"><input type="text"  id="description" />
@@ -258,7 +261,7 @@ var workId=url.split("=")[1];
 				</form>
 				<li class="login_free"></li>
 				<li class="btn_submit">
-					<button type="button" id="btn">下一页</button>
+					<button type="button" id="btn">提交</button>
 				</li>
 			</ul>
 		</div>
@@ -299,9 +302,7 @@ var workId=url.split("=")[1];
 
 	<script type="text/javascript">
 		$(function() {
-			$("#begin_time,#end_time").mobiscroll().date();
-
-			var currYear = (new Date()).getFullYear();
+			
 
 			//初始化日期控件
 			var opt = {
@@ -310,11 +311,11 @@ var workId=url.split("=")[1];
 				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
 				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
 				lang : 'zh',
-				dateFormat : 'yyyy-mm-dd', // 日期格式
+				dateFormat : 'yyyy-mm', // 日期格式
 				setText : '确定', //确认按钮名称
 				cancelText : '取消',//取消按钮名籍我
-				dateOrder : 'yyyymmdd', //面板中日期排列格式
-				dayText : '日',
+				dateOrder : 'yyyymm', //面板中日期排列格式
+				
 				monthText : '月',
 				yearText : '年', //面板中年月日文字
 				showNow : false,
@@ -325,7 +326,7 @@ var workId=url.split("=")[1];
 			//endYear:2099 //结束年份
 			};
 
-			$("#scroller").mobiscroll(opt);
+			$("#begin_time,#end_time").mobiscroll(opt);
 		});
 	</script>
 

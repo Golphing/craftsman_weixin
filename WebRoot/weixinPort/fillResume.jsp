@@ -81,22 +81,25 @@ var userId=url.split("?")[1].split("=")[1];
 		 home = $('input#home').val();
 			 birthday = $('input#birthday').val();
 			telephone = $('input#telephone').val();
-			if (name == "") {
+			var reg = /^w+((-w+)|(.w+))*@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+)*.[A-Za-z0-9]+$/;
+if (!reg.test($("#email").val())) {
+alert("请输入正确的邮箱格式");
+}else if (name == "") {
 				alert("请输入姓名!");
 			} else if (gender == "性别") {
 				alert("请选择性别!");
 			} else if (email == "") {
 				alert("请输入邮箱！");
 			} else if (home == "") {
-				alert("请输入家乡！");
+				alert("请输入地址！");
 			} else if (birthday == "") {
 				alert("请输入出生年月！");
-			}
+			}else{
 			
 			
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>admin/user/resume/create.do",
+				url : "<%=basePath%>resumeAction/resume/create.do",
 				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
@@ -105,7 +108,7 @@ var userId=url.split("?")[1].split("=")[1];
 					window.location.href="fillWork.jsp?userId="+userId;}else{alert("提交错误，请重新输入！");}
 				}
 			});
-
+}
 		});
 		
 	})
@@ -123,7 +126,7 @@ var userId=url.split("?")[1].split("=")[1];
 
 
 			<ul>
-				<form action="<%=basePath%>admin/user/resume/create.do" method="get">
+				<form action="<%=basePath%>resumeAction/resume/create.do" method="get">
 					<li class="username"><input type="text" 
 						placeholder="姓名" id="name" />
 					</li><br /><br />
@@ -144,7 +147,7 @@ var userId=url.split("?")[1].split("=")[1];
 					</li>
 <br /><br />
 					<li class="username"><input type="text"
-						placeholder="家乡" id="home" />
+						placeholder="地址" id="home" />
 					</li>
 <br /><br />
 					<li class="username"><input type="text"
@@ -193,52 +196,32 @@ var userId=url.split("?")[1].split("=")[1];
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		$(function() {
-			/* $("#birthday").mobiscroll().date(); */
-
-			var currYear = (new Date()).getFullYear();
+			$(function() {
+			
 
 			//初始化日期控件
 			var opt = {
 				preset : 'date', //日期，可选：date\datetime\time\tree_list\image_text\select
-				theme : 'android', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
-				display : 'bubble', //显示方式 ，可选：modal\inline\bubble\top\bottom
-				mode : 'clickpick', //日期选择模式，可选：scroller\clickpick\mixed
+				theme : 'default', //皮肤样式，可选：default\android\android-ics light\android-ics\ios\jqm\sense-ui\wp light\wp
+				display : 'modal', //显示方式 ，可选：modal\inline\bubble\top\bottom
+				mode : 'scroller', //日期选择模式，可选：scroller\clickpick\mixed
 				lang : 'zh',
-				dateFormat : 'yyyy-mm-dd', // 日期格式
+				dateFormat : 'yyyy-mm', // 日期格式
 				setText : '确定', //确认按钮名称
 				cancelText : '取消',//取消按钮名籍我
-				dateOrder : 'yyyymmdd', //面板中日期排列格式
-				dayText : '日',
+				dateOrder : 'yyyymm', //面板中日期排列格式				
 				monthText : '月',
 				yearText : '年', //面板中年月日文字
-				showNow : true,
+				showNow : false,
 				nowText : "今",
 				startYear : 1950, //开始年份  
 				endYear : 2015
 			//结束年份  
 			//endYear:2099 //结束年份
 			};
-
 			$("#birthday").mobiscroll(opt);
 		});
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>

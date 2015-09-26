@@ -1,4 +1,4 @@
-package com.craftsmanasia.admin.controller;
+package com.craftsmanasia.wechat.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +32,8 @@ import com.craftsmanasia.utils.StringUtil1;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping("/admin/user")
-public class UserController {
+@RequestMapping("/resumeAction")
+public class ResumeAction {
 
 	@Autowired
 	UserService userService;
