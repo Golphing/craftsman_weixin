@@ -32,7 +32,7 @@ public class WechatUserController {
 	/*
 	 * 注册用户
 	 * */
-	@RequestMapping("/register")
+	@RequestMapping(value ="/register", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String registerUser(HttpSession session,
 			@RequestParam(value = "openId", defaultValue = "") String openId,
@@ -67,7 +67,7 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping("/resume/create")
+	@RequestMapping(value ="/resume/create", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String createResume(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,
@@ -90,7 +90,7 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping("/work/create")
+	@RequestMapping(value ="/work/create", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String createWork(@RequestParam(value = "telephone", defaultValue = "") Integer userId,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,
@@ -113,7 +113,7 @@ public class WechatUserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping(value ="/login", produces = "text/plain;charset=UTF-8")
 	public String login(HttpServletRequest request,
 			@RequestParam(value = "telephone", defaultValue = "") String telephone,
 			@RequestParam(value = "password", defaultValue = "") String password) {

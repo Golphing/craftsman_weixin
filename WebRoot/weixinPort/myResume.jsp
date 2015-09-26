@@ -31,7 +31,7 @@ var url=window.location.href;
 var userId=url.split("=")[1];
 /*  根据用户id得到个人信息*/	
 
-$.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) {
+$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			document.getElementById("email").innerHTML = obj.email;
@@ -59,7 +59,7 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 };
 function delete1(workId){
   if (confirm('确定删除？')) {
-  $.get("<%=basePath%>admin/user/work/delete.do?workId="+workId, function(data) {
+  $.get("<%=basePath%>resumeAction/work/delete.do?workId="+workId, function(data) {
 		$('#'+workId).remove();	
 		});
   

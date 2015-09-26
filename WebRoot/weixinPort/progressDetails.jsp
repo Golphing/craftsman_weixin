@@ -37,7 +37,7 @@ $.get(request, function(data) {
 					
 	$(".timeline").eq(0).animate({
 		height:'600px'
-	},7000);
+	},5000);
 });
 </script>
 
