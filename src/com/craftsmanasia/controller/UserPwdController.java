@@ -23,6 +23,7 @@ import com.craftsmanasia.service.UserService;
 public class UserPwdController {
 	@Autowired
 	UserService userService;
+
 	@RequestMapping(value ="/findPwd", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String findPwd(HttpSession session,
