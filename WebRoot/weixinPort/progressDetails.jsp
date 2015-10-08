@@ -9,7 +9,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
-<title>岗位进度 </title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" /><title>岗位进度 </title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link rel="stylesheet" type="text/css" href="css/progressDetail.css">
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
@@ -36,8 +38,8 @@ $.get(request, function(data) {
 					
 					
 	$(".timeline").eq(0).animate({
-		height:'600px'
-	},5000);
+		height:'500px'
+	},2000);
 });
 </script>
 

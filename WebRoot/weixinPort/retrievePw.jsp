@@ -16,6 +16,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link rel="stylesheet" type="text/css" href="../views/css/import.css" />
@@ -84,13 +87,14 @@ var openId=url.split("=")[1];
     			alert('请输入有效的手机号码！'); 
     			return false; 
 				} 
-			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
+			var request ="<%=basePath%>user/findPwd.do?telephone="+telephone+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
 			var jsonObj = eval("(" + data + ")");
-			if(jsonObj.status=="验证码不正确"){alert(jsonObj.status);}
+			alert(jsonObj.status);
+			/* if(jsonObj.status=="验证码不正确"){alert(jsonObj.status);}
 			else if(jsonObj.status=="已存在该电话"){alert(jsonObj.status);}else{
-			location.href = "importResume.jsp?userId="+jsonObj.status;}
+			location.href = "importResume.jsp?userId="+jsonObj.status;} */
 			
 		});
 		});

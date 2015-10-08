@@ -70,8 +70,7 @@ body{font-family: Arial, Helvetica, sans-serif;font-size: 12px;}
 .am{border: 0px;color:#080808;cursor: pointer;background:#fff url('0.gif') no-repeat; width: 150px;height: 19px;margin:10px 0px 0px 10px; padding:3px 0px 0px 2px;}
 .bm{border: 1px #999999 solid ;width: 148px;}
 </style>
-
-<script src="js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
 	var name="";
@@ -82,7 +81,79 @@ body{font-family: Arial, Helvetica, sans-serif;font-size: 12px;}
 			var telephone = "";
 			var url=window.location.href;
 var userId=url.split("=")[1];
-	
+$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId, function(data) {
+			var obj = eval("(" + data + ")").data;
+			 $('input#name').attr('value',obj.name); 
+			 $('input#gender').attr('value',obj.gender);
+			 $('input#email').attr('value',obj.email);
+			 $('input#home').attr('value',obj.home);
+			 $('input#birthday').attr('value',obj.birthday);
+			 $('input#telephone').attr('value',obj.telephone);	 
+			document.getElementById("name").onfocus= function() {
+            if(this.value==obj.name){
+             this.value="";};
+   			};
+   			document.getElementById("name").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.name;
+   			 };   			 
+   			 document.getElementById("gender").onfocus= function() {
+            if(this.value==obj.gender){
+             this.value="";};
+   			};
+   			document.getElementById("gender").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.gender;
+   			 };
+   			 
+   			 
+   			 document.getElementById("email").onfocus= function() {
+            if(this.value==obj.email){
+             this.value="";};
+   			};
+   			document.getElementById("email").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.email;
+   			 };
+   			 
+   			 
+   			 document.getElementById("home").onfocus= function() 
+
+		{
+            if(this.value==obj.home){
+             this.value="";};
+   			};
+   			document.getElementById("home").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.home;
+   			 };
+   			 
+   			 
+   			 document.getElementById("birthday").onfocus= function() {
+            if(this.value==obj.birthday){
+             this.value="";};
+   			};
+   			document.getElementById("birthday").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.birthday;
+   			 };
+   			 
+   			 
+   			  document.getElementById("telephone").onfocus= function() {
+            if(this.value==obj.telephone){
+             this.value="";};
+   			};
+   			document.getElementById("telephone").onblur= function() {
+       		 if(this.value=="")
+            	this.value=obj.telephone;
+   			 };
+			
+});
+
+
+
+
+/*修改个人信息  */
 		$('#btn').click(function() {
 			name = $('input#name').val();
 			var select = document.getElementById('gender');
@@ -91,52 +162,38 @@ var userId=url.split("=")[1];
 		 home = $('input#home').val();
 			 birthday = $('input#birthday').val();
 			telephone = $('input#telephone').val();
-			
-			 if (name == "") {
+			var reg = /^w+((-w+)|(.w+))*@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+)*.[A-Za-z0-9]+$/;
+ if (name == "") {
 				alert("请输入姓名!");
-				
+				return false;
 			} else if (gender == "性别") {
 				alert("请选择性别!");
-				
+				return false;
 			} else if (email == "") {
 				alert("请输入邮箱！");
-				
+				return false;
 			} else if (home == "") {
 				alert("请输入地址！");
-				
+				return false;
 			} else if (birthday == "") {
 				alert("请输入出生年月！");
-				
-			}else{
-			var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-			  if(!myreg.test(email))
-            {
-                 alert('请输入有效的邮箱！');
-                  return false;
-             }
-             
-             var tel = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-			if(!tel.test(telephone)) 
-				{ 
-    			alert('请输入有效的手机号码！'); 
-    			return false; 
-				} 
-			
+				return false;
+			}		
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>resumeAction/resume/create.do",
+				url : "<%=basePath%>resumeAction/resume/modify.do",
 				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
 					if(jsonObj.status==true){
 				
-					window.location.href="fillWork.jsp?userId="+userId;}else{alert("提交错误，请重新输入！");}
+					window.location.href="myResume.jsp?userId="+userId;}else{alert("提交错误，请重新输入！");}
 				}
 			});
-	};
 		});
-
+		
 	});
+	
 	
 	function $$$(_sId){
  return document.getElementById(_sId);
@@ -155,14 +212,10 @@ function nocolor(id){
  document.getElementById(id).style.background="";
  document.getElementById(id).style.color="#788F72";
 }
-	
 </script>
 
 </head>
 <body>
-
-
-
 	<div class="mtzrl_box">
 		<div class="mq_top">
 
@@ -177,18 +230,12 @@ function nocolor(id){
 					<li class="username"><input type="text" 
 						placeholder="姓名" id="name" />
 					</li><br /><br />
-      <li class="username"><input type="text" 
+					 <li class="username"><input type="text" 
 						value="请选择" id="gender" onclick="hide('HMF-1')" />
 						<div id="HMF-1" style="display: none " class="bm">
  <span id="a1" onclick="pick('男')" onMouseOver="bgcolor('a1')" onMouseOut="nocolor('a1')" class="cur">男</span>
  <span id="a2" onclick="pick('女')" onMouseOver="bgcolor('a2')" onMouseOut="nocolor('a2')" class="cur">女</span>
-</div>
-					</li><br /><br />
-
-					
-					
-					
-					
+</div></li><br /><br />
 					<li class="username"><input type="text" 
 						placeholder="邮箱" id="email" />
 					</li><br /><br />
@@ -206,7 +253,7 @@ function nocolor(id){
 				</form>
 				<li class="login_free"></li>
 				<li class="btn_submit">
-					<button type="button" id="btn">下一页</button>
+					<button type="button" id="btn">提交</button>
 				</li>
 			</ul>
 		</div>
@@ -230,8 +277,9 @@ function nocolor(id){
 		</div>
 
 	</div>
-
+	
 	<script type="text/javascript" src="../js/ShowTip.js"></script>
+
 
 
 
@@ -263,12 +311,8 @@ function nocolor(id){
 			//endYear:2099 //结束年份
 			};
 			$("#birthday").mobiscroll(opt);
-			
 		});
-		
-		
-		
-	</script>
+</script>
 
 
 </body>

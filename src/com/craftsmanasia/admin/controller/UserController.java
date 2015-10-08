@@ -49,7 +49,7 @@ public class UserController {
 	/*
 	 * 注册用户，并向简历表添加信息
 	 * */
-	@RequestMapping("/create")
+	@RequestMapping(value ="/create", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String registerUser(@RequestParam(value = "telephone", defaultValue = "") String telephone, 
 			@RequestParam(value = "password", defaultValue = "") String password,

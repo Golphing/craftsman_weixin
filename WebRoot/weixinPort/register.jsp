@@ -15,6 +15,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <meta name="format-detection" content="email=no" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
@@ -87,6 +90,14 @@ var openId=url.split("=")[1];
 			alert("两次输入密码不同！");
 			return false;
 			}
+			
+			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if(!myreg.test(telephone)) 
+				{ 
+    			alert('请输入有效的手机号码！'); 
+    			return false; 
+				} 
+			
 			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
@@ -156,14 +167,7 @@ var openId=url.split("=")[1];
 		
 
 	</div>
-	<div class="overlay">&nbsp;</div>
-	<div class="showbox" id="AjaxLoading">
-		<div class="loadingWord" style="overflow:hidden;zoom:1">
-			<img src="../images/loadingx.gif" alt=""
-				style="float:left;padding-top:6px;" />跳转中，请稍候...
-		</div>
-	</div>
-	<script type="text/javascript" src="../js/ShowTip.js"></script>
+	
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">

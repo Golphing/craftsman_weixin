@@ -17,6 +17,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet"
@@ -135,35 +138,35 @@
 
 			<ul>
 				<form >
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="开始时间" id="begin_time" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="结束时间" id="end_time" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="公司名称" id="company" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="部门" id="department" />
 					</li>
 					<br /><br />
-					<li class="telephone"><input type="text" value=""
+					<li class="username"><input type="text" 
 						placeholder="职位" id="position" />
 					</li>
 					<br /><br />
 
 					
-					<!-- <li class="username"><input type="text" value=""
+					<!-- <li class="username"><input type="text" 
 						placeholder="部门" id="remark" />
 					</li><br /><br /> -->
-<li class="username"><input type="text" value=""
+<li class="username"><input type="text" 
 						placeholder="专业技能" id="profession" />
 					</li><br /><br />
-<li class="username"><input type="text" value=""
+<li class="username"><input type="text"
 						placeholder="详细描述" id="description" />
 					</li>
 					

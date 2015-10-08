@@ -17,6 +17,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet"
@@ -175,6 +178,7 @@ var workId=url.split("=")[1];
 			
 	/* 修改 */		
 		$('#btn').click(function() {
+		
 			begin_time = $('input#begin_time').val();
 			 end_time = $('input#end_time').val();
 			company = $('input#company').val();
@@ -182,11 +186,9 @@ var workId=url.split("=")[1];
 			 department= $('input#department').val();
 			description = $('input#description').val();
 			profession = $('input#profession').val();
-			/* remark = $('input#remark').val(); */
-			var reg = /^w+((-w+)|(.w+))*@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+)*.[A-Za-z0-9]+$/;
-if (!reg.test($("#email").val())) {
-alert("请输入正确的邮箱格式");
-}else if (begin_time == "") {
+			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			
+			if (begin_time == "") {
 				alert("请输入开始时间!");
 			} else if (end_time == "") {
 				alert("请输入结束时间!");
@@ -200,17 +202,18 @@ alert("请输入正确的邮箱格式");
 				alert("请输入描述！");
 			}else if (profession == "") {
 				alert("请输入专业技能！");
-			}
-			 else{
-
+			}else if(begin_time>end_time){
+				alert("开始时间不能早于结束时间！");			
+			} else{
 			$.ajax({
 				type : "POST",
 				url : "<%=basePath%>resumeAction/work/modify.do",
 				data : "workId="+workId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
+				
 					if(jsonObj.status==true){
-					 window.location.href="myResume.jsp?userId="+userId;
+					 window.location.href="myResume.jsp?userId="+jsonObj.userId;
 					
 					}else{alert(jsonObj.status);}
 				
@@ -234,28 +237,28 @@ alert("请输入正确的邮箱格式");
 
 			<ul>
 				<form >
-					<li class="username"><input type="text"  id="begin_time" />
+					<li class="username"><input type="text"  id="begin_time" placeholder="开始时间" />
 					</li>
 					<br /><br />
-					<li class="username"><input type="text"  id="end_time" />
+					<li class="username"><input type="text"  id="end_time" placeholder="结束时间"/>
 					</li>
 					<br /><br />
-					<li class="username"><input type="text"  id="company" />
+					<li class="username"><input type="text"  id="company" placeholder="公司"/>
 					</li>
 					<br /><br />
-					<li class="username"><input type="text"  id="department" />
+					<li class="username"><input type="text"  id="department" placeholder="部门"/>
 					</li>
 					<br /><br />
-					<li class="telephone"><input type="text" id="position" />
+					<li class="username"><input type="text" id="position" placeholder="职位"/>
 					</li>
 					<br /><br />
 
 					
 					<!-- <li class="username"><input type="text"  id="remark" />
 					</li><br /><br /> -->
-<li class="username"><input type="text"  id="profession" />
+<li class="username"><input type="text"  id="profession" placeholder="专业技能"/>
 					</li><br /><br />
-<li class="username"><input type="text"  id="description" />
+<li class="username"><input type="text"  id="description" placeholder="详细描述"/>
 					</li>
 					
 				</form>

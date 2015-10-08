@@ -148,6 +148,7 @@ span {
 			        if(result.code==0)
 			        {
 			         alert("导入成功！");
+			          location.href = "../../weixinPort/myResume.jsp?userId="+ userId;
 			        }
 			        else if(result.code==1)
 			        {

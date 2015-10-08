@@ -16,6 +16,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link href="css/mobiscroll.custom-2.5.0.min.css" rel="stylesheet"

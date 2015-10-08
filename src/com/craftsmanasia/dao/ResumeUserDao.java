@@ -16,6 +16,8 @@ public interface ResumeUserDao {
 	public int count1();
 	
 	public void updateResumeUser(ResumeUser resumeUser);
+//	根据userId更新
+	public void updateResume(ResumeUser resumeUser);
 	
 	public ResumeUser selectResumeUserByUserId(@Param("userId") int userId);
 	

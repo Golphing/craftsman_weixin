@@ -17,7 +17,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
-<meta content="" name="keywords" />
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link rel="stylesheet" type="text/css" href="css/login.css" />
@@ -42,7 +45,7 @@ var requestUrl ="<%=basePath%>wechat/position/info.do?positionId="+positionId;
 					document.getElementById("createTime").innerHTML =obj.createTime;
 					document.getElementById("updateTime").innerHTML = obj.updateTime;
 					var expired="";
-					if(obj[0].isExpired==0){
+					if(obj.isExpired==0){
 					expired="否";
 					}else{
 					expired="是";}

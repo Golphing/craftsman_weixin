@@ -27,11 +27,18 @@ public class ResumeUserService {
 	}
 	
 	public void updateResumeUser(ResumeUser resumeUser) {
+		
 		userDao.updateResumeUser(resumeUser);
 	}
 	
 	public ResumeUser selectResumeUserByUserId(int userId) {
 		return userDao.selectResumeUserByUserId(userId);
+	}
+
+	public void updateResume(ResumeUser resumeUser) {
+		// TODO Auto-generated method stub
+		System.out.println(resumeUser.getBirthday());
+		userDao.updateResume(resumeUser);
 	}
 	
 }

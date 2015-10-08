@@ -232,8 +232,7 @@ public class ResumeAction {
 	 * */
 	@RequestMapping("/resume/modify")
 	@ResponseBody
-	public String modifyUserResume(@RequestParam(value = "resumeId", defaultValue = "") Integer resumeId,
-			@RequestParam(value = "userId", defaultValue = "") Integer userId,
+	public String modifyUserResume(@RequestParam(value = "userId", defaultValue = "") Integer userId,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "telephone", required = false) String telephone,
 			@RequestParam(value = "birthday", required = false) String birthday,
@@ -241,45 +240,16 @@ public class ResumeAction {
 			@RequestParam(value = "email", required = false) String email,
 			@RequestParam(value = "home", required = false) String home) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(resumeId ==null) {
-			map.put("status", "简历信息不存在");
-			return JSONObject.fromObject(map).toString();
-		}
+		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
+		resumeUser.setBirthday(birthday);
+		resumeUser.setEmail(email);
+		resumeUser.setGender(gender);
+		resumeUser.setHome(home);
+		resumeUser.setName(name);
+		resumeUser.setTelephone(telephone);
 		
-		ResumeUser resumeUser = new ResumeUser();
-		resumeUser.setId(resumeId);
 		
-		if(!StringUtil1.isNull(name)) {
-			resumeUser.setName(name);
-		}
-		
-		if(!StringUtil1.isNull(telephone)) {
-			resumeUser.setTelephone(telephone);
-			
-			//如果telephone不为null,则也需要改变user的telephone
-			User user = new User();
-			user.setId(userId);
-			user.setTelephone(telephone);
-			userService.update(user);
-		}
-		
-		if(!StringUtil1.isNull(birthday)) {
-			resumeUser.setBirthday(birthday);
-		}
-		
-		if(!StringUtil1.isNull(gender)) {
-			resumeUser.setGender(gender);
-		}
-		
-		if(!StringUtil1.isNull(email)) {
-			resumeUser.setEmail(email);
-		}
-		
-		if(!StringUtil1.isNull(home)) {
-			resumeUser.setHome(home);
-		}
-		
-		resumeUserService.updateResumeUser(resumeUser);
+		resumeUserService.updateResume(resumeUser);
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
@@ -371,7 +341,7 @@ public class ResumeAction {
 			@RequestParam(value = "position", defaultValue = "") String position,
 			@RequestParam(value = "description", defaultValue = "") String description,
 			@RequestParam(value = "profession", defaultValue = "") String profession,
-			@RequestParam(value = "remark", defaultValue = "") String remark,
+			
 			@RequestParam(value = "department", defaultValue = "") String department) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(workId ==null) {
@@ -379,7 +349,7 @@ public class ResumeAction {
 			return JSONObject.fromObject(map).toString();
 		}
 		
-		Work work = new Work();
+		Work work = workService.getUserWorksByWorkId(workId);
 		work.setId(workId);
 		if(!StringUtil1.isNull(beginTime)) {
 			work.setBeginTime(beginTime);
@@ -415,6 +385,7 @@ public class ResumeAction {
 		
 		workService.updatWork(work);
 		map.put("status", true);
+		map.put("userId", work.getUserId());
 		return JSONObject.fromObject(map).toString();
 	}
 	
