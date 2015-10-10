@@ -159,7 +159,7 @@ public class UserController {
 			resumeUserService.add(resumeUser);
 		}
 		
-		map.put("status", userId);
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	
