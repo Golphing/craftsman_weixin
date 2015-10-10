@@ -42,9 +42,9 @@ import com.craftsmanasia.utils.StringUtil1;
 
 import net.sf.json.JSONObject;
 
-@Controller
+@Controller("testbillsave")
 @RequestMapping("/wechat/user")
-public class WechatController {
+public class UserController {
 
 	@Autowired
 	UserService userService;

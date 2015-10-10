@@ -15,6 +15,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <meta name="format-detection" content="email=no" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
@@ -73,16 +76,28 @@ var openId=url.split("=")[1];
 			var password1 = $('input#password1').val();
 			if (telephone == "") {
 				alert("请输入手机号!");
+				return false;
 			} else if (password == "") {
 				alert("请输入密码!");
-				
+				return false;
 			}else if(password1 == "") {
 				alert("请再次输入密码!");
+				return false;
 			}else if(yzm==""){
 			alert("请输入验证码!");
+			return false;
 			}else if(password!=password1){
 			alert("两次输入密码不同！");
-			}else{
+			return false;
+			}
+			
+			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if(!myreg.test(telephone)) 
+				{ 
+    			alert('请输入有效的手机号码！'); 
+    			return false; 
+				} 
+			
 			var request ="<%=basePath%>wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
@@ -91,7 +106,7 @@ var openId=url.split("=")[1];
 			else if(jsonObj.status=="已存在该电话"){alert(jsonObj.status);}else{
 			location.href = "importResume.jsp?userId="+jsonObj.status;}
 			
-		});}
+		});
 		});
 	});
 
@@ -122,13 +137,13 @@ var openId=url.split("=")[1];
 					</li>
 					<br /><br />
 				<li class="telephone" ><input type="text" style="width:40%;margin-left:auto;margin-right:auto;float: left;"
-						placeholder="验证码" id="yzm" /><input class="button blue"  style="float: right;" type="button" value="获取验证码" id="getyzm"></input>
+						placeholder="验证码" id="yzm" /><input class="button blue"  style="float: right;" type="button" value="获取验证码" id="getyzm" onclick="settime(this)"></input>
 					</li>
 		
 				<li class="login_free"></li>
 				<li class="btn_submit">
 				<br/>
-					<button type="button" id="btn">注册</button>
+					<button type="button" id="btn" >注册</button>
 				</li>
 				</form>
 			</ul>
@@ -152,20 +167,13 @@ var openId=url.split("=")[1];
 		
 
 	</div>
-	<div class="overlay">&nbsp;</div>
-	<div class="showbox" id="AjaxLoading">
-		<div class="loadingWord" style="overflow:hidden;zoom:1">
-			<img src="../images/loadingx.gif" alt=""
-				style="float:left;padding-top:6px;" />跳转中，请稍候...
-		</div>
-	</div>
-	<script type="text/javascript" src="../js/ShowTip.js"></script>
+	
 	<script src="js/mobiscroll.custom-2.5.0.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		$(function() {
-			$('#getyzm').click(function() {
-	var telephone = $('input#telephone').val();
+	 $(function () {
+            $('#getyzm').click(function () {
+            var telephone = $('input#telephone').val();
 	if(telephone==""){
 	alert("请先输入手机号！");}else{
 	var request ="<%=basePath%>yzm/sendV.do?phoneNumber="+telephone;
@@ -173,10 +181,26 @@ var openId=url.split("=")[1];
 	var jsonObj = eval("(" + data + ")");
 	
 	if(jsonObj.status==-3){
-	alert("请填写正确的手机号！");}
+	alert("请填写正确的手机号！");}else{var count = 60;
+                var countdown = setInterval(CountDown, 1000);
+                function CountDown() {
+                    $("#getyzm").attr("disabled", true);
+                    $("#getyzm").val("请在" + count + " 秒后再次获取!");
+                    if (count == 0) {
+                        $("#getyzm").val("重新获取验证码").removeAttr("disabled");
+                        clearInterval(countdown);
+                    }
+                    count--;
+                }
+                }
 	});}
-	});
-	})
+	
+            
+               
+            });
+        });
+	
+	
 	</script>
 
 </body>

@@ -88,5 +88,30 @@
 		WHERE
 			ru.user_id = #{userId, javaType=int, jdbcType=INTEGER}
 	</select>
-	
+	<update id="updateResume" parameterType="ResumeUser">
+		UPDATE
+			resume_user
+		<set>
+			<if test="name != null">
+				name = #{name, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="telephone != null">
+				telephone = #{telephone, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email, javaType=string, jdbcType=CHAR},
+			</if>
+			<if test="home != null">
+				home = #{home, javaType=string, jdbcType=CHAR},
+			</if>
+		</set>
+		WHERE
+			user_id = #{userId, javaType=int, jdbcType=INTEGER}
+	</update>
 </mapper>

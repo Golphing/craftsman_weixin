@@ -23,7 +23,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta content="telephone=no, address=no" name="format-detection">
 <meta name="apple-mobile-web-app-capable" content="yes"> 
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link href="css/reset.css" rel="stylesheet" type="text/css">
 <link href="css/mod06.css" rel="stylesheet" type="text/css">
 

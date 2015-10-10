@@ -19,6 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
@@ -31,27 +34,29 @@ var url=window.location.href;
 var userId=url.split("=")[1];
 /*  根据用户id得到个人信息*/	
 
-$.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) {
+$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			document.getElementById("email").innerHTML = obj.email;
 			document.getElementById("name").innerHTML = obj.name;
 			document.getElementById("telephone").innerHTML = obj.telephone;
 			document.getElementById("home").innerHTML = obj.home;
-			 if(obj.gender=="女"){ $("img").attr("src","images/girl.jpg");
-			}else{$("img").attr("src","images/boy.jpg");
+			 if(obj.gender=="女"){ $("#gender").attr("src","images/girl.jpg");
+			}else{$("#gender").attr("src","images/boy.jpg");
 			} 
 			var str='<div class="company"><h3 class="clr1">工作经历</h3>';
 			for ( var i in obj.works) {
 			var work = obj.works[i];
-			 str+='<div class="company_details" id="'+work.id+'"><h4>'+work.company+"<span>"+work.beginTime+'--'+work.endTime+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/modify.png onclick="modify('+work.id+')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/delete1.png onclick="delete1('+work.id+')">'+'</h4><h6>'+work.department+'</h6><p class="cmpny1">'+work.description+'</p></div></div>';
+			 str+='<div class="company_details" id="'+work.id+'"><h4>'+work.company+"<span>"+work.beginTime+'--'+work.endTime+'</span><span style="float:right"><img src=images/modify.png onclick="modify1('+work.id+')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/delete1.png onclick="delete1('+work.id+')"></span>'+'</h4><h6>'+work.department+'</h6><p class="cmpny1">'+work.description+'</p></div></div>';
 
 		 	}
 		 	 document.getElementById("content").innerHTML=str; 
 		});
 
 	});
-	function modify(workId){
+	
+	
+	function modify1(workId){
   if (confirm('确定修改？')) {
   window.location.href="modifyWork.jsp?workId="+workId;
   
@@ -59,12 +64,14 @@ $.get("<%=basePath%>admin/user/search/resume.do?userId="+userId, function(data) 
 };
 function delete1(workId){
   if (confirm('确定删除？')) {
-  $.get("<%=basePath%>admin/user/work/delete.do?workId="+workId, function(data) {
+  $.get("<%=basePath%>resumeAction/work/delete.do?workId="+workId, function(data) {
 		$('#'+workId).remove();	
 		});
   
   };
 };
+
+
 </script>
 
 
@@ -74,9 +81,11 @@ function delete1(workId){
 	<div class="col-sm-3 col-md-2 sidebar">
 		<div class="sidebar_top">
 			<h1 id ="name"></h1>
-			<img  alt="" />
+			<img  id="gender" />
 		</div>
+		<div style="position:absolute; right:0px; top:10px; width:46px; height:38px;"><img id="modify" src="images/modify.png" style="position:absolute;width: 44px;height: 44px;border: 0px solid #999;"></div>
 		<div class="details">
+		
 			<h3>电话</h3>
 			<p id = "telephone"></p>
 			<h3>邮箱</h3>
@@ -111,4 +120,14 @@ function delete1(workId){
 			</ul>
 		</div>
 </body>
+<script type="text/javascript">
+  $("#modify").click(function(){
+  var url=window.location.href;
+var userId=url.split("=")[1];
+   window.location.href="modifyResume.jsp?userId="+userId;
+   });
+
+
+</script>
+
 </html>

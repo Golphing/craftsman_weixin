@@ -18,6 +18,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>卡富文思</title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link rel="stylesheet" type="text/css" href="css/select.css" />
@@ -38,7 +41,7 @@ $.get(requestUrl, function(data) {
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			var str="";
 			for ( var i in obj) {
-			str+='<li><a href='+'"'+"jobDetails.jsp?id="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>'
+			str+='<li><a href='+'"'+"jobDetails.jsp?positionId="+obj[i].id+"&userId="+userId+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="dateTime">'+obj[i].createTime+'</dd><dd class="area">'+obj[i].city+'</dd></dl></a></li>'
 			}
 			
 			document.getElementById("joblist").innerHTML = str;

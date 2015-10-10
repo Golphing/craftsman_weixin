@@ -85,10 +85,13 @@ public class ImportLiePinController {
 	public String imlp(@RequestParam(value="name",defaultValue="") String name,
 			@RequestParam(value="password",defaultValue="") String password,
 			@RequestParam(value="userId") String userId1){
+		System.out.println(name);
+		System.out.println(password);
 		
+		System.out.println(userId1);
 			int userId=Integer.parseInt(userId1);	
 	        password=Password.createPassword(password);
-	        System.out.println(password);
+	        
 	        String status=getResume(name, password,userId);
 	        Map<String,String> map=new HashMap<String,String>();
 	        map.put("code", status);

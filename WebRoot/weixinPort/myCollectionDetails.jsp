@@ -17,7 +17,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
-<meta content="" name="keywords" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title></title>
 <link rel="stylesheet" type="text/css" href="css/css.css" />
 <link rel="stylesheet" type="text/css" href="css/login.css" />
@@ -133,7 +135,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 			});
 			
 			
-			})
+			});
 </script>
 
 </head>
@@ -278,73 +280,6 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 
 			});
 
-			/* $(".btn_apply").click(function() {
-				if (confirm('您确定应聘该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/yingpin.ashx",
-						data : {
-							comid : $(this).data("id"),
-							jobid : $(this).data("id2")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('成功应聘！');
-							} else if (data == "4") {
-								showTip('禁用会员！');
-							} else if (data == "5") {
-								showTip('成功应聘！');
-							}
-						}
-					});
-				}
-			}); */
-
-	/* 		$(".favorties").click(function() {
-				if (confirm('您确定收藏该岗位？')) {
-					$.ajax({
-						type : "post",
-						url : "ajax/shoucang.ashx",
-						data : {
-							jobid : $(this).data("id")
-						},
-						dataType : "html",
-						error : function() {
-							alert('系统出错,请稍候再试.');
-							return false
-						},
-						success : function(data) {
-							if (data == "1") {
-								$('.overlay').css({
-									'display' : 'block',
-									'opacity' : '0.8'
-								});
-								LoginTip('未登陆的');
-							} else if (data == "2") {
-								showTip('请先完善您的简历！');
-							} else if (data == "3") {
-								showTip('禁用会员！');
-							} else if (data == "4") {
-								showTip('成功收藏！');
-							}
-
-						}
-					});
-				}
-			}); */
 		});
 	</script>
 </body>
