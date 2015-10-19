@@ -34,12 +34,14 @@
 $(document).ready(function() {
  var url=window.location.href;
 			var userId=url.split("?")[1].split("=")[1];
-var request ="<%=basePath%>wechat/user/jobprogress.do?userId=" + userId;
+var request ="<%=basePath%>wechat/user/jobprogress.do?userId=" + userId+"&t="+Math.random();
 
 						$.get(request, function(position) {
 							
 					var jsonObj = eval("(" + position + ")");
-					var obj = jsonObj.position;//obj是一个包含多个选项的数组			
+					
+					var obj = jsonObj.position;//obj是一个包含多个选项的数组	
+							
 					var str="";
 					for ( var i in obj) {
 						str+='<li><a href='+'"'+"progressDetails.jsp?userId="+userId+"&positionId="+obj[i].id+'"'+'><dl><dt>'+obj[i].title+'</dt><dd>'+obj[i].company.name+'</dd><dd class="area">查看进度</dd></dl></a></li>'

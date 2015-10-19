@@ -81,12 +81,13 @@ body{font-family: Arial, Helvetica, sans-serif;font-size: 12px;}
 			var telephone = "";
 			var url=window.location.href;
 var userId=url.split("=")[1];
-$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId, function(data) {
+$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
 			var obj = eval("(" + data + ")").data;
 			 $('input#name').attr('value',obj.name); 
 			 $('input#gender').attr('value',obj.gender);
 			 $('input#email').attr('value',obj.email);
 			 $('input#home').attr('value',obj.home);
+			 
 			 $('input#birthday').attr('value',obj.birthday);
 			 $('input#telephone').attr('value',obj.telephone);	 
 			document.getElementById("name").onfocus= function() {
