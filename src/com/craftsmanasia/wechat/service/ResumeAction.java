@@ -133,6 +133,7 @@ public class ResumeAction {
 			map.put("status", "生日不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
+		//userId ="5";//测试
 		ResumeUser oldResumeUser =resumeUserService.selectResumeUserByUserId(Integer.parseInt(userId));
 		if(oldResumeUser != null) {
 			oldResumeUser.setTelephone(telephone);
@@ -159,7 +160,7 @@ public class ResumeAction {
 			resumeUserService.add(resumeUser);
 		}
 		
-		map.put("status", userId);
+		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
 	

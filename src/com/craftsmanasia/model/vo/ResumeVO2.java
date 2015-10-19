@@ -17,6 +17,7 @@ public class ResumeVO2 {
 	private String status;
 	private Integer statusId;
 	private String companyName;
+	private String positionName;
 	private String wechatAccount;
 	private String updateTime;
 	
@@ -48,6 +49,8 @@ public class ResumeVO2 {
 		vo.setUpdateTime(DateTimeUtility.formatYYYYMMDD(positionSubscribeUser.getUpdateTime()));
 		vo.setCompanyName(positionSubscribeUser.getPosition().getCompany().getName());
 		vo.setWechatAccount(positionSubscribeUser.getUser().getWechatAccount());
+		
+		vo.setPositionName(positionSubscribeUser.getPosition().getTitle());
 		return vo;
 		
 	}
@@ -122,6 +125,14 @@ public class ResumeVO2 {
 
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
+	}
+
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
 	}
 	
 }

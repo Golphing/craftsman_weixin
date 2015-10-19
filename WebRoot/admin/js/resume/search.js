@@ -11,6 +11,7 @@ $(document).ready(function () {
 				{label: '姓名', name: 'name', width: '10%'},
 				{label: '性别', name: 'gender', width: '10%'},
 				{label: '公司', name: 'companyName', width: '10%'},
+				{label: '职位名称', name: 'positionName', width: '10%'},
 				{label: '状态', name: 'status', width: '10%'},
 				{label: '联系电话', name: 'telephone', width: '20%'},
 				{label: '微信号', name: 'wechatAccount', width: '20%',},
