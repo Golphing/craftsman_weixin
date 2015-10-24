@@ -78,7 +78,7 @@
 var url=window.location.href;
 var workId=url.split("=")[1];	
 		
-			$.get("<%=basePath%>resumeAction/search/workById.do?workId="+workId, function(data) {
+			$.get("<%=basePath%>resumeAction/search/workById.do?workId="+workId+"&t="+Math.random(), function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.work;
 			 $('input#company').attr('value',obj.company); 

@@ -29,7 +29,7 @@
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId;
+var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
 
 /*职位详情  */
 		$.get(request, function(data) {

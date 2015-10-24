@@ -34,7 +34,7 @@
 var userId=url.split("?")[1].split("=")[1];
 $(document).ready(function() {
 			
-$.get("<%=basePath%>wechat/position/search/own.do", function(data) {
+$.get("<%=basePath%>wechat/position/search/own.do?t="+Math.random(), function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			var str="";
