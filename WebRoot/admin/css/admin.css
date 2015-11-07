@@ -272,3 +272,6 @@ html,body,body>.container-fluid,body>.container-fluid>.row{
 .input-group.date.form_datetime{
 	padding-left: 15px;
 }
+.form-group{
+	margin-bottom: 10px !important;
+}

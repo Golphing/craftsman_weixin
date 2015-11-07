@@ -5,6 +5,7 @@ $(document).ready(function() {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
+			mtype: 'post',
 			url: '../user/search.do',
 			colModel: [
 				{label: '微信号', name: 'wechatAccount', width: '20%'},

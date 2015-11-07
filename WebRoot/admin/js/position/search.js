@@ -12,6 +12,7 @@ $(document).ready(function () {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
+			mtype: 'post',
 			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
@@ -103,8 +104,10 @@ $(document).ready(function () {
 	}
 	function bindAddPositionAction() {
 		$('.page-path .add-btn').click(function() {
+			$('#addPositionForm')[0].reset();
 			$('#addPositionDialog .has-error').removeClass('has-error');
 			$('#addPositionDialog .input-tips').hide();
+			$('#editRequireForm .summernote').code($('#addPositionDialog [name="requirement"]').val());
 			$('#addPositionDialog').modal('show');
 		});
 	}

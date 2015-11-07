@@ -6,6 +6,7 @@ $(document).ready(function() {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
+			mtype: 'post',
 			url: '../company/search.do',
 			colModel: [
 				{label: '名称', name: 'name', width: '20%'},

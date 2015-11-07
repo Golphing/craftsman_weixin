@@ -5,6 +5,7 @@ $(document).ready(function () {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
+			mtype: 'post',
 			url: '../resume/search.do',
 			datatype: "json",
 			colModel: [
@@ -16,6 +17,9 @@ $(document).ready(function () {
 				{label: '联系电话', name: 'telephone', width: '20%'},
 				{label: '微信号', name: 'wechatAccount', width: '20%',},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
+					if(rowObject.statusId == 8) {
+						return '';
+					}
 					return '' + 
 						'<button type="button" data-action="access" class="btn btn-success">通过</button>'+
 						'<button type="button" data-action="deny" class="btn btn-danger">驳回</button>';
@@ -24,7 +28,8 @@ $(document).ready(function () {
 			serializeGridData: function(postData) {
 				postData.name = $('#searchResumeForm_name').val();
 				postData.companyName = $('#searchResumeForm_companyName').val();
-				postData.status = $('#searchResumeForm_status').val();
+				postData.title = $('#searchResumeForm_positionName').val();
+				postData.telephone = $('#searchResumeForm_tel').val();
 				postData.wechatAccount = $('#searchResumeForm_wechatAccount').val();
 				return postData;
 			},

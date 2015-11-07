@@ -13,6 +13,7 @@ $(document).ready(function () {
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
+			mtype: 'post',
 			url: '../company/position/search.do',
 			datatype: "json",
 			colModel: [
@@ -112,6 +113,7 @@ $(document).ready(function () {
 	}
 	function bindAddPositionFormAction() {
 		$('#addPositionForm [name="requirement"]').click(function() {
+			$('#editRequireForm .summernote').code($('#addPositionForm [name="requirement"]').val());
 			$('#editRequireDialog').modal('show');
 			$('#editRequireDialog').data().type = "add";
 		});

@@ -29,6 +29,7 @@ $(document).ready(function() {
 			pager: "#jqGridPager"
 		});
 		$("#companyGrid").jqGrid({
+			mtype: 'post',
 			colModel: [
 				{label: '名称', name: 'name', width: 200},
 				{label: '权重', name: 'weight', width: 200},
@@ -54,6 +55,7 @@ $(document).ready(function() {
 			pager: "#companyPager"
 		});
 		$("#positionGrid").jqGrid({
+			mtype: 'post',
 			datatype: "json",
 			colModel: [
 				{label: '职位', name: 'title', width: 200},

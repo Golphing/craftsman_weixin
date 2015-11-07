@@ -31,7 +31,7 @@
 		user.openId AS user_openId,
 		user.telephone AS user_telephone,
 		user.nickName AS user_nickname,
-		user.wechat_account AS user_wechat_account
+		user.wechat_account AS user_wechat_account,
 		user.register_type AS user_register_type
 	</sql>
 	
