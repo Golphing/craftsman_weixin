@@ -47,7 +47,7 @@ public class ResumeController {
 	PositionSubscribeUserService positionSubscribeUserService;
 	
 	
-	@RequestMapping(value ="/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/search", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchUser(SearchResumeSubscribeRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();

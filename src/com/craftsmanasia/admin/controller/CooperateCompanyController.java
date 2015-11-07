@@ -139,7 +139,7 @@ public class CooperateCompanyController {
 	/*
 	 * 查询合作企业
 	 * */
-	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchCooperateCompany(SearchCompanyRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -243,7 +243,7 @@ public class CooperateCompanyController {
 	/*
 	 * 查询职位信息
 	 * */
-	@RequestMapping(value = "/position/search", method = RequestMethod.GET,  produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/position/search", method = RequestMethod.POST,  produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchCooperateCompanyPositions(SearchPositionRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
