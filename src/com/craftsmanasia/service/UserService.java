@@ -20,6 +20,10 @@ public class UserService {
 	UserDao userDao;
 	
 	public int add(User user){
+		// 如果userType没有设置则设置为0，表示从微信客户端注册
+		if(user.getRegisterType() == null) {
+			user.setRegisterType(0);
+		}
 		return userDao.add(user);
 	}
 	

@@ -88,6 +88,9 @@ public class UserController {
 		user.setPassword(password);
 		user.setNickName(nickName);
 		user.setWechatAccount(wechatAccount);
+		
+		// 用户由后台注册设置为1
+		user.setRegisterType(1);
 		userService.add(user);
 		ResumeUser resumeUser = new ResumeUser();
 		resumeUser.setTelephone(user.getTelephone());
@@ -176,7 +179,7 @@ public class UserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping(value ="/search", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/search", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchUser(SearchUserRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -201,6 +204,9 @@ public class UserController {
 		if(!StringUtil1.isNull(request.getTelephone())) {
 			filter.setTelephone(request.getTelephone());
 		}
+		
+		// 后台查询时查询由admin注册的user
+		filter.setRegisterType(1);
 		
 		PagingData pagingData = new PagingData(request.getPageNumber(), request.getPageSize());
 		filter.setPaged(true);

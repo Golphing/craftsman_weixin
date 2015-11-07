@@ -7,6 +7,7 @@ public class User {
 	private String telephone;
 	private String nickName;
 	private String wechatAccount;
+	private Integer registerType;
 	
 	private ResumeUser resumeUser;
 	
@@ -64,6 +65,14 @@ public class User {
 
 	public void setResumeUser(ResumeUser resumeUser) {
 		this.resumeUser = resumeUser;
+	}
+
+	public Integer getRegisterType() {
+		return registerType;
+	}
+
+	public void setRegisterType(Integer registerType) {
+		this.registerType = registerType;
 	}
 	
 }

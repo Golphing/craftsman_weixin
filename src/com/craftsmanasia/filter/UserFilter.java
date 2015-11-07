@@ -8,6 +8,7 @@ public class UserFilter extends SearchFilter{
 	private String name;
 	private String wechatAccount;
 	private String telephone;
+	private Integer registerType;
 
 	public String getName() {
 		return name;
@@ -39,6 +40,14 @@ public class UserFilter extends SearchFilter{
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public Integer getRegisterType() {
+		return registerType;
+	}
+
+	public void setRegisterType(Integer registerType) {
+		this.registerType = registerType;
 	}
 	
 }
