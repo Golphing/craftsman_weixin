@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
 import com.craftsmanasia.model.filter.SearchResult;
@@ -102,9 +103,34 @@ public class ResumeController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/status/modify2", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyRusemeStatus(@RequestParam(value = "id") int id,
+			@RequestParam(value = "status") String status) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ResumeSubscribeStatus resumeSubscribeStatus = new ResumeSubscribeStatus();
+		resumeSubscribeStatus.setPositionSubscribeId(id);
+		resumeSubscribeStatus.setStatus(status);
+		
+		Date now = new Date();
+		resumeSubscribeStatus.setCreateTime(now);
+		resumeSubscribeStatus.setUpdateTime(now);
+		try {
+			positionSubscribeUserService.addResumeSubscribeStatus(resumeSubscribeStatus);
+		} catch (Exception e) {
+			map.put("status", "submit error");
+			e.printStackTrace();
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		map.put("status", true);
+		return JSONObject.fromObject(map).toString();
+	}
+	
+	
+	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String modifyRusemeStatus2(@RequestParam(value = "id") int id,
 			@RequestParam(value = "statusId",required = false) Integer statusId,
 			@RequestParam(value = "pass") boolean pass) {
 		Map<String, Object> map = new HashMap<String, Object>();

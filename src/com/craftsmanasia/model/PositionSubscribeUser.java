@@ -1,6 +1,7 @@
 package com.craftsmanasia.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class PositionSubscribeUser {
 
@@ -21,6 +22,8 @@ public class PositionSubscribeUser {
 	private Position position;
 	private User user;
 	private ResumeUser resumeUser;
+	
+	private List<ResumeSubscribeStatus> statuses;
 
 	public int getId() {
 		return id;
@@ -148,5 +151,13 @@ public class PositionSubscribeUser {
 
 	public void setResumeUser(ResumeUser resumeUser) {
 		this.resumeUser = resumeUser;
+	}
+
+	public List<ResumeSubscribeStatus> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(List<ResumeSubscribeStatus> statuses) {
+		this.statuses = statuses;
 	}
 }

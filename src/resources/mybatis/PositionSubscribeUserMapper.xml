@@ -48,6 +48,19 @@
 			javaType="User" resultMap="userResult"/>
 	</resultMap>
 
+	<resultMap 
+		id="resumeSubscribeStatusResult" 
+		type="ResumeSubscribeStatus" >
+		
+		<id property="id" column="resume_subscribe_status_id" />
+		
+		<result property="status" column="resume_subscribe_status_status" />
+        <result property="createTime" column="resume_subscribe_status_create_time" />
+        <result property="updateTime" column="resume_subscribe_status_update_time" />
+        <result property="positionSubscribeId" column="resume_subscribe_status_position_subscribe_id" />
+	</resultMap>
+	
+	
 	<sql id="positionColumns">
 		<include refid="com.craftsmanasia.dao.PositionDao.positionColumns"/>
 	</sql>
@@ -84,6 +97,14 @@
 		psu.update_time AS position_subscribe_user_update_time
 	</sql>
 	
+	<sql id="resumeSubscribeStatusColumns"> 
+		rss.id AS resume_subscribe_status_id,
+		rss.status AS resume_subscribe_status_status,
+		rss.create_time AS resume_subscribe_status_create_time,
+		rss.update_time AS resume_subscribe_status_update_time,
+		rss.position_subscribe_id AS resume_subscribe_status_position_subscribe_id
+	</sql>
+	
 	<insert
 	    id="add" 
 	    useGeneratedKeys="true" 
@@ -116,6 +137,40 @@
 		#{rejectTime, javaType=date, jdbcType=TIMESTAMP}
 		)
 	</insert>
+	
+	<insert
+	    id="addStatus" 
+	    useGeneratedKeys="true" 
+	    keyProperty="id" 
+	    parameterType="ResumeSubscribeStatus"> 
+	    
+		INSERT INTO resume_subscribe_status (
+		status,
+		create_time,
+		update_time,
+		position_subscribe_id
+		) VALUES (
+		#{status, javaType=string, jdbcType=CHAR},
+		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
+		#{positionSubscribeId, javaType=int, jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select 
+		id="selectResumeSubscribeStatusById"
+		parameterType="map" 
+		resultMap="resumeSubscribeStatusResult" >
+            
+		SELECT
+			<include refid="resumeSubscribeStatusColumns"/>
+		FROM
+			resume_subscribe_status rss
+		WHERE
+			rss.position_subscribe_id = #{resumeSubscribeId, javaType=int, jdbcType=INTEGER}
+			ORDER BY
+			rss.create_time ASC
+	</select>
 	
 	<select 
 		id="selectSubscribedPositionsByUserId"

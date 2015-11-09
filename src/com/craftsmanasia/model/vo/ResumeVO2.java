@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
 import com.craftsmanasia.utils.DateTimeUtility;
@@ -20,6 +21,11 @@ public class ResumeVO2 {
 	private String positionName;
 	private String wechatAccount;
 	private String updateTime;
+	
+	private List<String> allStatus;
+	private List<String> statusTime;
+	private String lastStatus;
+	private String lastStatusTime;
 	
 	public static List<ResumeVO2> toVOs(List<PositionSubscribeUser> positionSubscribeUsers) {
 		List<ResumeVO2> vos = new ArrayList<ResumeVO2>();
@@ -51,6 +57,23 @@ public class ResumeVO2 {
 		vo.setWechatAccount(positionSubscribeUser.getUser().getWechatAccount());
 		
 		vo.setPositionName(positionSubscribeUser.getPosition().getTitle());
+		
+		List<ResumeSubscribeStatus> statuses = positionSubscribeUser.getStatuses();
+		List<String> allStatus = new ArrayList<String>();
+		List<String> statusTime = new ArrayList<String>();
+		if(statuses != null) {
+			for(ResumeSubscribeStatus status : statuses) {
+				allStatus.add(status.getStatus());
+				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
+			}
+			if(statuses.size() >0 ) {
+				vo.setLastStatus(statuses.get(statuses.size()-1).getStatus());
+				vo.setLastStatusTime(DateTimeUtility.formatYYYYMMDDHHMMSS(statuses.get(statuses.size()-1).getCreateTime()));
+			}
+		}
+		vo.setAllStatus(allStatus);
+		vo.setStatusTime(statusTime);
+		
 		return vo;
 		
 	}
@@ -133,6 +156,38 @@ public class ResumeVO2 {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	public List<String> getAllStatus() {
+		return allStatus;
+	}
+
+	public void setAllStatus(List<String> allStatus) {
+		this.allStatus = allStatus;
+	}
+
+	public List<String> getStatusTime() {
+		return statusTime;
+	}
+
+	public void setStatusTime(List<String> statusTime) {
+		this.statusTime = statusTime;
+	}
+
+	public String getLastStatus() {
+		return lastStatus;
+	}
+
+	public void setLastStatus(String lastStatus) {
+		this.lastStatus = lastStatus;
+	}
+
+	public String getLastStatusTime() {
+		return lastStatusTime;
+	}
+
+	public void setLastStatusTime(String lastStatusTime) {
+		this.lastStatusTime = lastStatusTime;
 	}
 	
 }

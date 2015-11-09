@@ -1,6 +1,11 @@
 package com.craftsmanasia.model.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.utils.DateTimeUtility;
 
 public class PositionSubscribeUserVO {
@@ -16,8 +21,16 @@ public class PositionSubscribeUserVO {
 	private String secondInterviewTime;
 	private String thirdInterviewTime;
 	private String rejectTime;
-	
+
 	private PositionVO position;
+
+	private List<String> allStatus;
+	private List<String> statusTime;
+	private String lastStatus;
+	private String lastStatusTime;
+	private String positionTitle;
+	private String companyName;
+	private int companyId;
 
 	public static PositionSubscribeUserVO toVO(PositionSubscribeUser positionSubscribeUser) {
 		if(positionSubscribeUser == null) {
@@ -36,9 +49,31 @@ public class PositionSubscribeUserVO {
 		vo.setThirdInterviewTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getThirdInterviewTime()));
 		vo.setRejectTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getRejectTime()));
 		vo.setPosition(PositionVO.toVO(positionSubscribeUser.getPosition()));
+		
+		Position position = positionSubscribeUser.getPosition();
+		vo.setPositionTitle(position.getTitle());
+		vo.setCompanyName(position.getCompany().getName());
+		vo.setCompanyId(position.getCompanyId());
+		
+		List<ResumeSubscribeStatus> statuses = positionSubscribeUser.getStatuses();
+		List<String> allStatus = new ArrayList<String>();
+		List<String> statusTime = new ArrayList<String>();
+		if(statuses != null) {
+			for(ResumeSubscribeStatus status : statuses) {
+				allStatus.add(status.getStatus());
+				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
+			}
+			if(statuses.size() >0 ) {
+				vo.setLastStatus(statuses.get(statuses.size()-1).getStatus());
+				vo.setLastStatusTime(DateTimeUtility.formatYYYYMMDDHHMMSS(statuses.get(statuses.size()-1).getCreateTime()));
+			}
+		}
+		vo.setAllStatus(allStatus);
+		vo.setStatusTime(statusTime);
+		
 		return vo;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -134,5 +169,60 @@ public class PositionSubscribeUserVO {
 	public void setRejectTime(String rejectTime) {
 		this.rejectTime = rejectTime;
 	}
-	
+
+	public List<String> getAllStatus() {
+		return allStatus;
+	}
+
+	public void setAllStatus(List<String> allStatus) {
+		this.allStatus = allStatus;
+	}
+
+	public List<String> getStatusTime() {
+		return statusTime;
+	}
+
+	public void setStatusTime(List<String> statusTime) {
+		this.statusTime = statusTime;
+	}
+
+	public String getPositionTitle() {
+		return positionTitle;
+	}
+
+	public void setPositionTitle(String positionTitle) {
+		this.positionTitle = positionTitle;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getLastStatus() {
+		return lastStatus;
+	}
+
+	public void setLastStatus(String lastStatus) {
+		this.lastStatus = lastStatus;
+	}
+
+	public String getLastStatusTime() {
+		return lastStatusTime;
+	}
+
+	public void setLastStatusTime(String lastStatusTime) {
+		this.lastStatusTime = lastStatusTime;
+	}
 }
