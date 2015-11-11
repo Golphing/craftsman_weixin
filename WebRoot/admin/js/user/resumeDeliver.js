@@ -5,6 +5,7 @@ $(document).ready(function() {
 	bindAddDeliverDialogAction();
 	bindSearchCompanyDialogAction();
 	bindSearchPositionDialogAction();
+	bindReplyFormAction();
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
 			url: '../../wechat/position/search/subscribed/info.do',
@@ -15,8 +16,7 @@ $(document).ready(function() {
 				{label: '城市', name: 'city', width: '20%'},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
 					return '' + 
-						'<button type="button" data-action="access" class="btn btn-success">通过</button>'+
-						'<button type="button" data-action="deny" class="btn btn-danger">驳回</button>';
+						'<button type="button" data-action="reply" class="btn btn-primary">答复</button>';
 				}}
 			],
 			serializeGridData: function(postData) {
@@ -24,7 +24,7 @@ $(document).ready(function() {
 				return postData;
 			},
 			loadComplete:function(xhr) {
-				pageData.userList = xhr.data;
+				pageData.resumeList = xhr.data;
 			},
 			pager: "#jqGridPager"
 		});
@@ -83,24 +83,16 @@ $(document).ready(function() {
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
-			var rowId = parseInt($(this).closest('tr')[0].id);
-			var data = {
-				id: rowId,
-				
-			};
-			if(action == 'access') {
-				data.pass = true;
-			} else {
-				data.pass = false;
+			var id = parseInt($(this).closest('tr')[0].id);
+
+			if(action == 'reply') {
+				$('#replyDialog').data().id = id;
+				var resume = ADMIN.getItemFromByAttr(pageData.resumeList, 'id', id);
+				$('#replyDialog .dialogTitle').text(resume.name + ' / ' + resume.companyName + ' / ' + resume.positionName);
+				$('#replyDialog [name=preStatus]').text(resume.status);
+				$('#replyForm')[0].reset();
+				$('#replyDialog').modal('show');
 			}
-			$.post('../resume/modify.do', data, function(result) {
-				if(result.status) {
-					alert('成功');
-					$('#jqGrid').trigger("reloadGrid");
-				} else {
-					alert(result.msg);
-				}
-			}, 'json');
 		});
 	}
 	function bindAddBtnAction() {
@@ -180,5 +172,29 @@ $(document).ready(function() {
 			}
 		});
 	}
-
+	function bindReplyFormAction() {
+		$('#replyForm').submit(function() {
+			if(!ADMIN.formValidate('#replyForm', {
+				status: 'nonempty',
+				reply: 'nonempty',
+			})) {
+				return false;
+			}
+			var data = {
+				id: $('#replyDialog').data().id,
+				status: $('#replyDialog [name=status]').val(),
+				reply: $('#replyDialog [name=reply]').val(),
+			};
+			$.post('../resume/modify.do', data, function(result) {
+				if(result.status) {
+					alert('成功');
+					$('#jqGrid').trigger("reloadGrid");
+				} else {
+					alert(result.msg);
+				}
+			}, 'json');
+			
+			return false;
+		});
+	}
 });

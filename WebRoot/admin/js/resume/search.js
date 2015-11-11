@@ -2,6 +2,7 @@ $(document).ready(function () {
 	initJqGrid();
 	bindSearchResumeFormAction();
 	bindJqGridDataAction();
+	bindReplyFormAction();
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
@@ -21,8 +22,7 @@ $(document).ready(function () {
 						return '';
 					}
 					return '' + 
-						'<button type="button" data-action="access" class="btn btn-success">通过</button>'+
-						'<button type="button" data-action="deny" class="btn btn-danger">驳回</button>';
+						'<button type="button" data-action="reply" class="btn btn-primary">答复</button>'
 				}}
 			],
 			serializeGridData: function(postData) {
@@ -48,16 +48,31 @@ $(document).ready(function () {
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
-			var rowId = parseInt($(this).closest('tr')[0].id);
-			var data = {
-				id: rowId,
-				
-			};
-			if(action == 'access') {
-				data.pass = true;
-			} else {
-				data.pass = false;
+			var id = parseInt($(this).closest('tr')[0].id);
+
+			if(action == 'reply') {
+				$('#replyDialog').data().id = id;
+				var resume = ADMIN.getItemFromByAttr(pageData.resumeList, 'id', id);
+				$('#replyDialog .dialogTitle').text(resume.name + ' / ' + resume.companyName + ' / ' + resume.positionName);
+				$('#replyDialog [name=preStatus]').text(resume.status);
+				$('#replyForm')[0].reset();
+				$('#replyDialog').modal('show');
 			}
+		});
+	}
+	function bindReplyFormAction() {
+		$('#replyForm').submit(function() {
+			if(!ADMIN.formValidate('#replyForm', {
+				status: 'nonempty',
+				reply: 'nonempty',
+			})) {
+				return false;
+			}
+			var data = {
+				id: $('#replyDialog').data().id,
+				status: $('#replyDialog [name=status]').val(),
+				reply: $('#replyDialog [name=reply]').val(),
+			};
 			$.post('../resume/modify.do', data, function(result) {
 				if(result.status) {
 					alert('成功');
@@ -66,6 +81,8 @@ $(document).ready(function () {
 					alert(result.msg);
 				}
 			}, 'json');
+			
+			return false;
 		});
 	}
 });
