@@ -4,10 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +18,7 @@ import com.craftsmanasia.model.Company;
 import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.vo.CompanyVO;
 import com.craftsmanasia.model.vo.PositionSubscribeUserVO;
@@ -30,6 +29,7 @@ import com.craftsmanasia.service.PositionSubscribeUserService;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.UserService;
 import com.craftsmanasia.service.WorkService;
+import com.craftsmanasia.utils.StringUtil1;
 
 import net.sf.json.JSONObject;
 
@@ -59,15 +59,16 @@ public class PositionSubscribeController {
 	 * */
 	@RequestMapping(value ="/subscribe", produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") int userId, 
-			@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
+	public String subscribePosition(@RequestParam(value = "userId", defaultValue = "") Integer userId, 
+			@RequestParam(value = "positionId", defaultValue = "") Integer positionId) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		User user = new User();
-		user.setId(userId);
-		if(positionId <=0 ) {
-			map.put("status", "职位不存在");
+		if(StringUtil1.isNull(userId) || StringUtil1.isNull(positionId)) {
+			map.put("status", "submit error");
 			return JSONObject.fromObject(map).toString();
 		}
+		
+		User user = new User();
+		user.setId(userId);
 		PositionSubscribeUser oldPositionSubscribeUser = positionSubscribeUserService
 					.getSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		if(oldPositionSubscribeUser != null) {
@@ -78,13 +79,33 @@ public class PositionSubscribeController {
 		PositionSubscribeUser positionSubscribeUser = new PositionSubscribeUser();
 		positionSubscribeUser.setPositionId(positionId);
 		positionSubscribeUser.setUserId(user.getId());
-		// 投递简历都属于新投递状态
-		positionSubscribeUser.setStatusId(1);
+
 		Date now = new Date();
 		positionSubscribeUser.setCreateTime(now);
 		positionSubscribeUser.setUpdateTime(now);
-		positionSubscribeUserService.subscribePosition(positionSubscribeUser);
-		map.put("status", "应聘成功");
+		try {
+			positionSubscribeUserService.subscribePosition(positionSubscribeUser);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			map.put("status", "submit error");
+			return JSONObject.fromObject(map).toString();
+		}
+		
+		ResumeSubscribeStatus status = new ResumeSubscribeStatus();
+		status.setPositionSubscribeId(positionSubscribeUser.getId());
+		// 设置默认状态
+		status.setStatus("新投递");
+		status.setReply("未筛选");
+		status.setCreateTime(now);
+		status.setUpdateTime(now);
+		try {
+			positionSubscribeUserService.addResumeSubscribeStatus(status);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("status", "submit error");
+			return JSONObject.fromObject(map).toString();
+		}
+		map.put("status", "true");
 		
 		return JSONObject.fromObject(map).toString();
 	}

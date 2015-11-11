@@ -25,7 +25,7 @@ public class PositionSubscribeUserService {
 	@Autowired
 	PositionCollectionDao positionCollectionDao;
 	
-	public void subscribePosition(PositionSubscribeUser user){
+	public void subscribePosition(PositionSubscribeUser user) throws Exception{
 		positionSubscribeUserDao.add(user);
 	}
 	
