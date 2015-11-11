@@ -55,6 +55,7 @@
 		<id property="id" column="resume_subscribe_status_id" />
 		
 		<result property="status" column="resume_subscribe_status_status" />
+		<result property="reply" column="resume_subscribe_status_reply" />
         <result property="createTime" column="resume_subscribe_status_create_time" />
         <result property="updateTime" column="resume_subscribe_status_update_time" />
         <result property="positionSubscribeId" column="resume_subscribe_status_position_subscribe_id" />
@@ -100,6 +101,7 @@
 	<sql id="resumeSubscribeStatusColumns"> 
 		rss.id AS resume_subscribe_status_id,
 		rss.status AS resume_subscribe_status_status,
+		rss.reply AS resume_subscribe_status_reply,
 		rss.create_time AS resume_subscribe_status_create_time,
 		rss.update_time AS resume_subscribe_status_update_time,
 		rss.position_subscribe_id AS resume_subscribe_status_position_subscribe_id
@@ -146,11 +148,13 @@
 	    
 		INSERT INTO resume_subscribe_status (
 		status,
+		reply,
 		create_time,
 		update_time,
 		position_subscribe_id
 		) VALUES (
 		#{status, javaType=string, jdbcType=CHAR},
+		#{reply, javaType=string, jdbcType=CHAR},
 		#{createTime, javaType=date, jdbcType=TIMESTAMP},
 		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
 		#{positionSubscribeId, javaType=int, jdbcType=INTEGER}

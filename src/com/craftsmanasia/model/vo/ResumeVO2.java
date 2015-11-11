@@ -23,9 +23,10 @@ public class ResumeVO2 {
 	private String updateTime;
 	
 	private List<String> allStatus;
+	private List<String> replies;
 	private List<String> statusTime;
-	private String lastStatus;
-	private String lastStatusTime;
+	//private String lastStatus;
+	//private String lastStatusTime;
 	
 	public static List<ResumeVO2> toVOs(List<PositionSubscribeUser> positionSubscribeUsers) {
 		List<ResumeVO2> vos = new ArrayList<ResumeVO2>();
@@ -60,18 +61,21 @@ public class ResumeVO2 {
 		
 		List<ResumeSubscribeStatus> statuses = positionSubscribeUser.getStatuses();
 		List<String> allStatus = new ArrayList<String>();
+		List<String> replies = new ArrayList<String>();
 		List<String> statusTime = new ArrayList<String>();
 		if(statuses != null) {
 			for(ResumeSubscribeStatus status : statuses) {
 				allStatus.add(status.getStatus());
+				replies.add(status.getReply());
 				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
 			}
-			if(statuses.size() >0 ) {
+			/*if(statuses.size() >0 ) {
 				vo.setLastStatus(statuses.get(statuses.size()-1).getStatus());
 				vo.setLastStatusTime(DateTimeUtility.formatYYYYMMDDHHMMSS(statuses.get(statuses.size()-1).getCreateTime()));
-			}
+			}*/
 		}
 		vo.setAllStatus(allStatus);
+		vo.setReplies(replies);
 		vo.setStatusTime(statusTime);
 		
 		return vo;
@@ -174,7 +178,7 @@ public class ResumeVO2 {
 		this.statusTime = statusTime;
 	}
 
-	public String getLastStatus() {
+	/*public String getLastStatus() {
 		return lastStatus;
 	}
 
@@ -188,6 +192,14 @@ public class ResumeVO2 {
 
 	public void setLastStatusTime(String lastStatusTime) {
 		this.lastStatusTime = lastStatusTime;
+	}*/
+
+	public List<String> getReplies() {
+		return replies;
+	}
+
+	public void setReplies(List<String> replies) {
+		this.replies = replies;
 	}
 	
 }

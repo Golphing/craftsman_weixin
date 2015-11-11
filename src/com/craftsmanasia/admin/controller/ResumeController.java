@@ -103,14 +103,16 @@ public class ResumeController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
-	@RequestMapping(value ="/status/modify2", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyRusemeStatus(@RequestParam(value = "id") int id,
+			@RequestParam(value = "reply") String reply,
 			@RequestParam(value = "status") String status) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ResumeSubscribeStatus resumeSubscribeStatus = new ResumeSubscribeStatus();
 		resumeSubscribeStatus.setPositionSubscribeId(id);
 		resumeSubscribeStatus.setStatus(status);
+		resumeSubscribeStatus.setReply(reply);
 		
 		Date now = new Date();
 		resumeSubscribeStatus.setCreateTime(now);
@@ -128,7 +130,7 @@ public class ResumeController {
 	}
 	
 	
-	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value ="/modify2", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyRusemeStatus2(@RequestParam(value = "id") int id,
 			@RequestParam(value = "statusId",required = false) Integer statusId,

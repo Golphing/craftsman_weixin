@@ -6,6 +6,7 @@ public class ResumeSubscribeStatus {
 
 	private int id;
 	private String status;
+	private String reply;
 	private Date createTime;
 	private Date updateTime;
 	private Integer positionSubscribeId;
@@ -48,6 +49,14 @@ public class ResumeSubscribeStatus {
 
 	public void setPositionSubscribeId(Integer positionSubscribeId) {
 		this.positionSubscribeId = positionSubscribeId;
+	}
+
+	public String getReply() {
+		return reply;
+	}
+
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 	
 }
