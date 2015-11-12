@@ -69,7 +69,7 @@ public class ResumeVO2 {
 					replies.add(status.getReply());
 				}
 				
-				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
+				statusTime.add(DateTimeUtility.formatYYYYMMDD(status.getCreateTime()));
 			}
 		}
 		vo.setAllStatus(allStatus);
