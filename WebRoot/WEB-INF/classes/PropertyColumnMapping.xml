@@ -20,7 +20,6 @@
     	<property name="name" column="ru.name" />
         <property name="telephone" column="ru.telephone" />
         <property name="gender" column="ru.gender" />
-        <property name="statusId" column="psu.status_id" />
         <property name="companyName" column="company.name" />
         <property name="wechatAccount" column="user.wechat_account" />
         <property name="updateTime" column="psu.update_time" />
