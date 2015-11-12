@@ -1,7 +1,6 @@
 package com.craftsmanasia.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -125,11 +124,7 @@ public class PositionSubscribeController {
 		}
 		List<PositionSubscribeUser> positions = positionSubscribeUserService.getSubscribedPositionsByUserId(userId);
 		
-		List<PositionVO> vos = new ArrayList<PositionVO>();
-		for(PositionSubscribeUser position : positions) {
-			vos.add(PositionVO.toVO(position.getPosition()));
-		}
-		map.put("data", vos);
+		map.put("data", PositionSubscribeUserVO.toVOs(positions));
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}

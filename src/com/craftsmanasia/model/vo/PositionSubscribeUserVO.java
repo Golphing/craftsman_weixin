@@ -10,35 +10,48 @@ import com.craftsmanasia.utils.DateTimeUtility;
 
 public class PositionSubscribeUserVO {
 
-	private int id;
-	private int positionId;
-	private int userId;
+	private Integer id;
+	private Integer positionId;
+	private Integer userId;
 	private String createTime;
-
-	private PositionVO position;
 
 	private List<String> allStatus;
 	private List<String> statusTime;
 	private List<String> replies;
 	private String positionTitle;
 	private String companyName;
-	private int companyId;
+	private Integer companyId;
+	private String positionCity;
+	private String positionWage;
 
-	public static PositionSubscribeUserVO toVO(PositionSubscribeUser positionSubscribeUser) {
-		if(positionSubscribeUser == null) {
-			return null;
+	public static List<PositionSubscribeUserVO> toVOs(List<PositionSubscribeUser> positionSubscribeUsers) {
+		List<PositionSubscribeUserVO> vos = new ArrayList<PositionSubscribeUserVO>();
+		if(positionSubscribeUsers == null) {
+			return vos;
 		}
+		for(PositionSubscribeUser positionSubscribeUser : positionSubscribeUsers) {
+			vos.add(PositionSubscribeUserVO.toVO(positionSubscribeUser));
+		}
+		return vos;
+	}
+	
+	public static PositionSubscribeUserVO toVO(PositionSubscribeUser positionSubscribeUser) {
 		PositionSubscribeUserVO vo = new PositionSubscribeUserVO();
+		if(positionSubscribeUser == null) {
+			return vo;
+		}
+		
 		vo.setId(positionSubscribeUser.getId());
 		vo.setPositionId(positionSubscribeUser.getPositionId());
 		vo.setUserId(positionSubscribeUser.getUserId());
 		vo.setCreateTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getCreateTime()));
-		vo.setPosition(PositionVO.toVO(positionSubscribeUser.getPosition()));
 		
 		Position position = positionSubscribeUser.getPosition();
 		vo.setPositionTitle(position.getTitle());
 		vo.setCompanyName(position.getCompany().getName());
 		vo.setCompanyId(position.getCompanyId());
+		vo.setPositionCity(position.getCity());
+		vo.setPositionWage(position.getWage());
 		
 		List<ResumeSubscribeStatus> statuses = positionSubscribeUser.getStatuses();
 		List<String> allStatus = new ArrayList<String>();
@@ -62,36 +75,28 @@ public class PositionSubscribeUserVO {
 		return vo;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getPositionId() {
+	public Integer getPositionId() {
 		return positionId;
 	}
 
-	public void setPositionId(int positionId) {
+	public void setPositionId(Integer positionId) {
 		this.positionId = positionId;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-
-	public PositionVO getPosition() {
-		return position;
-	}
-
-	public void setPosition(PositionVO position) {
-		this.position = position;
 	}
 
 	public String getCreateTime() {
@@ -134,11 +139,11 @@ public class PositionSubscribeUserVO {
 		this.companyName = companyName;
 	}
 
-	public int getCompanyId() {
+	public Integer getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(int companyId) {
+	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
 	}
 
@@ -148,5 +153,21 @@ public class PositionSubscribeUserVO {
 
 	public void setReplies(List<String> replies) {
 		this.replies = replies;
+	}
+
+	public String getPositionCity() {
+		return positionCity;
+	}
+
+	public void setPositionCity(String positionCity) {
+		this.positionCity = positionCity;
+	}
+
+	public String getPositionWage() {
+		return positionWage;
+	}
+
+	public void setPositionWage(String positionWage) {
+		this.positionWage = positionWage;
 	}
 }
