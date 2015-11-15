@@ -61,7 +61,7 @@ var requestUrl ="<%=basePath%>wechat/position/info.do?positionId="+positionId+"&
 				if(userId==0){alert("请先登陆！");}else{
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
-						 type : "POST",
+						 type : "get",
 						url : "<%=basePath%>wechat/position/subscribe.do", 
 						data : {
 							userId : userId,
