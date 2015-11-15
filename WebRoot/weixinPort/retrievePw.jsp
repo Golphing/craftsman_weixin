@@ -87,7 +87,7 @@ var openId=url.split("=")[1];
     			alert('请输入有效的手机号码！'); 
     			return false; 
 				} 
-			var request ="<%=basePath%>user/findPwd.do?telephone="+telephone+"&yzm="+yzm;
+			var request ="http://weixin.craftsmanasia.com/craftsman_weixin/user/findPwd.do?telephone="+telephone+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
 			var jsonObj = eval("(" + data + ")");
@@ -114,7 +114,7 @@ var openId=url.split("=")[1];
 
 
 			<ul>
-				<form action="<%=basePath%>wechat/user/login.do" method="get">
+				<form action="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" 
 						placeholder="手机号" id="telephone" />
 					</li>
@@ -166,7 +166,7 @@ var openId=url.split("=")[1];
             var telephone = $('input#telephone').val();
 	if(telephone==""){
 	alert("请先输入手机号！");}else{
-	var request ="<%=basePath%>yzm/sendV.do?phoneNumber="+telephone;
+	var request ="http://weixin.craftsmanasia.com/craftsman_weixin/yzm/sendV.do?phoneNumber="+telephone;
 	$.post(request, function(data) {
 	var jsonObj = eval("(" + data + ")");
 	

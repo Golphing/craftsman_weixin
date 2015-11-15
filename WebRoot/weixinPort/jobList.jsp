@@ -33,8 +33,9 @@
  var url=window.location.href;
 var userId=url.split("?")[1].split("=")[1];
 $(document).ready(function() {
-			
-$.get("<%=basePath%>wechat/position/search/own.do?t="+Math.random(), function(data) {
+			alert("dd");
+$.get("http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/own.do?t="+Math.random(), function(data) {
+			alert(data);
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			var str="";
@@ -49,7 +50,7 @@ $.get("<%=basePath%>wechat/position/search/own.do?t="+Math.random(), function(da
 	function search(){
 	var title=document.getElementById("keyword").value;
 	var area=document.getElementById("area").value;
-	var url="<%=basePath%>wechat/position/search/company/position/byTitle.do?title="+title;
+	var url="http://weixin.craftsmanasia.com/wechat/position/search/company/position/byTitle.do?title="+title;
 	url=encodeURI(url);
 url=encodeURI(url);
 	$.get(url, function(data) {

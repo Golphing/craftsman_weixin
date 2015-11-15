@@ -78,7 +78,7 @@
 var url=window.location.href;
 var workId=url.split("=")[1];	
 		
-			$.get("<%=basePath%>resumeAction/search/workById.do?workId="+workId+"&t="+Math.random(), function(data) {
+			$.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/workById.do?workId="+workId+"&t="+Math.random(), function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.work;
 			 $('input#company').attr('value',obj.company); 
@@ -207,7 +207,7 @@ var workId=url.split("=")[1];
 			} else{
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>resumeAction/work/modify.do",
+				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/work/modify.do",
 				data : "workId="+workId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");

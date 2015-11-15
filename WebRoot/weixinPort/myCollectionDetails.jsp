@@ -29,7 +29,7 @@
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
 
 /*职位详情  */
 		$.get(request, function(data) {
@@ -60,7 +60,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						 type : "post",
-						url : "<%=basePath%>wechat/position/subscribe.do", 
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do", 
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -82,7 +82,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				if(document.getElementById("cancle").innerHTML == "取消收藏"){
 					$.ajax({
 						type : "post",
-						url : "<%=basePath%>wechat/position/cancle/collection/positions.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/cancle/collection/positions.do",
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -107,7 +107,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						
 					$.ajax({
 						type : "get",
-						url : "<%=basePath%>wechat/position/collect.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do",
 						data : {
 							userId : userId,
 							positionId : positionId

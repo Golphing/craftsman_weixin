@@ -34,7 +34,7 @@ var url=window.location.href;
 var userId=url.split("=")[1];
 /*  根据用户id得到个人信息*/	
 
-$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
+$.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			document.getElementById("email").innerHTML = obj.email;
