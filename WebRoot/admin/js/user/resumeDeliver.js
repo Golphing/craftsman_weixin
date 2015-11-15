@@ -143,7 +143,7 @@ $(document).ready(function() {
 				positionId: $('#addDeliverDialog').data().positionId,
 			};
 			
-			$.post('../../wechat/position/subscribe.do', data, function(result) {
+			$.get('../../wechat/position/subscribe.do', data, function(result) {
 				if(result.status) {
 					$('#addDeliverDialog').modal('hide');
 					$("#jqGrid").trigger('reloadGrid');
