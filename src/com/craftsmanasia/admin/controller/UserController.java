@@ -1,6 +1,7 @@
 package com.craftsmanasia.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.craftsmanasia.filter.UserFilter;
+import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.Work;
@@ -165,6 +168,7 @@ public class UserController {
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
+	
 	
 	/*
 	 * 获取user信息

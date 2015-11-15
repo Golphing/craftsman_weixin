@@ -6,7 +6,6 @@ import com.craftsmanasia.utils.StringUtil1;
 public class ResumeSubscribeFilter extends SearchFilter{
 
 	private String title;
-	private Integer statusId;
 	private String name;
 	private String companyName;
 	private String telephone;
@@ -30,14 +29,6 @@ public class ResumeSubscribeFilter extends SearchFilter{
 		if(!StringUtil1.isNull(companyName)) {
 			this.companyName = "%" + companyName + "%";
 		}
-	}
-
-	public Integer getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(Integer statusId) {
-		this.statusId = statusId;
 	}
 
 	public String getName() {

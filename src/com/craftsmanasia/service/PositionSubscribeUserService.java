@@ -25,13 +25,16 @@ public class PositionSubscribeUserService {
 	@Autowired
 	PositionCollectionDao positionCollectionDao;
 	
-	public void subscribePosition(PositionSubscribeUser user){
+	public void subscribePosition(PositionSubscribeUser user) throws Exception{
 		positionSubscribeUserDao.add(user);
 	}
 	
 	public List<PositionSubscribeUser> getSubscribedPositionsByUserId(int userId) {
 		List<PositionSubscribeUser> results = positionSubscribeUserDao.selectSubscribedPositionsByUserId(userId);
 		
+		if(results == null) {
+			return new ArrayList<PositionSubscribeUser>();
+		}
 		// 设置状态
 		for(PositionSubscribeUser result : results) {
 			result.setStatuses(positionSubscribeUserDao.selectResumeSubscribeStatusById(result.getId()));
@@ -44,8 +47,11 @@ public class PositionSubscribeUserService {
 				.selectSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		
 		// 设置状态
-		positionSubscribeUser
-				.setStatuses(positionSubscribeUserDao.selectResumeSubscribeStatusById(positionSubscribeUser.getId()));
+		if(positionSubscribeUser != null) {
+			positionSubscribeUser.setStatuses(
+					positionSubscribeUserDao.selectResumeSubscribeStatusById(positionSubscribeUser.getId()));
+		}
+		
 		return positionSubscribeUser;
 	}
 	
@@ -77,7 +83,6 @@ public class PositionSubscribeUserService {
 	
 	public SearchResult<PositionSubscribeUser> searchResumeUsersByFilter(ResumeSubscribeFilter filter) {
 		List<PositionSubscribeUser> resumes = positionSubscribeUserDao.searchResumeUsersByFilter(filter);
-		
 		// 设置状态
 		for(PositionSubscribeUser resume : resumes) {
 			resume.setStatuses(positionSubscribeUserDao.selectResumeSubscribeStatusById(resume.getId()));

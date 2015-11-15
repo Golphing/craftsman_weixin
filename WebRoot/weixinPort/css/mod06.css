@@ -4,7 +4,7 @@
 -webkit-animation-name: "bgd"; /*动画名称，需要跟@keyframes定义的名称一致*/
 -webkit-animation-duration: 2s;/*动画持续的时间长*/
 -webkit-animation-iteration-count: 1;/*动画循环播放的次数*/}
-.menu {display:block; width:98%;max-width:627px;position:relative;  /*padding:0.1% 0% 0.1% 10%;*/ line-height:1.6; background:rgba(255,255,255,0.27);-moz-border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px; border-radius:10px; margin-bottom:5%;
+.menu {display:block; width:98%;max-width:627px;position:relative;  /*padding:0.1% 0% 0.1% 10%;*/ line-height:1.6; background:rgba(71, 57, 57, 0.27);-moz-border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px; border-radius:10px; margin-bottom:5%;
 animation:mymove 1.5s infinite;
 -webkit-animation:mymove 1.5s infinite;
 animation-iteration-count:1;
@@ -12,7 +12,7 @@ animation-iteration-count:1;
 }
 
 .icon {float:left; display:block;line-height:1.6; padding-top:2%; padding-left:12%;}
-.tle { display:block; float:left;line-height:1.6; font-size:2em; color:#fff;margin-left:20px;}
+.tle { display:block; float:left;line-height:1.6; font-size:2em; color:#0B0808;margin-left:20px;}
 footer {position:fixed;bottom:0;display:block; width:100%; line-height:2.5; background:#000; color:#fff; font-size:1.4em; text-align:center;}
 
 @-webkit-keyframes mymove {

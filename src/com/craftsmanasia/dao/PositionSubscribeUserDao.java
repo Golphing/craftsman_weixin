@@ -12,7 +12,7 @@ import com.ebaoyang.dao.MyBatisRepository;
 @MyBatisRepository
 public interface PositionSubscribeUserDao {
 
-	public void add(PositionSubscribeUser positionSubscribeUser);
+	public void add(PositionSubscribeUser positionSubscribeUser) throws Exception;
 
 	public void updatePositionSubscribeUser(PositionSubscribeUser positionSubscribeUser);
 	

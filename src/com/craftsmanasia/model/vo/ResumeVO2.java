@@ -6,7 +6,6 @@ import java.util.List;
 import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.ResumeUser;
-import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
 import com.craftsmanasia.utils.DateTimeUtility;
 
 public class ResumeVO2 {
@@ -51,8 +50,6 @@ public class ResumeVO2 {
 		vo.setGender(resumeUser.getGender());
 		vo.setTelephone(resumeUser.getTelephone());
 		
-		vo.setStatus(ResumeSuscribeStatus.fromid(positionSubscribeUser.getStatusId()).getDescription());
-		vo.setStatusId(positionSubscribeUser.getStatusId());
 		vo.setUpdateTime(DateTimeUtility.formatYYYYMMDD(positionSubscribeUser.getUpdateTime()));
 		vo.setCompanyName(positionSubscribeUser.getPosition().getCompany().getName());
 		vo.setWechatAccount(positionSubscribeUser.getUser().getWechatAccount());
@@ -66,13 +63,14 @@ public class ResumeVO2 {
 		if(statuses != null) {
 			for(ResumeSubscribeStatus status : statuses) {
 				allStatus.add(status.getStatus());
-				replies.add(status.getReply());
-				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
+				if(status.getReply() == null) {
+					replies.add("");
+				} else {
+					replies.add(status.getReply());
+				}
+				
+				statusTime.add(DateTimeUtility.formatYYYYMMDD(status.getCreateTime()));
 			}
-			/*if(statuses.size() >0 ) {
-				vo.setLastStatus(statuses.get(statuses.size()-1).getStatus());
-				vo.setLastStatusTime(DateTimeUtility.formatYYYYMMDDHHMMSS(statuses.get(statuses.size()-1).getCreateTime()));
-			}*/
 		}
 		vo.setAllStatus(allStatus);
 		vo.setReplies(replies);
