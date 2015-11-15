@@ -65,20 +65,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </a>
                   <a id="liepin">
             <div class="menu clr" >
-      <div class="icon"><img src="images/icon04.png" width="32" height="32"></div>
+      <div class="icon"><img src="images/icon05.png" width="32" height="32"></div>
       <div class="tle">猎聘导入</div>
+    </div>
+    </a>
+     <a id="lying">
+            <div class="menu clr" >
+      <div class="icon"><img src="images/icon04.png" width="32" height="32"></div>
+      <div class="tle">领英导入</div>
     </div>
     </a>
   
   </div>
    <script type="text/javascript" src="js/jweixin-1.0.0.js"></script>
-<script type="text/javascript" src="js/wxsharejs.js?v=1.3"></script><a href="tel:4000601218 ">
-<div class="telphone"><img src="images/tel.png"></div>
-</a>
+<script type="text/javascript" src="js/wxsharejs.js?v=1.3"></script>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/wxsharejs.js"></script>
 
-</a>
+
 
 
 
@@ -100,7 +104,7 @@ document.getElementById("51job").href="../views/resume_import/51input.jsp?userId
 document.getElementById("zhilian").href="../views/resume_import/zlinput.jsp?userId="+userId;
 document.getElementById("liepin").href="../views/resume_import/lpinput.jsp?userId="+userId;
 
-						
+document.getElementById("lying").href="../views/resume_import/lyinput.jsp?userId="+userId;						
 
 })
 </script>

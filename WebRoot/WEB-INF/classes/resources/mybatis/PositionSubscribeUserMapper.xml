@@ -28,16 +28,8 @@
 		
 		<result property="positionId" column="position_subscribe_user_position_id" />
 		<result property="userId" column="position_subscribe_user_user_id" />
-        <result property="statusId" column="position_subscribe_user_status_id" />
         <result property="createTime" column="position_subscribe_user_create_time" />
-        <result property="recommendTime" column="position_subscribe_user_recommend_time" />
-        <result property="screenResumeTime" column="position_subscribe_user_screen_resume_time" />
-        <result property="firstInterviewTime" column="position_subscribe_user_first_interview_time" />
-        <result property="secondInterviewTime" column="position_subscribe_user_second_interview_time" />
-        <result property="thirdInterviewTime" column="position_subscribe_user_third_interview_time" />
-        <result property="rejectTime" column="position_subscribe_user_reject_time" />
         <result property="updateTime" column="position_subscribe_user_update_time"/>
-        <result property="waitingOfferTime" column="position_subscribe_user_waiting_offer_time"/>
         <association property="position"
 			javaType="Position" resultMap="positionResult" />
 		
@@ -48,6 +40,20 @@
 			javaType="User" resultMap="userResult"/>
 	</resultMap>
 
+	<resultMap 
+		id="resumeSubscribeStatusResult" 
+		type="ResumeSubscribeStatus" >
+		
+		<id property="id" column="resume_subscribe_status_id" />
+		
+		<result property="status" column="resume_subscribe_status_status" />
+		<result property="reply" column="resume_subscribe_status_reply" />
+        <result property="createTime" column="resume_subscribe_status_create_time" />
+        <result property="updateTime" column="resume_subscribe_status_update_time" />
+        <result property="positionSubscribeId" column="resume_subscribe_status_position_subscribe_id" />
+	</resultMap>
+	
+	
 	<sql id="positionColumns">
 		<include refid="com.craftsmanasia.dao.PositionDao.positionColumns"/>
 	</sql>
@@ -72,16 +78,17 @@
 		psu.id AS position_subscribe_user_id,
 		psu.position_id AS position_subscribe_user_position_id,
 		psu.user_id AS position_subscribe_user_user_id,
-		psu.status_id AS position_subscribe_user_status_id,
 		psu.create_time AS position_subscribe_user_create_time,
-		psu.recommend_time AS position_subscribe_user_recommend_time,
-		psu.screen_resume_time AS position_subscribe_user_screen_resume_time,
-		psu.first_interview_time AS position_subscribe_user_first_interview_time,
-		psu.second_interview_time AS position_subscribe_user_second_interview_time,
-		psu.third_interview_time AS position_subscribe_user_third_interview_time,
-		psu.reject_time AS position_subscribe_user_reject_time,
-		psu.waiting_offer_time AS position_subscribe_user_waiting_offer_time,
 		psu.update_time AS position_subscribe_user_update_time
+	</sql>
+	
+	<sql id="resumeSubscribeStatusColumns"> 
+		rss.id AS resume_subscribe_status_id,
+		rss.status AS resume_subscribe_status_status,
+		rss.reply AS resume_subscribe_status_reply,
+		rss.create_time AS resume_subscribe_status_create_time,
+		rss.update_time AS resume_subscribe_status_update_time,
+		rss.position_subscribe_id AS resume_subscribe_status_position_subscribe_id
 	</sql>
 	
 	<insert
@@ -93,29 +100,51 @@
 		INSERT INTO position_subscribe_user (
 		position_id,
 		user_id,
-		status_id,
 		create_time,
-		update_time,
-		recommend_time,
-		screen_resume_time,
-		first_interview_time,
-		second_interview_time,
-		third_interview_time,
-		reject_time
+		update_time
 		) VALUES (
 		#{positionId, javaType=int, jdbcType=INTEGER},
 		#{userId, javaType=int, jdbcType=INTEGER},
-		#{statusId, javaType=int, jdbcType=INTEGER},
 		#{createTime, javaType=date, jdbcType=TIMESTAMP},
-		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
-		#{recommendTime, javaType=date, jdbcType=TIMESTAMP},
-		#{screenResumeTime, javaType=date, jdbcType=TIMESTAMP},
-		#{firstInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-		#{secondInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-		#{thirdInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-		#{rejectTime, javaType=date, jdbcType=TIMESTAMP}
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP}
 		)
 	</insert>
+	
+	<insert
+	    id="addStatus" 
+	    useGeneratedKeys="true" 
+	    keyProperty="id" 
+	    parameterType="ResumeSubscribeStatus"> 
+	    
+		INSERT INTO resume_subscribe_status (
+		status,
+		reply,
+		create_time,
+		update_time,
+		position_subscribe_id
+		) VALUES (
+		#{status, javaType=string, jdbcType=CHAR},
+		#{reply, javaType=string, jdbcType=CHAR},
+		#{createTime, javaType=date, jdbcType=TIMESTAMP},
+		#{updateTime, javaType=date, jdbcType=TIMESTAMP},
+		#{positionSubscribeId, javaType=int, jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select 
+		id="selectResumeSubscribeStatusById"
+		parameterType="map" 
+		resultMap="resumeSubscribeStatusResult" >
+            
+		SELECT
+			<include refid="resumeSubscribeStatusColumns"/>
+		FROM
+			resume_subscribe_status rss
+		WHERE
+			rss.position_subscribe_id = #{resumeSubscribeId, javaType=int, jdbcType=INTEGER}
+			ORDER BY
+			rss.create_time ASC
+	</select>
 	
 	<select 
 		id="selectSubscribedPositionsByUserId"
@@ -170,9 +199,6 @@
 		<if test="filter.title !=null">
 			position.title like #{filter.title, javaType=string, jdbcType=CHAR}
 		</if>
-		<if test="filter.statusId !=null">
-			AND psu.status_id = #{filter.statusId, javaType=int, jdbcType=INTEGER}
-		</if>
 		<if test="filter.name !=null">
 			AND ru.name = #{filter.name, javaType=string, jdbcType=CHAR}
 		</if>
@@ -213,8 +239,7 @@
 	  				${filter.orderBy}
 	  			</when>
 	  			<otherwise>
-	  				ru.name ASC,
-	  				psu.status_id ASC
+	  				ru.name ASC
 	  			</otherwise>
 	  		</choose>
 		<include refid="pagingLimit"/>
@@ -242,32 +267,8 @@
 		UPDATE
 			position_subscribe_user psu
 		<set>
-			<if test="recommendTime !=null">
-				psu.recommend_time = #{recommendTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="screenResumeTime !=null">
-				psu.screen_resume_time = #{screenResumeTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="firstInterviewTime !=null">
-				psu.first_interview_time = #{firstInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="secondInterviewTime !=null">
-				psu.second_interview_time = #{secondInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="thirdInterviewTime !=null">
-				psu.third_interview_time = #{thirdInterviewTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="rejectTime !=null">
-				psu.reject_time = #{rejectTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
 			<if test="updateTime !=null">
 				psu.update_time = #{updateTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="waitingOfferTime !=null">
-				psu.waiting_offer_time = #{waitingOfferTime, javaType=date, jdbcType=TIMESTAMP},
-			</if>
-			<if test="statusId !=null">
-				psu.status_id = #{statusId, javaType=int, jdbcType=INTEGER},
 			</if>
 		</set>
 		WHERE
