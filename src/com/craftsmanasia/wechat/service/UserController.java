@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,25 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.craftsmanasia.filter.UserFilter;
 import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.Work;
-import com.craftsmanasia.model.filter.PagingData;
-import com.craftsmanasia.model.filter.SearchResult;
-import com.craftsmanasia.model.vo.ResumeVO;
-import com.craftsmanasia.model.vo.ResumeVO2;
-import com.craftsmanasia.model.vo.UserVO;
-import com.craftsmanasia.request.SearchUserRequest;
 import com.craftsmanasia.service.PositionService;
 import com.craftsmanasia.service.PositionSubscribeUserService;
 import com.craftsmanasia.service.ResumeUserService;
 import com.craftsmanasia.service.UserService;
 import com.craftsmanasia.service.WorkService;
-import com.craftsmanasia.utils.OrderingProperty;
-import com.craftsmanasia.utils.StringUtil1;
 
 import net.sf.json.JSONObject;
 
@@ -73,7 +63,6 @@ public class UserController {
 				.getSubscribedPositionsByUserId(userId);
 		//
 		List<Position> listPosition = new ArrayList<Position>();
-		List<Integer> list = new ArrayList<Integer>();
 		for (int j = 0; j < positionSubscribeUserList.size(); j++) {
 			// 得到用户订阅职位的详细信息
 			Position position = positionService

@@ -12,6 +12,7 @@ import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.filter.PagingData;
 import com.craftsmanasia.model.filter.PagingResult;
 import com.craftsmanasia.model.filter.SearchResult;
@@ -24,16 +25,34 @@ public class PositionSubscribeUserService {
 	@Autowired
 	PositionCollectionDao positionCollectionDao;
 	
-	public void subscribePosition(PositionSubscribeUser user){
+	public void subscribePosition(PositionSubscribeUser user) throws Exception{
 		positionSubscribeUserDao.add(user);
 	}
 	
 	public List<PositionSubscribeUser> getSubscribedPositionsByUserId(int userId) {
-		return positionSubscribeUserDao.selectSubscribedPositionsByUserId(userId);
+		List<PositionSubscribeUser> results = positionSubscribeUserDao.selectSubscribedPositionsByUserId(userId);
+		
+		if(results == null) {
+			return new ArrayList<PositionSubscribeUser>();
+		}
+		// 设置状态
+		for(PositionSubscribeUser result : results) {
+			result.setStatuses(positionSubscribeUserDao.selectResumeSubscribeStatusById(result.getId()));
+		}
+		return results;
 	}
 	
 	public PositionSubscribeUser getSubscribedPositionByUserIdAndPositionId(int userId, int positionId) {
-		return positionSubscribeUserDao.selectSubscribedPositionByUserIdAndPositionId(userId, positionId);
+		PositionSubscribeUser positionSubscribeUser = positionSubscribeUserDao
+				.selectSubscribedPositionByUserIdAndPositionId(userId, positionId);
+		
+		// 设置状态
+		if(positionSubscribeUser != null) {
+			positionSubscribeUser.setStatuses(
+					positionSubscribeUserDao.selectResumeSubscribeStatusById(positionSubscribeUser.getId()));
+		}
+		
+		return positionSubscribeUser;
 	}
 	
 	public void collectPosition(PositionCollection positionCollection) {
@@ -64,7 +83,10 @@ public class PositionSubscribeUserService {
 	
 	public SearchResult<PositionSubscribeUser> searchResumeUsersByFilter(ResumeSubscribeFilter filter) {
 		List<PositionSubscribeUser> resumes = positionSubscribeUserDao.searchResumeUsersByFilter(filter);
-		
+		// 设置状态
+		for(PositionSubscribeUser resume : resumes) {
+			resume.setStatuses(positionSubscribeUserDao.selectResumeSubscribeStatusById(resume.getId()));
+		}
 		SearchResult<PositionSubscribeUser> result = new SearchResult<PositionSubscribeUser>();
 		result.setResult(resumes);
 		
@@ -83,4 +105,7 @@ public class PositionSubscribeUserService {
 		return result;
 	}
 	
+	public void addResumeSubscribeStatus(ResumeSubscribeStatus resumeSubscribeStatus) throws Exception {
+		positionSubscribeUserDao.addStatus(resumeSubscribeStatus);
+	}
 }

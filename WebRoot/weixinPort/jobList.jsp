@@ -110,23 +110,23 @@ url=encodeURI(url);
 		<script type="text/javascript" language="JavaScript">
 			$(function() {
 				$(".per_name").click(function(e) {
-					var parent = $(this).parent().parent().parent()
+					var parent = $(this).parent().parent().parent();
 					if (e && e.stopPropagation)
-						e.stopPropagation()
+						e.stopPropagation();
 					if (e && e.preventDefault)
-						e.preventDefault()
+						e.preventDefault();
 					if (parent.hasClass("hover")) {
-						parent.removeClass("hover")
+						parent.removeClass("hover");
 					} else {
-						parent.addClass("hover")
+						parent.addClass("hover");
 						var hideTip = function() {
-							parent.removeClass("hover")
-							$(document).off("click", hideTip)
-						}
-						$(document).on("click", hideTip)
+							parent.removeClass("hover");
+							$(document).off("click", hideTip);
+						};
+						$(document).on("click", hideTip);
 					}
-				})
-			})
+				});
+			});
 		</script>
 		<div class="footer">
 			<div class="footer_top">

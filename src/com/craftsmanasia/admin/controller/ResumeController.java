@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.model.filter.PagingData;
-import com.craftsmanasia.model.filter.ResumeSuscribeStatus;
 import com.craftsmanasia.model.filter.SearchResult;
 import com.craftsmanasia.model.vo.ResumeVO2;
 import com.craftsmanasia.request.SearchResumeSubscribeRequest;
@@ -105,50 +105,28 @@ public class ResumeController {
 	@RequestMapping(value ="/modify", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String modifyRusemeStatus(@RequestParam(value = "id") int id,
-			@RequestParam(value = "statusId",required = false) Integer statusId,
-			@RequestParam(value = "pass") boolean pass) {
+			@RequestParam(value = "reply") String reply,
+			@RequestParam(value = "status") String status) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		/*if(isPass == null) {
-			map.put("status", "参数传递错误");
-			return JSONObject.fromObject(map).toString();
-		}*/
-		PositionSubscribeUser old = positionSubscribeUserService.searchResumeSubscribeById(id);
-		statusId = old.getStatusId();
-		PositionSubscribeUser positionSubscribeUser = new PositionSubscribeUser();
-		positionSubscribeUser.setId(id);
-		Date now = new Date();
-		if(pass) {
-			positionSubscribeUser.setStatusId(statusId + 1);
-			ResumeSuscribeStatus status = ResumeSuscribeStatus.fromid(statusId + 1);
-			switch(status.getId()) {
-				case 1: positionSubscribeUser.setCreateTime(now);
-						break;
-				case 2: positionSubscribeUser.setRecommendTime(now);;
-						break;
-				case 3: positionSubscribeUser.setScreenResumeTime(now);
-						break;
-				case 4: positionSubscribeUser.setFirstInterviewTime(now);
-						break;
-				case 5: positionSubscribeUser.setSecondInterviewTime(now);
-						break;
-				case 6: positionSubscribeUser.setThirdInterviewTime(now);
-						break;
-				case 7: positionSubscribeUser.setWaitingOfferTime(now);
-						break;
-				default : map.put("status", "操作错误");
-						return JSONObject.fromObject(map).toString();
-			}
-		} else {
-			// 不通过直接将id设置为最后一个
-			positionSubscribeUser.setStatusId(8);
-			positionSubscribeUser.setRejectTime(now);
-		}
+		ResumeSubscribeStatus resumeSubscribeStatus = new ResumeSubscribeStatus();
+		resumeSubscribeStatus.setPositionSubscribeId(id);
+		resumeSubscribeStatus.setStatus(status);
+		resumeSubscribeStatus.setReply(reply);
 		
-		positionSubscribeUser.setUpdateTime(now);
-		positionSubscribeUserService.updateResumeSubscribe(positionSubscribeUser);
+		Date now = new Date();
+		resumeSubscribeStatus.setCreateTime(now);
+		resumeSubscribeStatus.setUpdateTime(now);
+		try {
+			positionSubscribeUserService.addResumeSubscribeStatus(resumeSubscribeStatus);
+		} catch (Exception e) {
+			map.put("status", "submit error");
+			e.printStackTrace();
+			return JSONObject.fromObject(map).toString();
+		}
 		
 		map.put("status", true);
 		return JSONObject.fromObject(map).toString();
 	}
+	
 	
 }

@@ -166,6 +166,7 @@ public class UserController {
 		return JSONObject.fromObject(map).toString();
 	}
 	
+	
 	/*
 	 * 获取user信息
 	 * */

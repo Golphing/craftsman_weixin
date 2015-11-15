@@ -6,12 +6,13 @@ import org.apache.ibatis.annotations.Param;
 
 import com.craftsmanasia.filter.ResumeSubscribeFilter;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.ebaoyang.dao.MyBatisRepository;
 
 @MyBatisRepository
 public interface PositionSubscribeUserDao {
 
-	public void add(PositionSubscribeUser positionSubscribeUser);
+	public void add(PositionSubscribeUser positionSubscribeUser) throws Exception;
 
 	public void updatePositionSubscribeUser(PositionSubscribeUser positionSubscribeUser);
 	
@@ -25,4 +26,8 @@ public interface PositionSubscribeUserDao {
 	public List<PositionSubscribeUser> searchResumeUsersByFilter(@Param("filter") ResumeSubscribeFilter filter);
 	
 	public int countResumeUsersByFilter(@Param("filter") ResumeSubscribeFilter filter);
+	
+	public void addStatus(ResumeSubscribeStatus resumeSubscribeStatus) throws Exception;
+	
+	public List<ResumeSubscribeStatus> selectResumeSubscribeStatusById(@Param("resumeSubscribeId") int resumeSubscribeId);
 }

@@ -48,23 +48,24 @@ var userId=url.split("=")[1].split("&")[0];
 var request ="http://weixin.craftsmanasia.com/craftsman_weixin//wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId+"&t="+Math.random();
 $.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
-					var obj = jsonObj.data;					
-					document.getElementById("title").innerHTML = obj.position.title;
-					if(obj.createTime!=""){document.getElementById("s1").innerHTML="投递成功";}
-					if(obj.recommendTime!=""){document.getElementById("s2").innerHTML="推荐成功";}else{document.getElementById("s2").innerHTML="正在进行...";};
-					if(obj.screenResumeTime!=""){document.getElementById("s3").innerHTML="筛选成功";}else{document.getElementById("s3").innerHTML="正在进行...";};
-					if(obj.firstInterviewTime!=""){document.getElementById("s4").innerHTML="一面成功";}else{document.getElementById("s4").innerHTML="正在进行...";};
-					if(obj.secondInterviewTime!=""){document.getElementById("s5").innerHTML="二面成功";}else{document.getElementById("s5").innerHTML="正在进行...";};
-					if(obj.thirdInterviewTime!=""){document.getElementById("s6").innerHTML="三面成功";}else{document.getElementById("s6").innerHTML="正在进行...";};
-					
-					document.getElementById("createTime").innerHTML = obj.createTime;					
-					document.getElementById("recommendTime").innerHTML = obj.recommendTime;
-					document.getElementById("screenResumeTime").innerHTML = obj.screenResumeTime;
-					document.getElementById("firstInterviewTime").innerHTML = obj.firstInterviewTime;
-					document.getElementById("secondInterviewTime").innerHTML = obj.secondInterviewTime;
-					document.getElementById("thirdInterviewTime").innerHTML = obj.thirdInterviewTime;
-					});
+					var obj = jsonObj.data;
+					var jsonObj = eval("(" + data + ")");
+					var obj = jsonObj.data;
+					var s1=obj.allStatus;
+					var s2=obj.replies;
+					var s3=obj.statusTime;
+					var str="";
+					var h=0;
+					for(var i=0;i<s1.length;i++){
+					h=h+100;
+ var s =i+1;
+ var time=s3[i].split(" ");
+ str+='<li ><div class="number">'+s+'</div><div class="content" ><pre><span>-'+s1[i]+'</span><span style="float:right">'+time[0]+'</span><h2>'+s2[i]+'</h2></pre></div></li>';
+}
+document.getElementById("div_id").innerHTML =str;
+document.getElementById("div_id").style.height=h+"px";
 
+				});
 /*职位详情  */
 var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin//wechat/position/info.do?positionId="+positionId+"&t="+Math.random();
 		$.get(requestUrl, function(data) {
@@ -85,13 +86,10 @@ var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin//wechat/positi
 					expired="是";}
 					document.getElementById("isExpired").innerHTML = expired;
 					
-				});
-				
-								
-					
-	 $(".timeline").eq(0).animate({
-		height:'630px'
-	},4000); 
+				});													
+	/*  $(".timeline").eq(0).animate({
+		
+	},4000);  */ 
 });
 </script>
 <style type="text/css">
@@ -185,50 +183,7 @@ h1 {font-weight: bold;}
 		
 		
 			
-<ul class="timeline" >
-		
-	<li >
-		
-		<div class="number">1</div>
-		<div class="content" >
-			<pre><span>-简历投递</span><span style="float:right" id="createTime"></span><h2 id="s1"></h2></pre>
-		</div>
-	</li>
-<li>
-		
-		<div class="number">2</div>
-		<div class="content">
-			<pre><span>-简历推荐</span><span style="float:right" id="recommendTime"></span><h2 id="s2"></h2></pre>
-		</div>
-	</li>
-	<li>
-		
-		<div class="number">3</div>
-		<div class="content">
-			<pre><span>-简历筛选</span><span style="float:right" id="screenResumeTime"></span><h2 id="s3"></h2></pre>
-		</div>
-	</li>
-	<li>
-		
-		<div class="number">4</div>
-		<div class="content">
-			<pre><span>-第一次面试</span><span style="float:right" id="firstInterviewTime"></span><h2 id="s4"></h2></pre>
-		</div>
-	</li>
-	<li>
-		
-		<div class="number">5</div>
-		<div class="content">
-			<pre><span>-第二次面试</span><span style="float:right" id="secondInterviewTime"></span><h2 id="s5"></h2></pre>
-		</div>
-	</li>
-	<li>
-		
-		<div class="number">6</div>
-		<div class="content">
-			<pre><span>-第三次面试</span><span style="float:right" id="thirdInterviewTime"></span><h2 id="s6"></h2></pre>
-		</div>
-	</li>
+<ul class="timeline"  id="div_id">
 </ul>	
 </div>
 	

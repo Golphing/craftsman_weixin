@@ -2,6 +2,7 @@ $(document).ready(function () {
 	initJqGrid();
 	bindSearchResumeFormAction();
 	bindJqGridDataAction();
+	bindReplyFormAction();
 	
 	function initJqGrid() {
 		$("#jqGrid").jqGrid({
@@ -13,7 +14,14 @@ $(document).ready(function () {
 				{label: '性别', name: 'gender', width: '10%'},
 				{label: '公司', name: 'companyName', width: '10%'},
 				{label: '职位名称', name: 'positionName', width: '10%'},
-				{label: '状态', name: 'status', width: '10%'},
+				{label: '状态', name: 'allStatus', width: '20%', formatter:function(cellValue, options, rowObject) {
+					var length = cellValue.length;
+					if(length) {
+						return cellValue[length-1];
+					} else {
+						return '未初筛';
+					}
+				}},
 				{label: '联系电话', name: 'telephone', width: '20%'},
 				{label: '微信号', name: 'wechatAccount', width: '20%',},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
@@ -21,8 +29,7 @@ $(document).ready(function () {
 						return '';
 					}
 					return '' + 
-						'<button type="button" data-action="access" class="btn btn-success">通过</button>'+
-						'<button type="button" data-action="deny" class="btn btn-danger">驳回</button>';
+						'<button type="button" data-action="reply" class="btn btn-primary">答复</button>'
 				}}
 			],
 			serializeGridData: function(postData) {
@@ -48,24 +55,44 @@ $(document).ready(function () {
 	function bindJqGridDataAction() {
 		$('#jqGrid').on('click', 'tr button', function() {
 			var action = $(this).attr('data-action');
-			var rowId = parseInt($(this).closest('tr')[0].id);
-			var data = {
-				id: rowId,
-				
-			};
-			if(action == 'access') {
-				data.pass = true;
-			} else {
-				data.pass = false;
+			var id = parseInt($(this).closest('tr')[0].id);
+
+			if(action == 'reply') {
+				$('#replyDialog').data().id = id;
+				var resume = ADMIN.getItemFromByAttr(pageData.resumeList, 'id', id);
+				$('#replyDialog .dialogTitle').text(resume.name + ' / ' + resume.companyName + ' / ' + resume.positionName);
+				var preStatus = '未初筛';
+				resume.allStatus && resume.allStatus.length && (preStatus = resume.allStatus[resume.allStatus.length - 1]);
+				$('#replyDialog [name=preStatus]').text(preStatus);
+				$('#replyForm')[0].reset();
+				$('#replyDialog').modal('show');
 			}
+		});
+	}
+	function bindReplyFormAction() {
+		$('#replyForm').submit(function() {
+			if(!ADMIN.formValidate('#replyForm', {
+				status: 'nonempty',
+				reply: 'nonempty',
+			})) {
+				return false;
+			}
+			var data = {
+				id: $('#replyDialog').data().id,
+				status: $('#replyDialog [name=status]').val(),
+				reply: $('#replyDialog [name=reply]').val(),
+			};
 			$.post('../resume/modify.do', data, function(result) {
 				if(result.status) {
 					alert('成功');
+					$('#replyDialog').modal('hide');
 					$('#jqGrid').trigger("reloadGrid");
 				} else {
 					alert(result.msg);
 				}
 			}, 'json');
+			
+			return false;
 		});
 	}
 });

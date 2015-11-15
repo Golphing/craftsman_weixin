@@ -1,82 +1,102 @@
 package com.craftsmanasia.model.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionSubscribeUser;
+import com.craftsmanasia.model.ResumeSubscribeStatus;
 import com.craftsmanasia.utils.DateTimeUtility;
 
 public class PositionSubscribeUserVO {
 
-	private int id;
-	private int positionId;
-	private int userId;
-	private int statusId;
+	private Integer id;
+	private Integer positionId;
+	private Integer userId;
 	private String createTime;
-	private String recommendTime;
-	private String screenResumeTime;
-	private String firstInterviewTime;
-	private String secondInterviewTime;
-	private String thirdInterviewTime;
-	private String rejectTime;
-	
-	private PositionVO position;
 
-	public static PositionSubscribeUserVO toVO(PositionSubscribeUser positionSubscribeUser) {
-		if(positionSubscribeUser == null) {
-			return null;
+	private List<String> allStatus;
+	private List<String> statusTime;
+	private List<String> replies;
+	private String positionTitle;
+	private String companyName;
+	private Integer companyId;
+	private String positionCity;
+	private String positionWage;
+
+	public static List<PositionSubscribeUserVO> toVOs(List<PositionSubscribeUser> positionSubscribeUsers) {
+		List<PositionSubscribeUserVO> vos = new ArrayList<PositionSubscribeUserVO>();
+		if(positionSubscribeUsers == null) {
+			return vos;
 		}
+		for(PositionSubscribeUser positionSubscribeUser : positionSubscribeUsers) {
+			vos.add(PositionSubscribeUserVO.toVO(positionSubscribeUser));
+		}
+		return vos;
+	}
+	
+	public static PositionSubscribeUserVO toVO(PositionSubscribeUser positionSubscribeUser) {
 		PositionSubscribeUserVO vo = new PositionSubscribeUserVO();
+		if(positionSubscribeUser == null) {
+			return vo;
+		}
+		
 		vo.setId(positionSubscribeUser.getId());
 		vo.setPositionId(positionSubscribeUser.getPositionId());
 		vo.setUserId(positionSubscribeUser.getUserId());
-		vo.setStatusId(positionSubscribeUser.getStatusId());
 		vo.setCreateTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getCreateTime()));
-		vo.setRecommendTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getRecommendTime()));
-		vo.setScreenResumeTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getScreenResumeTime()));
-		vo.setFirstInterviewTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getFirstInterviewTime()));
-		vo.setSecondInterviewTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getSecondInterviewTime()));
-		vo.setThirdInterviewTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getThirdInterviewTime()));
-		vo.setRejectTime(DateTimeUtility.formatYYYYMMDDHHMMSS(positionSubscribeUser.getRejectTime()));
-		vo.setPosition(PositionVO.toVO(positionSubscribeUser.getPosition()));
+		
+		Position position = positionSubscribeUser.getPosition();
+		vo.setPositionTitle(position.getTitle());
+		vo.setCompanyName(position.getCompany().getName());
+		vo.setCompanyId(position.getCompanyId());
+		vo.setPositionCity(position.getCity());
+		vo.setPositionWage(position.getWage());
+		
+		List<ResumeSubscribeStatus> statuses = positionSubscribeUser.getStatuses();
+		List<String> allStatus = new ArrayList<String>();
+		List<String> replies = new ArrayList<String>();
+		List<String> statusTime = new ArrayList<String>();
+		if(statuses != null) {
+			for(ResumeSubscribeStatus status : statuses) {
+				allStatus.add(status.getStatus());
+				if(status.getReply() == null) {
+					replies.add("");
+				} else {
+					replies.add(status.getReply());
+				}
+				statusTime.add(DateTimeUtility.formatYYYYMMDDHHMMSS(status.getCreateTime()));
+			}
+		}
+		vo.setAllStatus(allStatus);
+		vo.setStatusTime(statusTime);
+		vo.setReplies(replies);
+		
 		return vo;
 	}
-	
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getPositionId() {
+	public Integer getPositionId() {
 		return positionId;
 	}
 
-	public void setPositionId(int positionId) {
+	public void setPositionId(Integer positionId) {
 		this.positionId = positionId;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-
-	public PositionVO getPosition() {
-		return position;
-	}
-
-	public void setPosition(PositionVO position) {
-		this.position = position;
-	}
-
-	public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
 	}
 
 	public String getCreateTime() {
@@ -87,52 +107,67 @@ public class PositionSubscribeUserVO {
 		this.createTime = createTime;
 	}
 
-	public String getRecommendTime() {
-		return recommendTime;
+	public List<String> getAllStatus() {
+		return allStatus;
 	}
 
-	public void setRecommendTime(String recommendTime) {
-		this.recommendTime = recommendTime;
+	public void setAllStatus(List<String> allStatus) {
+		this.allStatus = allStatus;
 	}
 
-	public String getScreenResumeTime() {
-		return screenResumeTime;
+	public List<String> getStatusTime() {
+		return statusTime;
 	}
 
-	public void setScreenResumeTime(String screenResumeTime) {
-		this.screenResumeTime = screenResumeTime;
+	public void setStatusTime(List<String> statusTime) {
+		this.statusTime = statusTime;
 	}
 
-	public String getFirstInterviewTime() {
-		return firstInterviewTime;
+	public String getPositionTitle() {
+		return positionTitle;
 	}
 
-	public void setFirstInterviewTime(String firstInterviewTime) {
-		this.firstInterviewTime = firstInterviewTime;
+	public void setPositionTitle(String positionTitle) {
+		this.positionTitle = positionTitle;
 	}
 
-	public String getSecondInterviewTime() {
-		return secondInterviewTime;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setSecondInterviewTime(String secondInterviewTime) {
-		this.secondInterviewTime = secondInterviewTime;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
-	public String getThirdInterviewTime() {
-		return thirdInterviewTime;
+	public Integer getCompanyId() {
+		return companyId;
 	}
 
-	public void setThirdInterviewTime(String thirdInterviewTime) {
-		this.thirdInterviewTime = thirdInterviewTime;
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 
-	public String getRejectTime() {
-		return rejectTime;
+	public List<String> getReplies() {
+		return replies;
 	}
 
-	public void setRejectTime(String rejectTime) {
-		this.rejectTime = rejectTime;
+	public void setReplies(List<String> replies) {
+		this.replies = replies;
 	}
-	
+
+	public String getPositionCity() {
+		return positionCity;
+	}
+
+	public void setPositionCity(String positionCity) {
+		this.positionCity = positionCity;
+	}
+
+	public String getPositionWage() {
+		return positionWage;
+	}
+
+	public void setPositionWage(String positionWage) {
+		this.positionWage = positionWage;
+	}
 }
