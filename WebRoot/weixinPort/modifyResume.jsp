@@ -182,7 +182,7 @@ $.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.ran
 			}		
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>resumeAction/resume/modify.do",
+				url : "<%=basePath%>resumeAction/resume/modify.do?t="+Math.random(),
 				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
