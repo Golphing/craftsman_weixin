@@ -45,7 +45,7 @@ $(function(){
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="<%=basePath%>wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId+"&t="+Math.random();
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin//wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId+"&t="+Math.random();
 $.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
 					var obj = jsonObj.data;
@@ -67,7 +67,7 @@ document.getElementById("div_id").style.height=h+"px";
 
 				});
 /*职位详情  */
-var requestUrl ="<%=basePath%>wechat/position/info.do?positionId="+positionId+"&t="+Math.random();
+var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin//wechat/position/info.do?positionId="+positionId+"&t="+Math.random();
 		$.get(requestUrl, function(data) {
 		
 					var jsonObj = eval("(" + data + ")");

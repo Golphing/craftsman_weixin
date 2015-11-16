@@ -18,6 +18,7 @@ import com.craftsmanasia.model.Position;
 import com.craftsmanasia.model.PositionCollection;
 import com.craftsmanasia.model.PositionSubscribeUser;
 import com.craftsmanasia.model.ResumeSubscribeStatus;
+import com.craftsmanasia.model.ResumeUser;
 import com.craftsmanasia.model.User;
 import com.craftsmanasia.model.vo.CompanyVO;
 import com.craftsmanasia.model.vo.PositionSubscribeUserVO;
@@ -68,6 +69,13 @@ public class PositionSubscribeController {
 		
 		User user = new User();
 		user.setId(userId);
+		// 投递前应先判断是否填写简历
+		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
+		if(resumeUser == null) {
+			map.put("status", "您还未填写简历,请填写简历");
+			return JSONObject.fromObject(map).toString();
+		}
+		
 		PositionSubscribeUser oldPositionSubscribeUser = positionSubscribeUserService
 					.getSubscribedPositionByUserIdAndPositionId(userId, positionId);
 		if(oldPositionSubscribeUser != null) {
@@ -249,7 +257,7 @@ public class PositionSubscribeController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		List<Position> positions = positionService.getOwnCompanyPositions();
-		
+		System.out.println(positions);
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
 		map.put("data", positionvos);
 		map.put("status", true);

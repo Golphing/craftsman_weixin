@@ -233,8 +233,15 @@ public class ImportLinkedInController {
 	       String position=job1.getString("title");				//职位
 	       System.out.println(position);
 	      work.setPosition(position);
-	       String summary_lb=job1.getString("summary_lb");//工作描述
-	       summary_lb= StringEscapeUtils.unescapeHtml(summary_lb);
+	      String summary_lb="";
+	      try{
+	            summary_lb=job1.getString("summary_lb");//工作描述
+	    	   summary_lb= StringEscapeUtils.unescapeHtml(summary_lb);
+	       }catch(Exception e){
+	    	//  e.printStackTrace();
+	    	   System.out.println(summary_lb);
+	       }
+	      
 	       work.setDescription(summary_lb);
 	       System.out.println(summary_lb);
 	       String startdate_iso=job1.getString("startdate_iso");//开始时间
@@ -264,8 +271,16 @@ public class ImportLinkedInController {
 	           String position1=job2.getString("title");				//职位
 	           System.out.println("职位："+position1);
 	           work2.setPosition(position1);
-	           String summary_lb1=job2.getString("summary_lb");//工作描述
-	           summary_lb1= StringEscapeUtils.unescapeHtml(summary_lb1);
+	          String summary_lb1="";
+	          try{
+	        	   summary_lb1=job2.getString("summary_lb");//工作描述
+		           summary_lb1= StringEscapeUtils.unescapeHtml(summary_lb1);
+		       }catch(Exception e){
+		    	//  e.printStackTrace();
+		    	   System.out.println(summary_lb1);
+		       }
+		       
+	          
 	           System.out.println("工作描述:"+summary_lb1);
 	           work2.setDescription(summary_lb1);
 	           String startdate_iso1=job2.getString("startdate_iso");//开始时间

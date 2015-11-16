@@ -34,7 +34,7 @@
 $(document).ready(function() {
 var url=window.location.href;
 			var userId=url.split("=")[1]; 
-var request ="<%=basePath%>wechat/position/serach/collection/positions.do?userId=" + userId+"&t="+Math.random();
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/serach/collection/positions.do?userId=" + userId+"&t="+Math.random();
 
 						$.get(request, function(position) {
 						

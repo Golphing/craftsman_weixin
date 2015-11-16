@@ -85,6 +85,7 @@ $(document).ready(function () {
 			$.post('../resume/modify.do', data, function(result) {
 				if(result.status) {
 					alert('成功');
+					$('#replyDialog').modal('hide');
 					$('#jqGrid').trigger("reloadGrid");
 				} else {
 					alert(result.msg);

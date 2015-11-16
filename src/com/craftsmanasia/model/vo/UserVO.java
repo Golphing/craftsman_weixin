@@ -15,6 +15,8 @@ public class UserVO {
 	private String wechatAccount;
 	private String nickName;
 	
+	private Integer resumeId;
+	
 	public static List<UserVO> toVOs(List<User> users) {
 		List<UserVO> vos = new ArrayList<UserVO>();
 		if(users == null) {
@@ -41,6 +43,7 @@ public class UserVO {
 		if(resumeUser!=null) {
 			vo.setName(resumeUser.getName());
 			vo.setGender(resumeUser.getGender());
+			vo.setResumeId(resumeUser.getId());
 		}
 		return vo;
 		
@@ -92,6 +95,14 @@ public class UserVO {
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public Integer getResumeId() {
+		return resumeId;
+	}
+
+	public void setResumeId(Integer resumeId) {
+		this.resumeId = resumeId;
 	}
 	
 }

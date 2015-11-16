@@ -35,7 +35,7 @@ $(document).ready(function() {
 var url=window.location.href;
 var companyId=url.split("=")[1].split("&")[0];
 var userId=url.split("=")[2];
-var requestUrl ="<%=basePath%>wechat/position/search/company/positions.do?companyId="+companyId+"&t="+Math.random();;
+var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/company/positions.do?companyId="+companyId+"&t="+Math.random();;
 $.get(requestUrl, function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
