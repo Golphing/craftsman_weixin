@@ -207,7 +207,8 @@ var workId=url.split("=")[1];
 			} else{
 			$.ajax({
 				type : "POST",
-				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/work/modify.do",
+				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/work/modify.do?t="+Math.random(),
+
 				data : "workId="+workId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");

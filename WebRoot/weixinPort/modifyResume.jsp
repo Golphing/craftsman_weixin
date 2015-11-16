@@ -182,7 +182,8 @@ $.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/resu
 			}		
 			$.ajax({
 				type : "POST",
-				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/resume/modify.do",
+				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/resume/modify.do?t="+Math.random(),
+
 				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
