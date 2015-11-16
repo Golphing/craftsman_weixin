@@ -257,7 +257,7 @@ public class PositionSubscribeController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		List<Position> positions = positionService.getOwnCompanyPositions();
-		System.out.println(positions);
+		
 		List<PositionVO> positionvos = PositionVO.toVOs(positions);
 		map.put("data", positionvos);
 		map.put("status", true);
