@@ -57,13 +57,13 @@ $.get(request, function(data) {
 					var str="";
 					var h=0;
 					for(var i=0;i<s1.length;i++){
-					h=h+100;
- var s =i+1;
- var time=s3[i].split(" ");
- str+='<li ><div class="number">'+s+'</div><div class="content" ><pre><span>-'+s1[i]+'</span><span style="float:right">'+time[0]+'</span><h2>'+s2[i]+'</h2></pre></div></li>';
-}
-document.getElementById("div_id").innerHTML =str;
-document.getElementById("div_id").style.height=h+"px";
+						h=h+100;
+						 var s =i+1;
+						 var time=s3[i].split(" ");
+						 str+='<li ><div class="number">'+s+'</div><div class="content" ><pre><span>-'+s1[i]+'</span><span style="float:right">'+time[0]+'</span><h2>'+s2[i]+'</h2></pre></div></li>';
+					}
+					document.getElementById("div_id").innerHTML =str;
+					document.getElementById("div_id").style.height=h+"px";
 
 				});
 /*职位详情  */

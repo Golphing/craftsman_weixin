@@ -98,7 +98,7 @@ var openId=url.split("=")[1];
     			return false; 
 				} 
 			
-			var request ="http://weixin.craftsmanasia.com/craftsman_weixin/craftsman_weixin/wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
+			var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/user/register.do?telephone="+telephone+"&password="+password+"&openId="+openId+"&yzm="+yzm;
 			
 			$.post(request, function(data) {
 			var jsonObj = eval("(" + data + ")");
