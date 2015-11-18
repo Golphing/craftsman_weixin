@@ -33,9 +33,9 @@
  var url=window.location.href;
 var userId=url.split("?")[1].split("=")[1];
 $(document).ready(function() {
-			alert("dd");
+		//	alert("dd");
 $.get("http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/own.do?t="+Math.random(), function(data) {
-			alert(data);
+		//	alert(data);
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			var str="";
