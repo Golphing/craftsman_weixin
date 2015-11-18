@@ -14,7 +14,11 @@ $(document).ready(function() {
 				{label: '性别', name: 'gender', width: '20%'},
 				{label: '电话', name: 'telephone', width: '20%'},
 				{label: '操作', name: '', width: '20%', formatter: function(cellValue, options, rowObject) {
-					return '<button type="button" data-action="resumeMgmt" class="btn btn-primary">简历管理</button><button type="button" data-action="resumeDeliver" class="btn btn-info">投递</button>';
+					var html = '<button type="button" data-action="resumeMgmt" class="btn btn-primary">简历管理</button>';
+					if(rowObject.resumeId !== 0) {
+						html += '<button type="button" data-action="resumeDeliver" class="btn btn-info">投递</button>';
+					}
+					return html;
 				}}
 			],
 			serializeGridData: function(postData) {

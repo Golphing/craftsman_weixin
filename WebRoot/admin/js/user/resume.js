@@ -25,8 +25,12 @@ $(document).ready(function() {
 		$.get('../user/search/resume.do', data, function(result) {
 			if(result.status) {
 				pageData.resume = result.data;
-				result.data && updateUserInfo(result.data);
-				result.data && updateWorkInfo(result.data.works);
+				if(!result.data) {
+					$('#userInfoEditBtn').click();
+				} else {
+					updateUserInfo(result.data);
+					updateWorkInfo(result.data.works);
+				}
 			} else {
 				alert(result.msg);
 			}
@@ -104,9 +108,17 @@ $(document).ready(function() {
 				$('#userInfo').hide();
 				$('#userInfoForm').show();
 			} else {
+				if(!ADMIN.formValidate('#userInfoForm', {
+					name: 'nonempty',
+					birthday: 'nonempty',
+					telephone: 'nonempty',
+					email: ['nonempty', 'email'],
+					home: 'nonempty',
+				})) {
+					return false;
+				}
 				var data = {
 					userId: ADMIN.URL.getHashParm('userId'),
-					resumeId: pageData.resume.id,
 					name: $('#userInfoForm_name').val(),
 					gender: $('#userInfoForm [name="gender"]:checked').val(),
 					birthday: $('#userInfoForm_birthday').val(),
@@ -115,7 +127,13 @@ $(document).ready(function() {
 					home: $('#userInfoForm_home').val(),
 					remark:'',
 				};
-				$.post('../user/resume/modify.do', data, function(result) {
+				var url = '../user/resume/create.do';
+				if(pageData.resume) {
+					data.resumeId = pageData.resume.id;
+					url = '../user/resume/modify.do';
+				}
+				
+				$.post(url, data, function(result) {
 					if(result.status) {
 						initUserInfo();
 						$('#userInfo').show();
