@@ -52,22 +52,22 @@ public class AdminController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		if(StringUtil1.isNull(name)) {
-			map.put("status", "name can not be null");
+			map.put("msg", "name can not be null");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		if(StringUtil1.isNull(loginName) || administratorService.getAdministratorByLoginName(loginName) != null) {
-			map.put("status", "loginName can not be null or loginName already exists");
+			map.put("msg", "loginName can not be null or loginName already exists");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		if(StringUtil1.isNull(telephone)) {
-			map.put("status", "telephone can not be null");
+			map.put("msg", "telephone can not be null");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		if(StringUtil1.isNull(password)) {
-			map.put("status", "password can not be null");
+			map.put("msg", "password can not be null");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -96,8 +96,8 @@ public class AdminController {
 			@RequestParam(value = "password", required = false) String password) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
-		if(id == null) {
-			map.put("status", "id error");
+		if(id == null || id ==0) {
+			map.put("msg", "id error");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -141,7 +141,7 @@ public class AdminController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		if(!request.validatePagingRequest()) {
-			map.put("status", "请求页数必须大于0,每页个数必须在0到1000之间");
+			map.put("msg", "请求页数必须大于0,每页个数必须在0到1000之间");
 			return JSONObject.fromObject(map).toString();
 		}
 		AdministratorFilter filter = new AdministratorFilter();
@@ -188,8 +188,8 @@ public class AdminController {
 	@ResponseBody
 	public String deleteAdministrator(@RequestParam(value = "id", defaultValue = "") Integer id) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		if(id == null) {
-			map.put("status", "没有该管理员");
+		if(id == null || id == null) {
+			map.put("msg", "没有该管理员");
 			return JSONObject.fromObject(map).toString();
 		}
 		administratorService.deleteAdministratorById(id);
@@ -203,36 +203,27 @@ public class AdminController {
 			@RequestParam(value = "password", defaultValue = "") String password) {
 		if(StringUtil1.isNull(loginName) || StringUtil1.isNull(password)) {
 			// loginName 或 password为空，返回登录页面
-			//return "redirect:/admin/views/login.html";
 			return new ModelAndView(new RedirectView("../../admin/views/login.html"));
 		}
 		
 		Administrator administrator = administratorService.getAdministratorByLoginName(loginName);
 		if(administrator == null) {
 			// loginName的administrator不存在，返回登录页面
-			//return "redirect:/admin/views/login.html";
 			return new ModelAndView(new RedirectView("../../admin/views/login.html"));
 		}
 		
 		if(!administrator.getPassword().equals(password)) {
 			// 密码不正确返回登录页面
-			//return "redirect:/admin/views/login.html";
 			return new ModelAndView(new RedirectView("../../admin/views/login.html"));
 		}
 		
 		httpSession.setAttribute("adminUser", administrator);
-		//request.setAttribute("adminUser", administrator);
-
 		return new ModelAndView(new RedirectView("../../admin/views/index.html"));
-		//return "redirect:/admin/views/index.html";
 	}
 	
 	@RequestMapping("/loginout")
 	public ModelAndView loginOut(HttpServletRequest request,HttpSession httpSession) {
-		
-		//request.removeAttribute("adminUser");
 		httpSession.removeAttribute("adminUser");
-		//return "redirect:/admin/views/login.html";
 		return new ModelAndView(new RedirectView("../../admin/views/login.html"));
 	}
 }
