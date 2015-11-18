@@ -64,7 +64,7 @@ $.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/resu
 };
 function delete1(workId){
   if (confirm('确定删除？')) {
-  $.get("<%=basePath%>resumeAction/work/delete.do?workId="+workId, function(data) {
+  $.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/work/delete.do?workId="+workId, function(data) {
 		//$('#'+workId).remove();	
 		history.go(0);
 		});
