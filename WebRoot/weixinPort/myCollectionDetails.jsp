@@ -100,6 +100,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 							var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.status;//obj是一个包含多个选项的数组
 			if(obj==true){
+				alert("取消成功");
 			document.getElementById("cancle").innerHTML = "收藏";
 			}else{
 			alert('系统出错,请稍候再试.');
@@ -125,6 +126,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 							var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.status;//obj是一个包含多个选项的数组
 			if(obj==true){
+				alert("收藏成功");
 			document.getElementById("cancle").innerHTML = "取消收藏";
 			}else{
 			alert('系统出错,请稍候再试.');
