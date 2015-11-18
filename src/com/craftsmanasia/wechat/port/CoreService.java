@@ -32,22 +32,26 @@ public class CoreService {
 			// 公众帐号
 			String toUserName = requestMap.get("ToUserName");*/
 			String msgType = requestMap.get("MsgType"); 
-			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) { 
+			/*if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) { 
            	 
             	TextService textService = new TextService() ;
             	respMessage = textService.textProcess(requestMap);
             	
             	
             	
-            } 
+            } */
             // 事件推送  调用MenuClickService类
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) { 
+          /*  else*/ if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) { 
             	
             	
             	MenuClickService menuClickService = new MenuClickService();
             	respMessage = menuClickService.menuClick(requestMap);
             		 	
-            }  
+            }  else{
+            	TextService textService = new TextService() ;
+            	respMessage = textService.textProcess(requestMap);
+            	
+            }
 			/*	NewsMessage newsMessage = new NewsMessage();
 				newsMessage.setToUserName(fromUserName);
 				newsMessage.setFromUserName(toUserName);

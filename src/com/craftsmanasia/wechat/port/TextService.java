@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.craftsmanasia.wechat.messageResp.Article;
 import com.craftsmanasia.wechat.messageResp.NewsMessage;
 import com.craftsmanasia.wechat.util.MessageUtil;
