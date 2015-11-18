@@ -80,8 +80,8 @@ span {
 <!--验证码中添加type=“text” 提交按钮加class=“button_blue” 提交按钮加父div-->
 <form action="/craftsman_weixin/c/im/zl.do" method="post">
     		<input type="hidden" value="123" name="openId"></input>
-    		用户名：<input name="name" type="text" value="2645442899@qq.com"/><br/>
-    		密码：<input name="password" type="password" value="wanggaoping0306"/><br/>
+    		用户名：<input name="name" type="text" value=""/><br/>
+    		密码：<input name="password" type="password" value=""/><br/>
     		<span id="showVerify">
     		验证码：<input name="login_verify" type="text"/><img src="" id="yzm"></img><br/></span>
     		<div style="text-align: center;"><input class="button blue"  type="button" value="导入" id="import"></input></div>

@@ -76,7 +76,7 @@ var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/positio
 							var jsonObj = eval("(" + data + ")");
 							var obj=jsonObj.status;//obj是一个包含多个选项的数组
 							if(obj==true){alert("投递成功！");}
-							else{alert(obj);
+							else{alert(jsonObj.msg);
 							}
 						} 
 					}); }}
