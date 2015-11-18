@@ -86,7 +86,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 				if(document.getElementById("cancle").innerHTML == "取消收藏"){
 					$.ajax({
 						type : "post",
-						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/cancle/collection/positions.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/cancle/collection/positions.do?t="+Math.random(),
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -111,7 +111,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 						
 					$.ajax({
 						type : "get",
-						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do?t="+Math.random(),
 						data : {
 							userId : userId,
 							positionId : positionId

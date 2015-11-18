@@ -61,7 +61,7 @@ public class MenuClickService {
 				String introduction = "Our function-focused strategy empowers our consultants to become experts in their specialist areas. Equipped with a proprietary technology platform, Craftsman is able to recruit the right candidate for our clients in the most efficient way. .";
 				article.setDescription(introduction);
 				article.setPicUrl("http://weixin.craftsmanasia.com/craftsman_weixin/weixinPort/images/aboutUs.png");			
-				article.setUrl("http://www.craftsmanasia.com/v.mp4");
+				article.setUrl("http://weixin.craftsmanasia.com/craftsman_weixin/weixinPort/joinUs.html");
 				articleList.add(article);
 				newsMessage.setArticleCount(articleList.size());
 				newsMessage.setArticles(articleList);
