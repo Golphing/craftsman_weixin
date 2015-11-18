@@ -105,7 +105,7 @@ public class CooperateCompanyController {
 		}
 		
 		if (weight!=null && weight <=0) {
-			map.put("status", "weight must > 0");
+			map.put("msg", "weight must > 0");
 			return JSONObject.fromObject(map).toString();
 		}
 		company.setWeight(weight);
@@ -144,7 +144,7 @@ public class CooperateCompanyController {
 	public String searchCooperateCompany(SearchCompanyRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		if(!request.validatePagingRequest()) {
-			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			map.put("msg", "pageNumber必须大于0,pageSize必须大于0且小于1000");
 			return JSONObject.fromObject(map).toString();
 		}
 		CooperateCompanyFilter filter = new CooperateCompanyFilter();
@@ -206,15 +206,13 @@ public class CooperateCompanyController {
 		// title 为null 或该公司已经存在该职位返回1
 		
 		if (StringUtil1.isNull(title) || positionService.getPositionByCompanyIdAndTitle(companyId, title) != null) {
-			map.put("status", "该职位名称已经存在");
+			map.put("msg", "该职位名称已经存在");
 			return JSONObject.fromObject(map).toString();
-			// return JsonUtil.getJson(1, "title equals null or title already
-			// exits").toString();
 		}
 		
 		position.setTitle(title);
 		if(StringUtil1.isNull(requirement)) {
-			map.put("status", "职位详情不能存在");
+			map.put("msg", "职位详情不能存在");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(2, "requirement can not be null").toString();
 		}
@@ -222,7 +220,7 @@ public class CooperateCompanyController {
 		position.setWage(wage);
 		position.setCity(city);
 		if(weight <= 0) {
-			map.put("status", "权重必须大于0");
+			map.put("msg", "权重必须大于0");
 			return JSONObject.fromObject(map).toString();
 			//return JsonUtil.getJson(3, "weight must > 0").toString();
 		}
@@ -248,7 +246,7 @@ public class CooperateCompanyController {
 	public String searchCooperateCompanyPositions(SearchPositionRequest request) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		if(!request.validatePagingRequest()) {
-			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			map.put("msg", "pageNumber必须大于0,pageSize必须大于0且小于1000");
 			return JSONObject.fromObject(map).toString();
 		}
 		PositionFilter filter = new PositionFilter();
@@ -311,11 +309,11 @@ public class CooperateCompanyController {
 			@RequestParam(value = "weight", required=false) Integer weight) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		if(positionId <=0) {
-			map.put("status", "该职位不存在");
+			map.put("msg", "该职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(weight!=null && weight <=0) {
-			map.put("status", "权重必须大于0");
+			map.put("msg", "权重必须大于0");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position newPosition = new Position();
@@ -347,8 +345,8 @@ public class CooperateCompanyController {
 	@ResponseBody
 	public String getPositionDetail(@RequestParam(value = "positionId", defaultValue = "0") Integer positionId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(positionId <= 0) {
-			map.put("status", "职位不存在");
+		if(positionId == null || positionId <= 0) {
+			map.put("msg", "职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position position =  positionService.getPositionById(positionId);
@@ -365,7 +363,7 @@ public class CooperateCompanyController {
 	public String deletePosition(@RequestParam(value = "positionId", defaultValue = "0") int positionId) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(positionId <= 0) {
-			map.put("status", "该职位不存在");
+			map.put("msg", "该职位不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		Position position = new Position();

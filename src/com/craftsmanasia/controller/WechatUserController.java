@@ -83,7 +83,6 @@ public class WechatUserController {
 		resumeUser.setBirthday(birthday);
 		resumeUser.setGender(gender);
 		resumeUser.setEmail(email);
-		//userId = 5; // 测试
 		resumeUser.setUserId(userId);
 		resumeUser.setHome(home);
 		resumeUserService.add(resumeUser);

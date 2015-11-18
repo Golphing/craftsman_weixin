@@ -52,7 +52,7 @@ public class ResumeController {
 	public String searchUser(SearchResumeSubscribeRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(!request.validatePagingRequest()) {
-			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			map.put("msg", "pageNumber必须大于0,pageSize必须大于0且小于1000");
 			return JSONObject.fromObject(map).toString();
 		}
 		ResumeSubscribeFilter filter = new ResumeSubscribeFilter();
@@ -119,7 +119,7 @@ public class ResumeController {
 		try {
 			positionSubscribeUserService.addResumeSubscribeStatus(resumeSubscribeStatus);
 		} catch (Exception e) {
-			map.put("status", "submit error");
+			map.put("msg", "submit error");
 			e.printStackTrace();
 			return JSONObject.fromObject(map).toString();
 		}

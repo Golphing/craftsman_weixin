@@ -36,8 +36,6 @@ public class ResumeUserService {
 	}
 
 	public void updateResume(ResumeUser resumeUser) {
-		// TODO Auto-generated method stub
-		System.out.println(resumeUser.getBirthday());
 		userDao.updateResume(resumeUser);
 	}
 	

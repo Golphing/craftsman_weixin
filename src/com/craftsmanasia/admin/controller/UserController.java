@@ -63,24 +63,24 @@ public class UserController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		if(StringUtil1.isNull(telephone) || userService.getUserByTelephone(telephone) != null) {
-			map.put("status", "电话不能为空或已存在该电话");
+			map.put("msg", "电话不能为空或已存在该电话");
 			return JSONObject.fromObject(map).toString();
 		}
 		// password不能为空
 		if(StringUtil1.isNull(password)) {
-			map.put("status", "密码不能为空 ");
+			map.put("msg", "密码不能为空 ");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(name)) {
-			map.put("status", "姓名不能为空");
+			map.put("msg", "姓名不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(gender)) {
-			map.put("status", "性别不能为空");
+			map.put("msg", "性别不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(birthday)) {
-			map.put("status", "生日不能为空");
+			map.put("msg", "生日不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		User user = new User();
@@ -119,21 +119,21 @@ public class UserController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		if(StringUtil1.isNull(telephone)) {
-			map.put("status", "电话不能为空");
+			map.put("msg", "电话不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		if(StringUtil1.isNull(name)) {
-			map.put("status", "姓名不能为空");
+			map.put("msg", "姓名不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(gender)) {
-			map.put("status", "性别不能为空");
+			map.put("msg", "性别不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		
 		if(StringUtil1.isNull(birthday)) {
-			map.put("status", "生日不能为空");
+			map.put("msg", "生日不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		ResumeUser oldResumeUser =resumeUserService.selectResumeUserByUserId(Integer.parseInt(userId));
@@ -185,7 +185,7 @@ public class UserController {
 	public String searchUser(SearchUserRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(!request.validatePagingRequest()) {
-			map.put("status", "pageNumber必须大于0,pageSize必须大于0且小于1000");
+			map.put("msg", "pageNumber必须大于0,pageSize必须大于0且小于1000");
 			return JSONObject.fromObject(map).toString();
 		}
 		UserFilter filter = new UserFilter();
@@ -248,8 +248,8 @@ public class UserController {
 			@RequestParam(value = "email", required = false) String email,
 			@RequestParam(value = "home", required = false) String home) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(resumeId ==null) {
-			map.put("status", "简历信息不存在");
+		if(resumeId ==null || resumeId ==0) {
+			map.put("msg", "简历信息不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -262,7 +262,6 @@ public class UserController {
 		
 		if(!StringUtil1.isNull(telephone)) {
 			resumeUser.setTelephone(telephone);
-			
 			//如果telephone不为null,则也需要改变user的telephone
 			User user = new User();
 			user.setId(userId);
@@ -298,14 +297,7 @@ public class UserController {
 	@ResponseBody
 	public String searchUserl(@RequestParam(value = "userId", defaultValue = "") int userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ResumeUser resumeUser = null;
-		try {
-			
-			resumeUser = resumeUserService.selectResumeUserByUserId(userId);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ResumeUser resumeUser = resumeUserService.selectResumeUserByUserId(userId);
 		List<Work> works = workService.getUserWorksByUserId(userId);
 		
 		map.put("data", ResumeVO.toVO(resumeUser, works));
@@ -331,25 +323,24 @@ public class UserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 添加工作经历
 		if(userId == null || Integer.parseInt(userId) <=0 || userService.getUserById(Integer.parseInt(userId))==null) {
-			map.put("status", "该用户不存在");
+			map.put("msg", "该用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(beginTime)) {
-			map.put("status", "起始时间不能为空");
+			map.put("msg", "起始时间不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(endTime)) {
 			endTime = "至今";
 		}
 		if(StringUtil1.isNull(company)) {
-			map.put("status", "公司不能为空");
+			map.put("msg", "公司不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(position)) {
-			map.put("status", "职位不能为空");
+			map.put("msg", "职位不能为空");
 			return JSONObject.fromObject(map).toString();
 		}
-		
 	
 		Work work = new Work();
 		work.setBeginTime(beginTime);
@@ -381,8 +372,8 @@ public class UserController {
 			@RequestParam(value = "remark", defaultValue = "") String remark,
 			@RequestParam(value = "department", defaultValue = "") String department) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(workId ==null) {
-			map.put("status", "工作经历不存在");
+		if(workId ==null || workId ==0) {
+			map.put("msg", "submit error!");
 			return JSONObject.fromObject(map).toString();
 		}
 		
@@ -432,8 +423,8 @@ public class UserController {
 	@ResponseBody
 	public String deleteUserResume(@RequestParam(value = "workId", defaultValue = "0") Integer workId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(workId <= 0) {
-			map.put("status", "工作经历不存在");
+		if(workId ==null || workId == 0) {
+			map.put("msg", "工作经历不存在");
 			return JSONObject.fromObject(map).toString();
 		}
 		workService.deleteWork(workId);
