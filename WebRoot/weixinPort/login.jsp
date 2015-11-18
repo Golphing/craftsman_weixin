@@ -216,22 +216,5 @@ document.getElementById("register").href="http://weixin.craftsmanasia.com/crafts
 		});
 	</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>

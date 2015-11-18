@@ -200,9 +200,13 @@ public class ImportLinkedInController {
 	       resumeUser.setEmail(email);
 	       //抓取手机号
 	       int phone_start=sss.indexOf("\"number\":\"");
-	       int phone_end=sss.indexOf("\"",phone_start+10);
-	       String phone=sss.substring(phone_start+10, phone_end);
-	       System.out.println(phone);
+	       String phone="";
+	       if(phone_start !=-1){
+	    	   int phone_end=sss.indexOf("\"",phone_start+10);
+		        phone=sss.substring(phone_start+10, phone_end);
+		       System.out.println(phone);
+	       }
+	      
 	       resumeUser.setTelephone(phone);
 	       //抓取姓名
 	       int name_start=sss.indexOf("\"fullname\":\"");
@@ -219,6 +223,7 @@ public class ImportLinkedInController {
 	    //   System.out.println(positions_end);
 	       String positions=sss.substring(positions_start+12, positions_end+2);
 	       System.out.println(positions);
+	       positions=StringEscapeUtils.unescapeJava(positions);
 	       JSONArray positionsJ=new JSONArray(positions);
 	       int size=positionsJ.length();
 	       System.out.println("工作一：");

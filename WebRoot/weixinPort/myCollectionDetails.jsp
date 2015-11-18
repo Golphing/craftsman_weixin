@@ -59,7 +59,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 				
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
-						 type : "post",
+						 type : "get",
 						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do", 
 						data : {
 							userId : userId,
@@ -73,7 +73,11 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 						success : function(data) {
 							var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.status;//obj是一个包含多个选项的数组
-			alert(obj);
+			if(obj==true){
+				alert("投递成功")
+			}else{
+				alert(obj);
+			}
 						} 
 					}); }
 				});
@@ -166,8 +170,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 		<div class="c_menu">
 			<ul>
 				<li class="active"><a href="javascript:;">职位详情</a></li>
-			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->
-				
+			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->	
 			</ul>
 		</div>
 		<div class="job_content">
