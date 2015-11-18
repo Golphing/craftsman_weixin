@@ -157,7 +157,7 @@ var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/positio
 
 					<dl>
 						<dt >要求：</dt>
-						<dd id="requirement"></dd>
+						<dd id="requirement" style="word-break:break-all;"></dd>
 					</dl>
 					<dl>
 						<dt >工作地址：</dt>
