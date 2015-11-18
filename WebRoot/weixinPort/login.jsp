@@ -71,7 +71,7 @@
 	var password = "";
 	var url=window.location.href;
 var openId=url.split("?")[1].split("=")[1];
-document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?openId="+openId;
+document.getElementById("register").href="http://weixin.craftsmanasia.com/craftsman_weixin/weixinPort/register.jsp?openId="+openId;
 
 		$('#btn').click(function() {
 			telephone = $('input#telephone').val();
@@ -94,7 +94,7 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 			alert("密码不能为空！");
 			return false;
 			}
-			var request ="<%=basePath%>wechat/user/userlogin.do?telephone="+ telephone+ "&password="+ password+ "&openId=" + openId;
+			var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/user/userlogin.do?telephone="+ telephone+ "&password="+ password+ "&openId=" + openId;
 							$.post(request,	function(data) {
 							var i = data.indexOf("&");
 							if(i<0){
@@ -133,7 +133,7 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 
 
 			<ul>
-				<form action="<%=basePath%>wechat/user/login.do" method="get">
+				<form action="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/user/login.do" method="get">
 					<li class="telephone"><input type="text" value=""
 						placeholder="手机号" id="telephone" /></li> <br />
 					<br />
@@ -215,23 +215,6 @@ document.getElementById("register").href="<%=basePath%>weixinPort/register.jsp?o
 			$("#scroller").mobiscroll(opt);
 		});
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

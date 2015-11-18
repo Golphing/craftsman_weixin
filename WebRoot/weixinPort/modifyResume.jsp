@@ -81,7 +81,7 @@ body{font-family: Arial, Helvetica, sans-serif;font-size: 12px;}
 			var telephone = "";
 			var url=window.location.href;
 var userId=url.split("=")[1];
-$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
+$.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
 			var obj = eval("(" + data + ")").data;
 			 $('input#name').attr('value',obj.name); 
 			 $('input#gender').attr('value',obj.gender);
@@ -182,7 +182,8 @@ $.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.ran
 			}		
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>resumeAction/resume/modify.do",
+				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/resume/modify.do?t="+Math.random(),
+
 				data : "userId="+userId+"&name="+name+"&gender="+gender+"&email="+email+"&home="+home+"&birthday="+birthday+"&telephone="+telephone,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");
@@ -227,7 +228,7 @@ function nocolor(id){
 
 
 			<ul>
-				<form action="<%=basePath%>resumeAction/resume/create.do" method="get">
+				<form action="http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/resume/create.do" method="get">
 					<li class="username"><input type="text" 
 						placeholder="姓名" id="name" />
 					</li><br /><br />

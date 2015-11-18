@@ -104,7 +104,7 @@
 
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>resumeAction/work/create.do",
+				url : "http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/work/create.do",
 				data : "userId="+userId+"&beginTime="+begin_time+"&endTime="+end_time+"&company="+company+"&position="+position+"&department="+department+"&description="+description+"&profession="+profession,
 				success : function(msg) {
 				var jsonObj = eval("(" + msg + ")");

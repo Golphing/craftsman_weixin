@@ -20,7 +20,7 @@ $(function(){
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="<%=basePath%>wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId;
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/subscribed/deatil/info.do?userId="+userId+"&positionId="+positionId;
 
 $.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");

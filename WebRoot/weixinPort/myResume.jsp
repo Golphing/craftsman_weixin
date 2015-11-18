@@ -32,9 +32,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 $(document).ready(function() {
 var url=window.location.href;
 var userId=url.split("=")[1];
-/*  根据用户id得到个人信息*/	
+/*  根据用户id得到个人信息weixin.craftsmanasia.com*/	
 
-$.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
+$.get("http://weixin.craftsmanasia.com/craftsman_weixin/resumeAction/search/resume.do?userId="+userId+"&t="+Math.random(), function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.data;//obj是一个包含多个选项的数组
 			document.getElementById("email").innerHTML = obj.email;
@@ -44,7 +44,7 @@ $.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.ran
 			 if(obj.gender=="女"){ $("#gender").attr("src","images/girl.jpg");
 			}else{$("#gender").attr("src","images/boy.jpg");
 			} 
-			var str='<div class="company"><h3 class="clr1">工作经历</h3>';
+			var str='<div class="company"><h3 class="clr1">工作经历    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/add1.png" onclick="addjob('+userId+')"/></h3>';
 			for ( var i in obj.works) {
 			var work = obj.works[i];
 			 str+='<div class="company_details" id="'+work.id+'"><h4>'+work.company+"<span>"+work.beginTime+'--'+work.endTime+'</span><span style="float:right"><img src=images/modify.png onclick="modify1('+work.id+')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=images/delete1.png onclick="delete1('+work.id+')"></span>'+'</h4><h6>'+work.department+'</h6><p class="cmpny1">'+work.description+'</p></div></div>';
@@ -65,12 +65,18 @@ $.get("<%=basePath%>resumeAction/search/resume.do?userId="+userId+"&t="+Math.ran
 function delete1(workId){
   if (confirm('确定删除？')) {
   $.get("<%=basePath%>resumeAction/work/delete.do?workId="+workId, function(data) {
-		$('#'+workId).remove();	
+		//$('#'+workId).remove();	
+		history.go(0);
 		});
   
   };
 };
-
+function addjob(userId){
+  if (confirm('确定添加？')) {
+  
+  location.href = "fillWork.jsp?userId="+userId;
+  };
+};
 
 </script>
 

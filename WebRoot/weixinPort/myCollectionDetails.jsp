@@ -29,7 +29,7 @@
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
 
 /*职位详情  */
 		$.get(request, function(data) {
@@ -59,8 +59,8 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
-						 type : "post",
-						url : "<%=basePath%>wechat/position/subscribe.do", 
+						 type : "get",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do", 
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -73,7 +73,11 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						success : function(data) {
 							var jsonObj = eval("(" + data + ")");
 			var obj=jsonObj.status;//obj是一个包含多个选项的数组
-			alert(obj);
+			if(obj==true){
+				alert("投递成功")
+			}else{
+				alert(obj);
+			}
 						} 
 					}); }
 				});
@@ -82,7 +86,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 				if(document.getElementById("cancle").innerHTML == "取消收藏"){
 					$.ajax({
 						type : "post",
-						url : "<%=basePath%>wechat/position/cancle/collection/positions.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/cancle/collection/positions.do",
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -107,7 +111,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 						
 					$.ajax({
 						type : "get",
-						url : "<%=basePath%>wechat/position/collect.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do",
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -166,8 +170,7 @@ var request ="<%=basePath%>wechat/position/search/own.do?positionId="+positionId
 		<div class="c_menu">
 			<ul>
 				<li class="active"><a href="javascript:;">职位详情</a></li>
-			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->
-				
+			<!-- 	<li><a href="javascript:;">企业简介</a></li> -->	
 			</ul>
 		</div>
 		<div class="job_content">
