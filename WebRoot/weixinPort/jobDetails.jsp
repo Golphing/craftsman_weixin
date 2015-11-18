@@ -62,7 +62,7 @@ var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/positio
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						 type : "get",
-						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do", 
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do?t="+Math.random(),
 						data : {
 							userId : userId,
 							positionId : positionId
@@ -87,7 +87,7 @@ var requestUrl ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/positio
 				if (confirm('您确定收藏该岗位？')) {
 					$.ajax({
 						type : "get",
-						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do",
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/collect.do?t="+Math.random(),
 						data : {
 							userId : userId,
 							positionId : positionId

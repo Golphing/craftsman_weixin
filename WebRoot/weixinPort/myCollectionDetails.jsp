@@ -60,7 +60,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 				if (confirm('您确定应聘该岗位？')) {
 					$.ajax({
 						 type : "get",
-						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do", 
+						url : "http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/subscribe.do?t="+Math.random(), 
 						data : {
 							userId : userId,
 							positionId : positionId
