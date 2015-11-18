@@ -1,13 +1,8 @@
 package com.craftsmanasia.wechat.port;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import com.craftsmanasia.wechat.messageResp.Article;
-import com.craftsmanasia.wechat.messageResp.NewsMessage;
 import com.craftsmanasia.wechat.util.MessageUtil;
 
 /**
@@ -32,13 +27,28 @@ public class CoreService {
 			// xml请求解析
 			Map<String, String> requestMap = MessageUtil.parseXml(request);
 
-			// 发送方帐号（open_id）
+		/*	// 发送方帐号（open_id）
 			String fromUserName = requestMap.get("FromUserName");
 			// 公众帐号
-			String toUserName = requestMap.get("ToUserName");
-			
-
-				NewsMessage newsMessage = new NewsMessage();
+			String toUserName = requestMap.get("ToUserName");*/
+			String msgType = requestMap.get("MsgType"); 
+			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) { 
+           	 
+            	TextService textService = new TextService() ;
+            	respMessage = textService.textProcess(requestMap);
+            	
+            	
+            	
+            } 
+            // 事件推送  调用MenuClickService类
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) { 
+            	
+            	
+            	MenuClickService menuClickService = new MenuClickService();
+            	respMessage = menuClickService.menuClick(requestMap);
+            		 	
+            }  
+			/*	NewsMessage newsMessage = new NewsMessage();
 				newsMessage.setToUserName(fromUserName);
 				newsMessage.setFromUserName(toUserName);
 				newsMessage.setCreateTime(new Date().getTime());
@@ -60,7 +70,7 @@ public class CoreService {
 				articleList.add(article);
 				newsMessage.setArticleCount(articleList.size());
 				newsMessage.setArticles(articleList);
-				respMessage = MessageUtil.newsMessageToXml(newsMessage);
+				respMessage = MessageUtil.newsMessageToXml(newsMessage);*/
 			
 
 			
