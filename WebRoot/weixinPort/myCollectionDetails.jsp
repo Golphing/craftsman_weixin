@@ -76,7 +76,7 @@ var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/s
 			if(obj==true){
 				alert("投递成功")
 			}else{
-				alert(obj);
+				alert(jsonObj.msg);
 			}
 						} 
 					}); }
