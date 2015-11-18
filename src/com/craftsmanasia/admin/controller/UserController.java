@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -326,12 +328,15 @@ public class UserController {
 			map.put("msg", "该用户不存在");
 			return JSONObject.fromObject(map).toString();
 		}
+		
 		if(StringUtil1.isNull(beginTime)) {
-			map.put("msg", "起始时间不能为空");
+			map.put("msg", "beginTime error");
 			return JSONObject.fromObject(map).toString();
 		}
+		
 		if(StringUtil1.isNull(endTime)) {
-			endTime = "至今";
+			map.put("msg", "endTime error");
+			return JSONObject.fromObject(map).toString();
 		}
 		if(StringUtil1.isNull(company)) {
 			map.put("msg", "公司不能为空");
@@ -343,8 +348,22 @@ public class UserController {
 		}
 	
 		Work work = new Work();
-		work.setBeginTime(beginTime);
-		work.setEndTime(endTime);
+		// time 由MM/DD/YYYY转化成YYYY-MM
+		String mas = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
+		Pattern p = Pattern.compile(mas);
+		String[] sss;
+		if(p.matcher(beginTime).matches()) {
+			sss = beginTime.split("/");
+			work.setBeginTime(sss[2]+"-" + sss[0]);
+		} else {
+			work.setBeginTime(beginTime);
+		}
+		if(p.matcher(endTime).matches()) {
+			sss = endTime.split("/");
+			work.setEndTime(sss[2]+"-" + sss[0]);
+		} else {
+			work.setEndTime(endTime);
+		}
 		work.setCompany(company);
 		work.setPosition(position);
 		work.setDepartment(department);
@@ -379,12 +398,27 @@ public class UserController {
 		
 		Work work = new Work();
 		work.setId(workId);
+		String mas = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
+		Pattern p = Pattern.compile(mas);
+		String[] sss;
 		if(!StringUtil1.isNull(beginTime)) {
-			work.setBeginTime(beginTime);
+			if(p.matcher(beginTime).matches()) {
+				sss = beginTime.split("/");
+				work.setBeginTime(sss[2]+"-" + sss[0]);
+			} else {
+				work.setBeginTime(beginTime);
+			}
+			
 		}
 		
 		if(!StringUtil1.isNull(endTime)) {
-			work.setEndTime(endTime);
+			if(p.matcher(endTime).matches()) {
+				sss = endTime.split("/");
+				work.setEndTime(sss[2]+"-" + sss[0]);
+			} else {
+				work.setEndTime(endTime);
+			}
+			
 		}
 		
 		if(!StringUtil1.isNull(company)) {
