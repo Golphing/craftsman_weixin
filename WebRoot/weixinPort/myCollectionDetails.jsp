@@ -29,21 +29,21 @@
 var url=window.location.href;
 var positionId=url.split("=")[2];
 var userId=url.split("=")[1].split("&")[0];
-var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/search/own.do?positionId="+positionId+"&t="+Math.random();
+var request ="http://weixin.craftsmanasia.com/craftsman_weixin/wechat/position/info.do?positionId="+positionId+"&t="+Math.random();
 
 /*职位详情  */
 		$.get(request, function(data) {
 					var jsonObj = eval("(" + data + ")");
 					var obj = jsonObj.data;//obj是一个包含多个选项的数组
-						document.getElementById("companyName").innerHTML = obj[0].company.name;
-						document.getElementById("title").innerHTML = obj[0].title;
-					document.getElementById("city").innerHTML = obj[0].city;
-					document.getElementById("requirement").innerHTML = obj[0].requirement;
-					document.getElementById("wage").innerHTML = obj[0].wage;
-					document.getElementById("createTime").innerHTML =obj[0].createTime;
-					document.getElementById("updateTime").innerHTML = obj[0].updateTime;
+						document.getElementById("companyName").innerHTML = obj.company.name;
+						document.getElementById("title").innerHTML = obj.title;
+					document.getElementById("city").innerHTML = obj.city;
+					document.getElementById("requirement").innerHTML = obj.requirement;
+					document.getElementById("wage").innerHTML = obj.wage;
+					document.getElementById("createTime").innerHTML =obj.createTime;
+					document.getElementById("updateTime").innerHTML = obj.updateTime;
 					var expired="";
-					if(obj[0].isExpired==0){
+					if(obj.isExpired==0){
 					expired="否";
 					}else{
 					expired="是";}
