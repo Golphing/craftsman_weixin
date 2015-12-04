@@ -82,7 +82,9 @@ span {
     		<input type="hidden" value="123" name="openId"></input>
     		用户名：<input name="name" type="text"/><br/>
     		密码：<input name="password" type="password"/><br/>
-    		
+    		<span id="showVerify">
+    		验证码：<input name="yzm" type="text"/><br/>
+    		</span>
     		<div style="text-align: center;"><input class="button blue"  type="button" value="导入" id="import"></input></div>   		
     	</form>
     	
@@ -124,6 +126,7 @@ span {
   			$("#import").click(function(){
 				 var name=$("input[name='name']").val();
 				 var password=$("input[name='password']").val();
+				 var yzm=$("input[name='yzm']").val();
 				 alert("导入中");
 				 $.ajax({
 			      url: '/craftsman_weixin/c/im/ly.do',
@@ -132,7 +135,7 @@ span {
 			      data: {
 			        "name":name,
 			        "password":password,	     
-			      
+			      	"yzm":yzm,
 			        "userId":userId
 			      },
 			      async : false,
@@ -151,9 +154,21 @@ span {
 			       
 			        else if(result.code==1)
 			        {
-			          alert("登录失败");
+			          alert("导入失败");
 			          $("#yzm").attr("src",result.yzmUrl);
 			        }
+			        else if(result.code==3)
+			        {
+			          alert("需要验证，验证码发往注册邮箱");
+			        	 $("#showVerify").show();
+			        }
+			        else if(result.code==4)
+			        {
+			          alert("验证失败");
+			           $("#showVerify").show();
+			         
+			        }
+			        
 			      }
 			    });
 			});
